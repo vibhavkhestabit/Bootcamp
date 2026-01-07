@@ -1,0 +1,12 @@
+{
+  "buffer": {
+    "method": "fs.readFile (Buffer)",
+    "time_ms": 71,
+    "memory_mb": "102.26"
+  },
+  "stream": {
+    "method": "fs.createReadStream (Stream)",
+    "time_ms": 72,
+    "memory_mb": "75.65"
+  }
+}
