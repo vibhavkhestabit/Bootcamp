@@ -1,0 +1,48 @@
+{
+  "totalWords": 200000,
+  "uniqueWords": 72925,
+  "longestWord": "electroencephalographs",
+  "shortestWord": "rares",
+  "topWords": [
+    {
+      "word": "apertures",
+      "count": 13
+    },
+    {
+      "word": "forklifts",
+      "count": 13
+    },
+    {
+      "word": "simulcasts",
+      "count": 13
+    },
+    {
+      "word": "moors",
+      "count": 13
+    },
+    {
+      "word": "crusades",
+      "count": 13
+    },
+    {
+      "word": "weeks",
+      "count": 12
+    },
+    {
+      "word": "sisters",
+      "count": 12
+    },
+    {
+      "word": "orientals",
+      "count": 12
+    },
+    {
+      "word": "dalmatians",
+      "count": 12
+    },
+    {
+      "word": "creations",
+      "count": 12
+    }
+  ]
+}
