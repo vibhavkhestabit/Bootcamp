@@ -51,7 +51,7 @@
             <img src="screenshots/post2.png" alt="NB" />
           </figure>
 
-          <p><strong>Running</strong></p>
+          <p><strong>Sports</strong></p>
 
           <h3>NB</h3>
 
@@ -131,6 +131,8 @@
         <p>Share: Facebook, Twitter</p>
       </footer>
 
+      <button> View All Posts</button>
+
     </article>
 
     </main>
@@ -138,10 +140,27 @@
     <aside>
       <section>
         <h3>Search</h3>
-        <form>
-          <label for="search">Search Sneakers</label>
-          <input type="search" id="search" name="search" />
-        </form>
+<form>
+
+    <legend>Sneaker Search</legend>
+      <label for="search">Search Sneakers</label>
+      <input
+        type="search"
+        id="search"
+        name="search"
+        placeholder="Brand or model"
+      />
+      <label for="category">Category</label>
+      <select id="category" name="category">
+        <option value="">Select</option>
+        <option value="running">Running</option>
+        <option value="streetwear">Streetwear</option>
+        <option value="basketball">Basketball</option>
+      </select>
+      <button type="submit">Search</button>
+
+    </form>
+
       </section>
 
       <section>
@@ -166,11 +185,11 @@
       <section>
         <h3>Categories</h3>
         <ul>
-          <li>Running Sneakers</li>
-          <li>Streetwear</li>
-          <li>Basketball Shoes</li>
-          <li>Limited Editions</li>
-          <li>Gymware Shoes</li>
+          <li><a href="#">Running Sneakers</a></li>
+          <li><a href="#">Streetwear</a></li>
+          <li><a href="#">Basketball Shoes</a></li>
+          <li><a href="#">Limited Editions</a></li>
+          <li><a href="#">Gymware Shoes</a></li>
         </ul>
       </section>
 
@@ -179,5 +198,24 @@
         <p>AirMax, Jordans, Yeezy, Comfort, Performance</p>
       </section>
     </aside>
+
+    <footer>
+
+      <nav aria-label="Footer social links">
+      <ul>
+      <li><a href="#">Facebook</a></li>
+      <li><a href="#">Twitter</a></li>
+      <li><a href="#">Behance</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#">Dribbble</a></li>
+      </ul>
+      </nav>
+
+    <p>
+     Copyright © 2026 Sneakarr Co.
+     Designed by Vibhav Khaneja
+    </p>
+
+    </footer>
   </body>
 </html>
