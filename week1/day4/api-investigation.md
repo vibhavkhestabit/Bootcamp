@@ -1,24 +1,24 @@
-#Analysis of HTTP/API Forensics
+# Analysis of HTTP/API Forensics
 
 Today is our Day 4 and we are going to take a deep dive into HTTP and API forensics
 
-###DNS Lookup
+### DNS Lookup
 DNS Lookup gives you the information of the Domain Name, Its IP address. This is essentially important to start before curl so that you know about your destination.
 nslookup helps us to know about DNS Server used, ip address and about multiple IPs
 ![Screenshot for pagination](screenshots/nslookup.png)
 
-###Traceroute
+### Traceroute
 Traceroute is essentially important to know the exact route that how our request will reach the endpoint and to decide its path.
 traceroute creates a patha dn every line equals to hop unit.
 ![Screenshot for pagination](screenshots/traceroute.png)
 
-###Pagination
+### Pagination
 pagination is the technique to divide our content file into separate smaller bits or pages so that smaller pages can be fetched better and for load optimization
 We are using limit and skip in this example where limit return the amount of units we require and skip is used to skip the n number of units and starts after that.
 
 ![Screenshot for pagination](screenshots/pagination.png)
 
-###Header
+### Header
 header are our meta data which give us the information of the HTTP request and response
 They are not the data just the information about data.
 

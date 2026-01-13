@@ -1,6 +1,6 @@
 This is going to recap our entire learnings for Week 1 and also we will cover whatever errors we faced/what broke in detail.
 
-#Day1: System Reverse Engeneering + System and Terminal Mastering
+# Day1: System Reverse Engeneering + System and Terminal Mastering
 
 Before we begin with our training bootcamp, the initial steps involve to learn about the system we are going to work on.
 Our Day 1 will cover the prominent information about our system and we will cover system inspection, terminal mastering and basic system engineering concepts so that we dont face any difficulties later on to adapt to our system.
@@ -24,7 +24,7 @@ Last but not the least we completed an exercise on Stream vs Buffer, where we le
 
 **Problem Faced:** Understanding of env variables thoroughly and getting used to linux/ubuntu interface.
 
-#Day 2: Node CLI + Concurrency
+# Day 2: Node CLI + Concurrency
 
 **Topics of the day**
 1) Node CLI Tool
@@ -40,13 +40,13 @@ Measured and compared execution time at different concurrency levels (1, 4, 8) a
 
 **Problem Faced:** Node js is single thread but how concurrency and worker threads deal with it had to be studied.
 
-#Day3: Git Mastering
+# Day3: Git Mastering
 
 **Topics of the Day**
-1)Git Bisect
-2)Git Revert
-3)Git Stash
-4)Merge Conflict
+1) Git Bisect
+2) Git Revert
+3) Git Stash
+4) Merge Conflict
 
 Git bisect is used to find the first faulty commit. Git bisect doesnt fetch any error but detects if theres anything acting differently.
 
@@ -58,13 +58,13 @@ Merge Conflicts arrises when 2 developers work on the same file, same line witho
 
 **Problem Faced:** Git bisect and merge conflict were the topic which took time but eventually were sorted.
 
-#Day 4: HTTP/API Forensics
+# Day 4: HTTP/API Forensics
  
 **Topics of the Day**
-1)Headers
-2)Pagination
-3)Etag Caching
-4)Request Response cycle
+1) Headers
+2) Pagination
+3) Etag Caching
+4) Request Response cycle
 
 Headers are basically the metadata which store the information for the data which is being shared. There are different headers for btoh Request and Response APIs which guide us about whats going to be in them.
 
@@ -77,14 +77,14 @@ Response Format: Status code, then Headers, then Body
 
 **Problem Faced:** curl output was a bit difficult to read and cache and etag, success code 304 had to be given some time.
 
-#Day 5: Automation and mini CI Pipeline
-
+# Day 5: Automation and mini CI Pipeline
+  
 **Topics of the day**
-1)Validate.sh
-2)ESLint + Prettier
-3)Husky-Git Hooks
-4)Build Artifacts
-5)Cron job
+1) Validate.sh
+2) ESLint + Prettier
+3) Husky-Git Hooks
+4) Build Artifacts
+5) Cron job
 
 Validate.sh is a shell script which stops/restricts code before it reaches git/production. Validate.sh checks if src folder exists, logs everything with timesptamps, if conf.json is valid or not, exits if errors appear.
 

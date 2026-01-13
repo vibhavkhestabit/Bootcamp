@@ -1,6 +1,6 @@
-#DAY 1 — SYSTEM REVERSE ENGINEERING + NODE & TERMINAL MASTERING
+# DAY 1 — SYSTEM REVERSE ENGINEERING + NODE & TERMINAL MASTERING
 
-##Objectives of the day
+## Objectives of the day
 
 Today is our day 1 of training and our topics for the day comprises of basics of Node, nvm, Terminal Mastering and a small exercise on Stream vs Buffer.
 
@@ -9,7 +9,7 @@ Today is our day 1 of training and our topics for the day comprises of basics of
 3.Later we will be wokring on a introspect.js file which allows us to understand the basic system stats like total memory, uptime which brushes our knowledge of these frequent used commands.
 4.Last but not the least we will be completing an exercise where we will see the comparsion of Stream vs Buffer
 
-###Task 1-2: Identify and Installation of Node and NVM
+### Task 1-2: Identify and Installation of Node and NVM
 **1. OS Information:** 
 **Command Used:** cat /etc/os-release
 **Understanding:** This command helps us understand the basic details of the current OS in use such as the name of the OS, version of the OS, codename etc.
@@ -50,7 +50,7 @@ This command basically lists all the directories in the system which contain ref
 
 These were the preview of the tasks which included setting up Node and NVm and also covered the basic terminal commands like use, grep, echo, nano etc.
 
-###Task 3: Introspect.js
+### Task 3: Introspect.js
 
 Create script introspect.js that prints:​
 
@@ -70,7 +70,7 @@ Here are the command and result stored for this task:
 ![Screenshot for Task 3](screenshots/Introspect-result.png)
 
 
-###Task4: Stream vs BUffer Method
+### Task4: Stream vs BUffer Method
 
 We need to create a logs folder in the beginning where our end result will be stored and a large text file containing random text which will be approximately of size 50mb
 
