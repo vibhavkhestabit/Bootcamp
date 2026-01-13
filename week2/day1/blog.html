@@ -142,14 +142,19 @@
         <h3>Search</h3>
 <form>
 
-    <legend>Sneaker Search</legend>
+      <legend>Sneaker Search</legend>
       <label for="search">Search Sneakers</label>
       <input
         type="search"
         id="search"
         name="search"
         placeholder="Brand or model"
+        required
+        minlength="2"
+        maxlength="30"
+        aria-required="true"
       />
+
       <label for="category">Category</label>
       <select id="category" name="category">
         <option value="">Select</option>
