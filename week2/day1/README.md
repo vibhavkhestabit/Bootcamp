@@ -1,4 +1,4 @@
-# Documentation File for Day1 learnings
+# Documentation File for Day1 Learnings
 
 This is the documentation file where we are going to explain our learnings from week 2, Day1 tasks which included **HTML5 and Semantic Layout**
 
