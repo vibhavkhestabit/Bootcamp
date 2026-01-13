@@ -12,17 +12,19 @@ By name we can understand that every semantic tag has its own meaning and functi
 The page is structured using semantic HTML5 elements such as header, nav, main, section, article, aside, and footer to clearly define the role of each part of the webpage. This improves readability, accessibility, and makes the layout easy to style later using CSS.
 
 ## Semantic Tags
-1) <Header> is used to provide authentic metadata information which is need at the top of the section.
-2) <Footer> is required to conclude the section with essential info.
-3) <Section> helps us bifurcate and divide different parts in different sections.
-4) <Article> helps us write and store a particular interval/section of some information which is indepent in its own. Section can store multiple articles.
-5) <Navigation> tag helps to guide us about different locations.
-6) <Aside> tag helps us to divide the data from the main and visualize it separately.
+1) **Header** is used to provide authentic metadata information which is need at the top of the section.
+2) **Footer** is required to conclude the section with essential info.
+3) **Section** helps us bifurcate and divide different parts in different sections.
+4) **Article** helps us write and store a particular interval/section of some information which is indepent in its own. Section can store multiple articles.
+5) **Navigation** tag helps to guide us about different locations.
+6) **Aside** tag helps us to divide the data from the main and visualize it separately.
 
 ## Forms and Media
-
 Forms were implemented using semantic elements such as form, label, input, select, option, and button to collect user input in an accessible way. Media elements like img were used with proper alt text to ensure better accessibility and content understanding.
 
+## Accessibility 
+Accessibility best practices were followed by using proper semantic HTML elements, meaningful alt text for images, and correctly associated label and input fields for forms. ARIA attributes such as aria-label were used where necessary to improve screen reader navigation and provide better support and assistance to the ones who truly need it for ex. blind people, keyboard operators etc.
 
+We made a HTML website using semantic tags only and tried to replicate the example blog website which was given to sharpen our HTML basics.
 
 
