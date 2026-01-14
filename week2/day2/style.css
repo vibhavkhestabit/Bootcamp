@@ -33,12 +33,17 @@
 
 .header h1::after {
   content: "";
-  width: 45px;
+  width: 14%;
   height: 4px;
   background: linear-gradient(90deg, #ff3f6c, #ff8f70);
   display: block;
   margin-top: 6px;
   border-radius: 2px;
+  transition: width 0.3s;
+}
+
+.header h1:hover::after{
+    width: 46%;
 }
 .menu {
   grid-area: menu;
