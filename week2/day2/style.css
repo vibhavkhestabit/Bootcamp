@@ -23,20 +23,29 @@
 /* HEADER */
 .header {
   grid-area: header;
+  display: flex;
+  align-items: center;
 }
 
 .header h1 {
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 
+.header h1 span {
+  color: #ff3f6c;
+}
+
+/* Decorative underline */
 .header h1::after {
   content: "";
-  width: 30px;
+  width: 45px;
   height: 4px;
-  background: #ff3f6c;
+  background: linear-gradient(90deg, #ff3f6c, #ff8f70);
   display: block;
-  margin-top: 4px;
+  margin-top: 6px;
+  border-radius: 2px;
 }
 
 /* MENU */
@@ -61,7 +70,7 @@
   grid-area: hero;
   background: linear-gradient(120deg, #1f1c2c, #928dab);
   color: white;
-  padding: 70px 40px;
+  padding: 30px 40px;
   border-radius: 10px;
 }
 
@@ -78,6 +87,65 @@
   border-radius: 4px;
   cursor: pointer;
 }
+.cta:hover{
+    transform: translateY(3px)
+}
+.hero-text {
+  max-width: 600px;
+}
+
+.hero-text h2 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 18px;
+  opacity: 0.9;
+  margin-bottom: 12px;
+}
+
+.description {
+  font-size: 15px;
+  opacity: 0.85;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.cta.secondary {
+  background: transparent;
+  border: 2px solid #fff;
+}
+
+.cta.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 30px;
+}
+
+.hero-stats div {
+  text-align: left;
+}
+
+.hero-stats strong {
+  font-size: 22px;
+  display: block;
+}
+
+.hero-stats span {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
 
 /* MAIN */
 .main {
