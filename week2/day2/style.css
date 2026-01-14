@@ -110,10 +110,20 @@
   border-radius: 4px;
   cursor: pointer;
 }
+.cta:hover {
+  background: #e8365f;
+  transform: translateZ(-3px);
+  box-shadow: 0 12px 24px rgba(255, 63, 108, 0.35);
+}
 
 .cta.secondary {
   background: transparent;
   border: 2px solid white;
+}
+.cta.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
 .hero-stats {
