@@ -175,7 +175,7 @@
   grid-area: sidebar;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 18px;
   height: 100%;
   align-content: flex-start;
 }
