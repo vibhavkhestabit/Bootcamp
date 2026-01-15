@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Placement Cell FAQs</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="light">
+
+<div class="faq-container">
+
+  <div class="faq-header">
+    <h2>Placement Cell FAQs</h2>
+
+    <div class="controls">
+      <button id="themeToggle" class="theme-toggle">
+        <i data-lucide="lightbulb"></i>
+      </button>
+
+      <select id="sortDropdown" class="styled-select">
+        <option value="oldest">Oldest First</option>
+        <option value="newest">Newest First</option>
+        <option value="liked">Most Liked First</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="accordion">
+
+    <div class="accordion-item" data-index="1">
+      <button class="accordion-header">
+        <span>What companies visit the campus?</span>
+        <i data-lucide="plus"></i>
+      </button>
+      <div class="accordion-body">
+        <p>Top tech, product, and service-based companies participate every year.</p>
+        <div class="actions">
+          <span class="action-btn like"><i data-lucide="thumbs-up"></i><span class="count">2</span></span>
+          <span class="action-btn dislike"><i data-lucide="thumbs-down"></i><span class="count">1</span></span>
+          <span class="action-btn comment"><i data-lucide="message-circle"></i></span>
+          <span class="action-btn query"><i data-lucide="help-circle"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" data-index="2">
+      <button class="accordion-header">
+        <span>What is the placement eligibility criteria?</span>
+        <i data-lucide="plus"></i>
+      </button>
+      <div class="accordion-body">
+        <p>Eligibility depends on CGPA, attendance, and company rules.</p>
+        <div class="actions">
+          <span class="action-btn like"><i data-lucide="thumbs-up"></i><span class="count">9</span></span>
+          <span class="action-btn dislike"><i data-lucide="thumbs-down"></i><span class="count">0</span></span>
+          <span class="action-btn comment"><i data-lucide="message-circle"></i></span>
+          <span class="action-btn query"><i data-lucide="help-circle"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" data-index="3">
+      <button class="accordion-header">
+        <span>Are internships converted into PPOs?</span>
+        <i data-lucide="plus"></i>
+      </button>
+      <div class="accordion-body">
+        <p>Many companies offer PPOs based on internship performance.</p>
+        <div class="actions">
+          <span class="action-btn like"><i data-lucide="thumbs-up"></i><span class="count">4</span></span>
+          <span class="action-btn dislike"><i data-lucide="thumbs-down"></i><span class="count">1</span></span>
+          <span class="action-btn comment"><i data-lucide="message-circle"></i></span>
+          <span class="action-btn query"><i data-lucide="help-circle"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" data-index="4">
+      <button class="accordion-header">
+        <span>How does the placement process work?</span>
+        <i data-lucide="plus"></i>
+      </button>
+      <div class="accordion-body">
+        <p>The process includes registration, tests, interviews, and offers.</p>
+        <div class="actions">
+          <span class="action-btn like"><i data-lucide="thumbs-up"></i><span class="count">6</span></span>
+          <span class="action-btn dislike"><i data-lucide="thumbs-down"></i><span class="count">0</span></span>
+          <span class="action-btn comment"><i data-lucide="message-circle"></i></span>
+          <span class="action-btn query"><i data-lucide="help-circle"></i></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div id="modalBox" class="modal-box"></div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="script.js"></script>
+</body>
+</html>
