@@ -16,7 +16,7 @@ document.querySelectorAll(".accordion-header").forEach(header => {
       "data-lucide",
       item.classList.contains("active") ? "minus" : "plus"
     );
-
+//Here
     lucide.createIcons();
   });
 });
