@@ -4,11 +4,14 @@ const modal = document.getElementById("modal");
 const modalBox = document.getElementById("modalBox");
 const accordion = document.getElementById("accordion");
 const sortDropdown = document.getElementById("sortDropdown");
+//Storing DOM elements as variables in these steps
 
 document.querySelectorAll(".accordion-header").forEach(header => {
   header.addEventListener("click", () => {
     const item = header.parentElement;
     const icon = header.querySelector("svg");
+
+//Here we are providing it the fucntionality to open and close the accordian
 
     item.classList.toggle("active");
 
@@ -16,7 +19,7 @@ document.querySelectorAll(".accordion-header").forEach(header => {
       "data-lucide",
       item.classList.contains("active") ? "minus" : "plus"
     );
-//Here
+  //Here we are using Set Attribute to convert our lucide Plus symbol to lucide Minus Symbol whenever it is being popped open
     lucide.createIcons();
   });
 });
@@ -25,23 +28,25 @@ document.getElementById("themeToggle").addEventListener("click", () => {
   document.body.classList.toggle("dark");
   document.body.classList.toggle("light");
 });
-
+//Here Events+DOM arde used to implement toggle functionality
 
 function openModal(content) {
   modalBox.innerHTML = content;
   modal.classList.remove("hidden");
 }
-
+//This is used to remove the hidden and makes the modal visible
 function closeModal() {
   modal.classList.add("hidden");
 }
-
+//This is used to re-add the hidden and make the modal disappear
 modal.addEventListener("click", e => {
   if (e.target === modal) closeModal();
 });
-
+//Click outside to close modal
 document.querySelectorAll(".action-btn").forEach(btn => {
   btn.addEventListener("click", () => {
+//Action button event listeners
+
 
     if (btn.classList.contains("like") || btn.classList.contains("dislike")) {
       const countEl = btn.querySelector(".count");
