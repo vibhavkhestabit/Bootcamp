@@ -6,8 +6,6 @@ const list = document.getElementById("todo-list");
 
 let todos = [];
 
-/* ------------------ UTILITIES ------------------ */
-
 // Debounce
 function debounce(fn, delay = 300) {
   let timer;
@@ -39,13 +37,10 @@ function groupBy(arr, key) {
   }, {});
 }
 
-/* ------------------ ERROR HANDLING ------------------ */
-
 function logError(error) {
   console.error("Error:", error.message);
 }
 
-/* ------------------ INIT ------------------ */
 
 try {
   todos = loadTodos();
@@ -53,8 +48,6 @@ try {
 } catch (error) {
   logError(error);
 }
-
-/* ------------------ ADD TODO (Debounced) ------------------ */
 
 const addTodo = debounce(() => {
   const text = input.value.trim();
@@ -76,7 +69,6 @@ form.addEventListener("submit", (e) => {
   addTodo();
 });
 
-/* ------------------ RENDER ------------------ */
 
 function renderTodos() {
   list.innerHTML = "";
@@ -109,7 +101,6 @@ function renderTodos() {
   });
 }
 
-/* ------------------ TOGGLE ------------------ */
 
 function toggleTodo(id) {
   todos = todos.map(todo =>
@@ -119,7 +110,6 @@ function toggleTodo(id) {
   renderTodos();
 }
 
-/* ------------------ EDIT ------------------ */
 
 function editTodo(id) {
   const todo = todos.find(t => t.id === id);
@@ -132,7 +122,6 @@ function editTodo(id) {
   renderTodos();
 }
 
-/* ------------------ DELETE ------------------ */
 
 function deleteTodo(id) {
   todos = todos.filter(todo => todo.id !== id);
@@ -144,7 +133,6 @@ function showError(message) {
   box.textContent = message;
   box.classList.remove("hidden");
 
-  // Auto-hide after 4 seconds
   setTimeout(() => {
     box.classList.add("hidden");
   }, 4000);
