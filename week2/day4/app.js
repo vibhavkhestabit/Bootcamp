@@ -3,6 +3,7 @@ import { saveTodos, loadTodos } from "./storage.js";
 const form = document.getElementById("todo-form");
 const input = document.getElementById("todo-input");
 const list = document.getElementById("todo-list");
+const clearAllBtn = document.getElementById("clear-all");
 
 let todos = [];
 
@@ -16,7 +17,7 @@ function debounce(fn, delay = 300) {
 }
 
 // Throttle
-function throttle(fn, limit = 500) {
+function throttle(fn, limit = 300) {
   let inThrottle = false;
   return (...args) => {
     if (!inThrottle) {
@@ -27,7 +28,6 @@ function throttle(fn, limit = 500) {
   };
 }
 
-// groupBy
 function groupBy(arr, key) {
   return arr.reduce((acc, item) => {
     const group = item[key];
@@ -41,12 +41,23 @@ function logError(error) {
   console.error("Error:", error.message);
 }
 
+function showError(message) {
+  const box = document.getElementById("error-box");
+  box.textContent = message;
+  box.classList.remove("hidden");
+
+  setTimeout(() => {
+    box.classList.add("hidden");
+  }, 4000);
+}
 
 try {
   todos = loadTodos();
   renderTodos();
 } catch (error) {
   logError(error);
+  showError(error.message);
+  todos = [];
 }
 
 const addTodo = debounce(() => {
@@ -73,10 +84,14 @@ form.addEventListener("submit", (e) => {
 function renderTodos() {
   list.innerHTML = "";
 
-  // Example usage of groupBy (completed vs pending)
+  // Group pending first, completed later
   const grouped = groupBy(todos, "completed");
+  const orderedTodos = [
+    ...(grouped.false || []),
+    ...(grouped.true || [])
+  ];
 
-  [...(grouped.false || []), ...(grouped.true || [])].forEach(todo => {
+  orderedTodos.forEach(todo => {
     const li = document.createElement("li");
     if (todo.completed) li.classList.add("completed");
 
@@ -99,8 +114,9 @@ function renderTodos() {
     li.append(span, actions);
     list.appendChild(li);
   });
-}
 
+  clearAllBtn.disabled = todos.length === 0;
+}
 
 function toggleTodo(id) {
   todos = todos.map(todo =>
@@ -109,8 +125,6 @@ function toggleTodo(id) {
   saveTodos(todos);
   renderTodos();
 }
-
-
 function editTodo(id) {
   const todo = todos.find(t => t.id === id);
   const newText = prompt("Edit todo:", todo.text);
@@ -122,18 +136,41 @@ function editTodo(id) {
   renderTodos();
 }
 
-
 function deleteTodo(id) {
   todos = todos.filter(todo => todo.id !== id);
   saveTodos(todos);
   renderTodos();
 }
-function showError(message) {
-  const box = document.getElementById("error-box");
-  box.textContent = message;
-  box.classList.remove("hidden");
 
-  setTimeout(() => {
-    box.classList.add("hidden");
-  }, 4000);
+function clearAllTodos() {
+  if (todos.length === 0) return;
+
+  const confirmClear = confirm("Clear all tasks?");
+  if (!confirmClear) return;
+
+  todos = [];
+  saveTodos(todos);
+  renderTodos();
 }
+
+clearAllBtn.addEventListener("click", clearAllTodos);
+
+function updateGreeting() {
+  const hour = new Date().getHours();
+  const greeting =
+    hour < 12 ? "Good Morning ☀️" :
+    hour < 18 ? "Good Afternoon 🌤️" :
+    "Good Evening 🌙";
+
+  document.getElementById("greeting").textContent = greeting;
+}
+
+function updateDateTime() {
+  const now = new Date();
+  document.getElementById("datetime").textContent =
+    now.toLocaleDateString() + " • " + now.toLocaleTimeString();
+}
+
+updateGreeting();
+updateDateTime();
+setInterval(updateDateTime, 1000);
