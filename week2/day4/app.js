@@ -65,8 +65,10 @@ try {
 }
 
 const addTodo = debounce(() => {
+  try{
   const text = input.value.trim();
-  if (!text) return;
+  if (!text) 
+    throw Error("No text in the input");
 
   todos.push({
     id: Date.now(),
@@ -77,6 +79,9 @@ const addTodo = debounce(() => {
   saveTodos(todos);
   renderTodos();
   input.value = "";
+} catch(e) {
+  console.error("Error:", e);
+}
 }, 300);
 
 form.addEventListener("submit", (e) => {
