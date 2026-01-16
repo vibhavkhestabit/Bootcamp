@@ -4,6 +4,10 @@ const form = document.getElementById("todo-form");
 const input = document.getElementById("todo-input");
 const list = document.getElementById("todo-list");
 const clearAllBtn = document.getElementById("clear-all");
+const modal = document.getElementById("error-modal");
+const modalMessage = document.getElementById("modal-message");
+const closeModalBtn = document.getElementById("close-modal");
+const resetBtn = document.getElementById("reset-btn");
 
 let todos = [];
 
@@ -56,7 +60,7 @@ try {
   renderTodos();
 } catch (error) {
   logError(error);
-  showError(error.message);
+  showErrorModal(error.message);
   todos = [];
 }
 
@@ -174,3 +178,17 @@ function updateDateTime() {
 updateGreeting();
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+function showErrorModal(message) {
+  modalMessage.textContent = message;
+  modal.classList.remove("hidden");
+}
+
+closeModalBtn.addEventListener("click", () => {
+  modal.classList.add("hidden");
+});
+
+resetBtn.addEventListener("click", () => {
+  localStorage.clear();
+  location.reload();
+});
