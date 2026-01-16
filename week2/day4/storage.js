@@ -8,7 +8,6 @@ export function saveTodos(todos) {
   }
 }
 
-
 export function loadTodos() {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
