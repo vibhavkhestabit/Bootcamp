@@ -15,13 +15,18 @@ body {
 
 .app {
   width: 380px;
+  min-height: 280px;
   background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px 22px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  transition: min-height 0.3s ease;
+  display: flex;
+  flex-direction: column;    
 }
 
 h1 {
+  font-size: 22px;
   text-align: center;
   margin-bottom: 16px;
 }
@@ -39,16 +44,18 @@ input {
 }
 
 button {
-  padding: 8px 12px;
+  padding: 8px 14px;
   border: none;
-  border-radius: 4px;
-  background: #007bff;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
   color: white;
   cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 button:hover {
-  background: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(79, 172, 254, 0.7);
 }
 
 ul {
@@ -63,7 +70,12 @@ li {
   padding: 8px;
   margin-bottom: 6px;
   background: #f1f1f1;
-  border-radius: 4px;
+    border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+li:hover {
+  background: #eef4ff;
 }
 
 li.completed span {
@@ -77,3 +89,58 @@ li.completed span {
   margin-left: 6px;
   font-size: 14px;
 }
+.header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+#datetime {
+  font-size: 13px;
+  color: #666;
+}
+
+.footer {
+  margin-top: auto;           
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+}
+.actions button {
+  background: transparent;
+  color: #444;
+  font-size: 16px;
+}
+
+.actions button:hover {
+  color: #007bff;
+}
+
+.todo-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  color: #777;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 4px;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.clear-btn:hover {
+  color: #e53935;
+  background: rgba(229, 57, 53, 0.08);
+}
+
+.clear-btn:disabled {
+  color: #bbb;
+  cursor: not-allowed;
+  background: none;
+}
+
+
