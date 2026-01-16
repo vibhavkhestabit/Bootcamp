@@ -35,14 +35,14 @@ export function saveTodos(todos) {
   }
 }
 
-So if theres any error, anything missing while creating the path to either fetching it in Storage.js or any issues for handling todos get it will give a LocalStorage save failed error
+So if theres any error, anything missing while creating the path to either fetching it in Storage.js or any issues for handling todos then it will give you a LocalStorage save failed error
 
 ![Screenshot of Parse UI](screenshots/save1.png)
 ![Screenshot of Parse UI](screenshots/save2.png)
 
 ## No text Error
 
-onst addTodo = debounce(() => {
+const addTodo = debounce(() => {
   try{
   const text = input.value.trim();
   if (!text) 
