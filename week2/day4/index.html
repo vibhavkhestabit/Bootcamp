@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Todo App - Day 4</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Todo App - Day 4</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 <body>
+
+  <!-- APP CARD -->
   <div class="app">
 
     <!-- HEADER -->
@@ -14,24 +16,27 @@
       <p id="datetime"></p>
     </header>
 
-    <!-- MAIN -->
-    <form id="todo-form" class="todo-actions">
-  <input
-    type="text"
-    id="todo-input"
-    placeholder="Add a todo..."
-    autocomplete="off"
-  />
+    <!-- FORM -->
+    <form id="todo-form">
+      <input
+        type="text"
+        id="todo-input"
+        placeholder="Add a todo..."
+        autocomplete="off"
+      />
 
       <button type="submit">Add</button>
 
-      <!-- CLEAR ALL -->
-      <button type="button" id="clear-all" class="clear-btn">
-      Clear all
+      <button
+        type="button"
+        id="clear-all"
+        class="clear-btn"
+      >
+        Clear all
       </button>
     </form>
 
-
+    <!-- TODO LIST -->
     <ul id="todo-list"></ul>
 
     <!-- FOOTER -->
@@ -40,10 +45,21 @@
     </footer>
   </div>
 
-  <!-- ERROR -->
-  <div id="error-box" class="error hidden"></div>
+  <!-- ERROR MODAL -->
+  <div id="error-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Something went wrong</h2>
+      <p id="modal-message"></p>
+
+      <div class="modal-actions">
+        <button id="reset-btn">Reset App</button>
+        <button id="close-modal" class="secondary">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="app.js"></script>
 </body>
-
 </html>
