@@ -11,8 +11,7 @@ document.querySelectorAll(".accordion-header").forEach(header => {
     const item = header.parentElement;
     const icon = header.querySelector("svg");
 
-//Here we are providing it the fucntionality to open and close the accordian
-
+//Here we are providing it the functionality to open and close the accordian
     item.classList.toggle("active");
 
     icon.setAttribute(
