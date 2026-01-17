@@ -4,20 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ULTIMATE THRIFT | Streetwear & Vintage</title>
-    <link rel="stylesheet" href="style.css" />
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
-
-    <!-- Fonts -->
+    
+    <!-- External Dependencies -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link
-    href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap%22
-    rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <script src="https://unpkg.com/lucide@latest"></script>
 
   <body>
-    <!-- MARQUEE -->
     <div class="marquee">
       <p>
         FREE SHIPPING ON ORDERS OVER $200 /// NEW DROP EVERY FRIDAY /// LIMITED
@@ -25,43 +24,29 @@
       </p>
     </div>
 
-    <!-- HEADER -->
     <header class="header">
       <div class="container nav-container">
-        <a class="logo" onclick="switchView('home')"
-          ><span>ULTIMATE THRIFT</span></a
-        >
-
+        <!-- onclick calls window.switchView -->
+        <a class="logo" onclick="switchView('home')"><span>ULTIMATE THRIFT</span></a>
+        
         <nav class="nav-menu">
           <div class="nav-item">
             <a class="nav-link" onclick="switchView('shop-all')">SHOP ALL</a>
           </div>
-
-          <!-- HOVER DROPDOWN -->
           <div class="nav-item">
             <div class="nav-link">
               CATEGORIES <i data-lucide="chevron-down" style="width: 16px"></i>
             </div>
             <div id="categoryDropdown" class="dropdown-menu"></div>
           </div>
-
           <div class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              onclick="alert('Wishlist feature active! Check heart icons on cards.')"
-              >WISHLIST</a
-            >
+            <a class="nav-link" onclick="switchView('wishlist')">WISHLIST</a>
           </div>
-          <!-- Cart Link -> Opens Page -->
           <div class="nav-item">
             <a class="nav-link" onclick="switchView('cart')">CART</a>
           </div>
-          <div class="nav-item">
-            <a class="nav-link" href="#contact">CONTACT US</a>
-          </div>
         </nav>
-
+        
         <div class="header-actions">
           <div class="header-search">
             <i data-lucide="search" style="width: 18px; color: #666"></i>
@@ -72,16 +57,18 @@
               placeholder="SEARCH..."
             />
           </div>
-
+          <button class="icon-btn" onclick="switchView('wishlist')">
+            <i data-lucide="heart"></i>
+            <span id="wishlistBadge" class="badge hidden">0</span>
+          </button>
           <button class="icon-btn" onclick="switchView('cart')">
             <i data-lucide="shopping-bag"></i>
-            <span id="cartBadge" class="cart-count hidden">0</span>
+            <span id="cartBadge" class="badge hidden">0</span>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- HERO -->
     <section class="hero" id="heroSection">
       <div class="container">
         <h1>SEASON ESSENTIALS</h1>
@@ -89,34 +76,37 @@
           CURATED VINTAGE & MODERN STREETWEAR.
         </p>
         <div class="filter-bar">
-          <button class="filter-btn active" onclick="switchView('home')">
+          <button
+            class="filter-btn active"
+            id="btn-home"
+            onclick="switchView('home')"
+          >
             HOME
           </button>
-          <button class="filter-btn" onclick="switchView('shop-all')">
+          <button
+            class="filter-btn"
+            id="btn-shop"
+            onclick="switchView('shop-all')"
+          >
             SHOP ALL
           </button>
         </div>
       </div>
     </section>
 
-    <!-- MAIN CONTENT AREA -->
     <main class="container main-content" id="mainContainer">
-      <!-- Controls (Hidden on Cart Page) -->
       <div class="controls" id="controlsSection">
         <span class="section-title" id="pageTitle">Home</span>
         <select id="sortSelect" class="sort-select">
           <option value="default">SORT: FEATURED</option>
-          <option value="rating">RATING: HIGH - LOW</option>
-          <option value="low">PRICE: LOW - HIGH</option>
-          <option value="high">PRICE: HIGH - LOW</option>
+          <option value="rating">RATING: Highest Rated</option>
+          <option value="low">PRICE: Lowest - Highest</option>
+          <option value="high">PRICE: Highest - Lowest</option>
         </select>
       </div>
 
       <div id="loader" class="loader"></div>
-
-      <!-- Product Grid/Sections injected here -->
       <div id="productContainer"></div>
-
       <div
         id="noResults"
         class="hidden"
@@ -126,33 +116,16 @@
       </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer" id="contact">
-      <div class="container footer-grid">
-        <div class="footer-col">
-          <h4 class="footer-title">ULTIMATE THRIFT</h4>
-          <p>Curating the best streetwear and vintage fashion since 2024.</p>
-          <div class="social-icons">
-            <i data-lucide="instagram" class="social-icon"></i>
-            <i data-lucide="twitter" class="social-icon"></i>
-            <i data-lucide="facebook" class="social-icon"></i>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4 class="footer-title">CONTACT US</h4>
-          <p>Email: vibhav.khaneja@hestabit.im</p>
-          <p>Phone: 8130907023</p>
-          <p>Address: 123 Hypebeast Ave, NY</p>
-        </div>
-        <div class="footer-col">
-          <h4 class="footer-title">CUSTOMER CARE</h4>
-          <a href="#">Shipping Policy</a>
-          <a href="#">Returns & Exchanges</a>
-          <a href="#">FAQ</a>
-          <a href="#">Terms of Service</a>
-        </div>
+    <footer class="footer">
+      <div class="container">
+        <h4 class="footer-title">ULTIMATE THRIFT</h4>
+        <p>Curating the best streetwear and vintage fashion since 2026.</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: #666">
+          Contact: vibhav.khaneja@hestabit.im | 8130907023
+        </p>
       </div>
     </footer>
-      <script type="module" src="script.js"></script>
+
+    <script src="script.js"></script>
   </body>
 </html>
