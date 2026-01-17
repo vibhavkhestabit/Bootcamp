@@ -18,12 +18,7 @@ const homeSections = [
   {
     id: "beauty",
     title: "Beauty & Care",
-    group: ["beauty", "fragrances", "skin-care", "skincare"],
-  },
-  {
-    id: "furniture",
-    title: "Home Aesthetics",
-    group: ["furniture", "home-decoration"],
+    group: ["beauty", "fragrances", "skin-care"],
   },
 ];
 
@@ -34,42 +29,38 @@ const sortSelect = document.getElementById("sortSelect");
 const pageTitle = document.getElementById("pageTitle");
 const categoryDropdown = document.getElementById("categoryDropdown");
 const cartBadge = document.getElementById("cartBadge");
-
-// Sections to toggle
+const wishlistBadge = document.getElementById("wishlistBadge");
 const heroSection = document.getElementById("heroSection");
 const controlsSection = document.getElementById("controlsSection");
 
 async function init() {
-  try {
-    if (window.lucide) lucide.createIcons();
-  } catch (e) {}
-  updateCartCount();
-
+  updateBadges();
   try {
     const res = await fetch("https://dummyjson.com/products?limit=100");
     const data = await res.json();
     allProducts = data.products;
-
     populateDropdown(allProducts);
     loader.classList.add("hidden");
-
     switchView("home");
   } catch (e) {
-    console.error(e);
-    container.innerHTML =
-      '<div style="text-align:center;">Error loading products.</div>';
+    loader.innerHTML = "Error loading products.";
   }
 }
 
 function switchView(view) {
   currentView = view;
-  document
-    .querySelectorAll(".filter-btn")
-    .forEach((b) => b.classList.remove("active"));
-
-  // Reset Views
   container.innerHTML = "";
   document.getElementById("noResults").classList.add("hidden");
+  window.scrollTo(0, 0);
+
+  if (document.getElementById("btn-home"))
+    document
+      .getElementById("btn-home")
+      .classList.toggle("active", view === "home");
+  if (document.getElementById("btn-shop"))
+    document
+      .getElementById("btn-shop")
+      .classList.toggle("active", view === "shop-all");
 
   if (view === "home") {
     heroSection.classList.remove("hidden");
@@ -84,157 +75,84 @@ function switchView(view) {
   } else if (view === "cart") {
     heroSection.classList.add("hidden");
     controlsSection.classList.add("hidden");
+    pageTitle.textContent = "Your Bag";
     renderCartPage();
+  } else if (view === "wishlist") {
+    heroSection.classList.add("hidden");
+    controlsSection.classList.add("hidden");
+    pageTitle.textContent = "Your Wishlist";
+    renderWishlistPage();
   }
-
-  if (window.lucide) lucide.createIcons();
+  lucide.createIcons();
 }
 
-// --- RENDER CART PAGE ---
-function renderCartPage() {
-  container.className = "";
+function renderHomeHorizontal() {
+  container.className = "product-sections-container";
+  homeSections.forEach((section) => {
+    let sectionProducts =
+      section.id === "top-rated"
+        ? [...allProducts].sort((a, b) => b.rating - a.rating).slice(0, 8)
+        : allProducts.filter((p) =>
+            section.group
+              ? section.group.includes(p.category)
+              : p.category === section.id
+          );
 
-  if (cart.length === 0) {
-    container.innerHTML = `
-                    <div style="text-align:center; padding: 4rem;">
-                        <h2>YOUR CART IS EMPTY</h2>
-                        <button onclick="switchView('shop-all')" class="add-btn" style="max-width:200px; margin-top:1rem;">START SHOPPING</button>
-                    </div>`;
+    if (sectionProducts.length > 0) {
+      const div = document.createElement("div");
+      div.className = "category-section";
+      let cards = "";
+      sectionProducts.forEach((p) => (cards += createCardHTML(p)));
+      div.innerHTML = `<h2 class="category-section-title">${section.title}</h2><div class="horizontal-scroll">${cards}</div>`;
+      container.appendChild(div);
+    }
+  });
+  lucide.createIcons();
+}
+
+function renderShopAllVertical() {
+  container.className = "product-grid";
+  allProducts.forEach((p) => {
+    const div = document.createElement("div");
+    div.innerHTML = createCardHTML(p);
+    container.appendChild(div.firstElementChild);
+  });
+  lucide.createIcons();
+}
+
+function renderWishlistPage() {
+  container.className = "product-grid";
+  const wishlistItems = allProducts.filter((p) => wishlist.includes(p.id));
+
+  if (wishlistItems.length === 0) {
+    container.innerHTML = `<div style="text-align:center; grid-column: 1/-1; padding: 4rem;">
+                    <h2>WISHLIST IS EMPTY</h2>
+                    <p style="margin: 1rem 0;">Keep track of your favorites here.</p>
+                    <button onclick="switchView('shop-all')" class="add-btn" style="max-width:200px; margin: 0 auto;">START SHOPPING</button>
+                </div>`;
     return;
   }
 
-  let cartHTML = "";
-  let total = 0;
-
-  cart.forEach((item) => {
-    total += item.price * item.qty;
-    cartHTML += `
-                    <div class="cart-page-item">
-                        <img src="${
-                          item.thumbnail
-                        }" class="cart-page-img" alt="${item.title}">
-                        <div class="cart-page-info">
-                            <div>
-                                <div class="cart-page-title">${item.title}</div>
-                                <div class="cart-page-meta">${item.category.toUpperCase()}</div>
-                                <div class="cart-page-price">$${
-                                  item.price
-                                }</div>
-                            </div>
-                            <div class="cart-page-actions">
-                                <div class="qty-control-lg">
-                                    <button class="qty-btn-lg" onclick="updateQty(${
-                                      item.id
-                                    }, -1)">-</button>
-                                    <div class="qty-val-lg">${item.qty}</div>
-                                    <button class="qty-btn-lg" onclick="updateQty(${
-                                      item.id
-                                    }, 1)">+</button>
-                                </div>
-                                <div class="remove-link" onclick="removeFromCart(${
-                                  item.id
-                                })">REMOVE</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+  wishlistItems.forEach((p) => {
+    const div = document.createElement("div");
+    div.innerHTML = createCardHTML(p);
+    container.appendChild(div.firstElementChild);
   });
-
-  container.innerHTML = `
-                <div class="cart-page-wrapper">
-                    <div>
-                        <div class="cart-list-header">MY SHOPPING BAG (${
-                          cart.length
-                        })</div>
-                        ${cartHTML}
-                    </div>
-                    <div>
-                        <div class="cart-summary-box">
-                            <h3 style="margin-bottom:1.5rem; font-size:1.5rem;">ORDER SUMMARY</h3>
-                            <div class="summary-row"><span>Subtotal</span> <span>$${total.toFixed(
-                              2
-                            )}</span></div>
-                            <div class="summary-row"><span>Shipping</span> <span>FREE</span></div>
-                            <div class="summary-total"><span>TOTAL</span> <span>$${total.toFixed(
-                              2
-                            )}</span></div>
-                            <button class="checkout-btn-lg">PROCEED TO CHECKOUT</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-}
-
-// --- RENDER HOME ---
-function renderHomeHorizontal() {
-  container.className = "product-sections-container";
-
-  homeSections.forEach((section) => {
-    let sectionProducts = getProductsForSection(section);
-    if (sectionProducts.length > 0) {
-      const sectionWrapper = document.createElement("div");
-      sectionWrapper.className = "category-section";
-      let cardsHTML = "";
-      sectionProducts.forEach((p) => (cardsHTML += createCardHTML(p)));
-      sectionWrapper.innerHTML = `<h2 class="category-section-title">${section.title}</h2><div class="horizontal-scroll">${cardsHTML}</div>`;
-      container.appendChild(sectionWrapper);
-    }
-  });
-}
-
-// --- RENDER SHOP ALL ---
-function renderShopAllVertical() {
-  container.className = "product-sections-container";
-  const categories = [...new Set(allProducts.map((p) => p.category))].sort();
-  categories.forEach((cat) => {
-    const catProducts = allProducts.filter((p) => p.category === cat);
-    if (catProducts.length > 0) {
-      const sectionWrapper = document.createElement("div");
-      sectionWrapper.className = "category-section";
-      const displayTitle = cat
-        .split("-")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ");
-      let cardsHTML = "";
-      catProducts.forEach((p) => (cardsHTML += createCardHTML(p)));
-      sectionWrapper.innerHTML = `<h2 class="category-section-title">${displayTitle}</h2><div class="product-grid">${cardsHTML}</div>`;
-      container.appendChild(sectionWrapper);
-    }
-  });
-}
-
-function getProductsForSection(section) {
-  if (section.id === "top-rated") {
-    return [...allProducts].sort((a, b) => b.rating - a.rating).slice(0, 10);
-  } else {
-    return allProducts.filter((p) => {
-      if (section.group) return section.group.includes(p.category);
-      return p.category === section.id;
-    });
-  }
+  lucide.createIcons();
 }
 
 function createCardHTML(p) {
-  const rating = p.rating.toFixed(1);
   const isWishlisted = wishlist.includes(p.id) ? "active" : "";
-
   return `
                 <div class="card">
                     <div class="card-badge">NEW</div>
-                    <div class="card-img-container">
-                        <img src="${p.thumbnail}" class="card-img" alt="${
-    p.title
-  }" loading="lazy">
-                    </div>
+                    <div class="card-img-container"><img src="${
+                      p.thumbnail
+                    }" class="card-img" loading="lazy"></div>
                     <div class="card-details">
-                        <div class="card-meta">
-                            <span>${p.category.toUpperCase()}</span>
-                            <div class="rating-badge">${rating} ★</div>
-                        </div>
+                        <div class="rating-badge">${p.rating.toFixed(1)} ★</div>
                         <h4 class="card-title">${p.title}</h4>
-                        <div class="price-group">
-                            <div class="card-price">$${p.price}</div>
-                        </div>
+                        <div class="card-price">$${p.price}</div>
                         <div class="card-actions">
                             <button class="wishlist-btn ${isWishlisted}" onclick="toggleWishlist(${
     p.id
@@ -246,11 +164,10 @@ function createCardHTML(p) {
                             }, this)" class="add-btn">ADD TO CART</button>
                         </div>
                     </div>
-                </div>
-            `;
+                </div>`;
 }
 
-window.toggleWishlist = (id, btn) => {
+function toggleWishlist(id, btn) {
   const index = wishlist.indexOf(id);
   if (index === -1) {
     wishlist.push(id);
@@ -258,9 +175,11 @@ window.toggleWishlist = (id, btn) => {
   } else {
     wishlist.splice(index, 1);
     btn.classList.remove("active");
+    if (currentView === "wishlist") renderWishlistPage();
   }
   localStorage.setItem("ut_wishlist", JSON.stringify(wishlist));
-};
+  updateBadges();
+}
 
 function applyFilters() {
   const search = searchInput.value.toLowerCase().trim();
@@ -273,11 +192,12 @@ function applyFilters() {
     if (sort === "low") filtered.sort((a, b) => a.price - b.price);
     if (sort === "high") filtered.sort((a, b) => b.price - a.price);
     if (sort === "rating") filtered.sort((a, b) => b.rating - a.rating);
+
     renderFlat(filtered);
+    heroSection.classList.add("hidden");
   } else {
     switchView(currentView);
   }
-  if (window.lucide) lucide.createIcons();
 }
 
 function renderFlat(products) {
@@ -293,32 +213,22 @@ function renderFlat(products) {
     div.innerHTML = createCardHTML(p);
     container.appendChild(div.firstElementChild);
   });
+  lucide.createIcons();
 }
-
-searchInput.addEventListener("input", applyFilters);
-sortSelect.addEventListener("change", applyFilters);
 
 function populateDropdown(products) {
   const categories = [...new Set(products.map((p) => p.category))].sort();
-  const allLink = document.createElement("a");
-  allLink.className = "dropdown-item";
-  allLink.textContent = "All Categories";
-  allLink.onclick = () => switchView("shop-all");
-  categoryDropdown.appendChild(allLink);
-
   categories.forEach((cat) => {
-    const item = document.createElement("a");
-    item.className = "dropdown-item";
-    item.textContent = cat
-      .split("-")
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" ");
-    item.onclick = () => {
-      searchInput.value = "";
+    const a = document.createElement("a");
+    a.className = "dropdown-item";
+    a.textContent = cat.replace("-", " ");
+    a.onclick = () => {
       renderFlat(allProducts.filter((p) => p.category === cat));
-      pageTitle.textContent = item.textContent;
+      pageTitle.textContent = cat.toUpperCase();
+      heroSection.classList.add("hidden");
+      window.scrollTo(0, 0);
     };
-    categoryDropdown.appendChild(item);
+    categoryDropdown.appendChild(a);
   });
 }
 
@@ -328,48 +238,79 @@ function addToCart(id, btn) {
   if (exist) exist.qty++;
   else cart.push({ ...item, qty: 1 });
 
-  saveCart();
-  updateCartCount();
+  localStorage.setItem("ut_cart", JSON.stringify(cart));
+  updateBadges();
 
-  const originalText = btn.innerText;
+  const oldText = btn.innerText;
   btn.innerText = "ADDED";
   btn.classList.add("added");
   setTimeout(() => {
-    btn.innerText = originalText;
+    btn.innerText = oldText;
     btn.classList.remove("added");
   }, 1000);
 }
 
-function removeFromCart(id) {
-  cart = cart.filter((c) => c.id !== id);
-  saveCart();
-  if (currentView === "cart") renderCartPage();
-  updateCartCount();
+function updateBadges() {
+  const tc = cart.reduce((acc, c) => acc + c.qty, 0);
+  cartBadge.innerText = tc;
+  cartBadge.classList.toggle("hidden", tc === 0);
+
+  const tw = wishlist.length;
+  wishlistBadge.innerText = tw;
+  wishlistBadge.classList.toggle("hidden", tw === 0);
 }
 
 function updateQty(id, change) {
   const item = cart.find((c) => c.id === id);
   if (item) {
     item.qty += change;
-    if (item.qty <= 0) removeFromCart(id);
-    else saveCart();
+    if (item.qty <= 0) cart = cart.filter((c) => c.id !== id);
+    localStorage.setItem("ut_cart", JSON.stringify(cart));
+    renderCartPage();
+    updateBadges();
   }
-  if (currentView === "cart") renderCartPage();
-  updateCartCount();
 }
 
-function saveCart() {
-  localStorage.setItem("ut_cart", JSON.stringify(cart));
+function renderCartPage() {
+  if (cart.length === 0) {
+    container.innerHTML = `<div style="text-align:center; grid-column: 1/-1; padding: 4rem;"><h2>BAG IS EMPTY</h2><button onclick="switchView('shop-all')" class="add-btn" style="max-width:200px; margin:2rem auto;">SHOP NOW</button></div>`;
+    return;
+  }
+  let total = 0;
+  let cartHTML = `<div class="cart-page-wrapper"><div>`;
+  cart.forEach((item) => {
+    total += item.price * item.qty;
+    cartHTML += `
+                    <div class="cart-page-item">
+                        <img src="${item.thumbnail}" class="cart-page-img">
+                        <div style="flex-grow:1">
+                            <h4 style="margin-bottom: 0.5rem;">${item.title}</h4>
+                            <p style="font-weight: 700; margin-bottom: 1rem;">$${item.price}</p>
+                            <div style="display:flex; align-items:center; gap: 1rem; margin-top: auto;">
+                                <div style="display:flex; align-items:center; border: 1px solid black;">
+                                    <button onclick="updateQty(${item.id}, -1)" style="padding:5px 15px; background: white; border: none; cursor:pointer;">-</button>
+                                    <span style="padding:0 15px; font-weight: 700;">${item.qty}</span>
+                                    <button onclick="updateQty(${item.id}, 1)" style="padding:5px 15px; background: white; border: none; cursor:pointer;">+</button>
+                                </div>
+                                <button onclick="updateQty(${item.id}, -${item.qty})" style="background: none; border: none; text-decoration: underline; font-size: 0.8rem; cursor:pointer; color: #ef4444;">Remove</button>
+                            </div>
+                        </div>
+                    </div>`;
+  });
+  cartHTML += `</div><div class="cart-summary-box">
+                <h3 style="margin-bottom: 1rem;">SUMMARY</h3>
+                <div style="display:flex; justify-content: space-between; margin-bottom: 1rem;"><span>Subtotal</span><span>$${total.toFixed(
+                  2
+                )}</span></div>
+                <div style="display:flex; justify-content: space-between; margin-bottom: 1rem; color: #10b981;"><span>Shipping</span><span>FREE</span></div>
+                <div style="display:flex; justify-content: space-between; padding-top: 1rem; border-top: 2px solid black; font-size: 1.5rem; font-weight: 700;"><span>TOTAL</span><span>$${total.toFixed(
+                  2
+                )}</span></div>
+                <button class="add-btn" style="width:100%; margin-top:2rem;">CHECKOUT</button>
+            </div></div>`;
+  container.innerHTML = cartHTML;
 }
 
-function updateCartCount() {
-  const total = cart.reduce((acc, c) => acc + c.qty, 0);
-  document.getElementById("cartBadge").innerText = total;
-  document.getElementById("cartBadge").classList.toggle("hidden", total === 0);
-}
-
-function toggleCart() {
-  switchView("cart");
-}
-
+searchInput.addEventListener("input", applyFilters);
+sortSelect.addEventListener("change", applyFilters);
 init();
