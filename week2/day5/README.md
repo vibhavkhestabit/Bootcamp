@@ -160,3 +160,28 @@ Error handling was implemented using try/catch blocks to gracefully handle runti
 ![Screenshot 14](screenshots/day4.5.png)
 ![Screenshot 15](screenshots/day4.6.png)
 
+# Day 5: Capstone UI + JavaScript Project
+This is the last day of the week and this day will help us use all our learnings of the week and combine them together usefully to make a capstone project using fetch API call.
+
+## The Procedure
+- We began with creating a HTML page with created the structure/skeleton of the project using HTML principles which we learnt in the week and make a header, hero, main, and footer section using princliples and layout stategies of grid layount and semantic tags.
+- After the completion of our HTML structure, we worked on the presentation part where we styled our HTML page using multiple selectors, pseudo features, effects etc to give it a classy E-commerce website.
+- From here our logic building for the prokect began with JS where had to store our products in an array and we need to fetch these products and data and retrieved this Json data using the fetch api to fetch the data from dummy.json endpoint.
+- We stored our data object by object and kept on storing it. Created multiple fucntions with different functionalities to help us render in our webiste.
+- We created functions like createCardHTML() and applyFilters() which helped us in dynamic rendering and created a helper fucntion for the same. The main functionality of applyFilters was to navigate us through pages and differengt types of products without having to create different pages.
+- We also enabling error handling which allow seamless flow of work and even after any error/bug comes up still the code doesnt stop and created shopping cart and wishlist using Local Storage.
+
+## Learnings
+- Fetch API allowed us to retrieve our entire data using awaut fetch from the dummy.json and helps us to load the entire data and start working on it.
+- Await in fetch was used as fetch was asynchronous and it would normally skip over and try to render empty data. BUt while we use await keyword, JavaScript pauses the execution there and then and the main thread loads the remaining part of the code.
+- Inspecting our code using breakpoint and watch was really essential which helped us to learn where we were going wrong and to help us fix it
+- I applied differnt types of CSS and functionalities in our project but using our learning of Local Storage for add to cart and wishlist creation, switchView() to move to differnt categories if the p.id are same without the need to create different webpage helped us a lot to move across.
+- Used DOM and Event handlers in a perfect way to learn our objective of week 2.
+
+![Screenshot 16](screenshots/day5.1.png)
+![Screenshot 17](screenshots/day5.2.png)
+![Screenshot 18](screenshots/day5.3.png)
+![Screenshot 19](screenshots/day5.4.png)
+![Screenshot 20](screenshots/day5.5.png)
+![Screenshot 21](screenshots/day5.6.png)
+![Screenshot 22](screenshots/day5.7.png)

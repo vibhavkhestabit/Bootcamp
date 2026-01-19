@@ -140,27 +140,20 @@ function renderWishlistPage() {
 function createCardHTML(p) {
   const isWishlisted = wishlist.includes(p.id) ? "active" : "";
   return `
-                <div class="card">
-                    <div class="card-badge">NEW</div>
-                    <div class="card-img-container"><img src="${
-                      p.thumbnail
-                    }" class="card-img" loading="lazy"></div>
-                    <div class="card-details">
-                        <div class="rating-badge">${p.rating.toFixed(1)} ★</div>
-                        <h4 class="card-title">${p.title}</h4>
-                        <div class="card-price">$${p.price}</div>
-                        <div class="card-actions">
-                            <button class="wishlist-btn ${isWishlisted}" onclick="toggleWishlist(${
-    p.id
-  }, this)">
-                                <i data-lucide="heart"></i>
-                            </button>
-                            <button onclick="addToCart(${
-                              p.id
-                            }, this)" class="add-btn">ADD TO CART</button>
-                        </div>
-                    </div>
-                </div>`;
+    <div class="card">
+      <div class="card-badge">NEW</div>
+      <div class="card-img-container"><img src="${p.thumbnail}" class="card-img" loading="lazy"></div>
+      <div class="card-details">
+        <div class="rating-badge">${p.rating.toFixed(1)} ★</div>
+        <h4 class="card-title">${p.title}</h4>
+        <div class="card-price">$${p.price}</div>
+        <div class="card-actions">
+          <button class="wishlist-btn ${isWishlisted}" onclick="toggleWishlist(${p.id}, this)">
+          <i data-lucide="heart"></i></button>
+          <button onclick="addToCart(${p.id}, this)" class="add-btn">ADD TO CART</button>
+        </div>
+      </div>
+    </div>`;
 }
 
 function toggleWishlist(id, btn) {
