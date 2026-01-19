@@ -54,13 +54,9 @@ function switchView(view) {
   window.scrollTo(0, 0);
 
   if (document.getElementById("btn-home"))
-    document
-      .getElementById("btn-home")
-      .classList.toggle("active", view === "home");
+    document.getElementById("btn-home").classList.toggle("active", view === "home");
   if (document.getElementById("btn-shop"))
-    document
-      .getElementById("btn-shop")
-      .classList.toggle("active", view === "shop-all");
+    document.getElementById("btn-shop").classList.toggle("active", view === "shop-all");
 
   if (view === "home") {
     heroSection.classList.remove("hidden");
