@@ -94,6 +94,41 @@ Uses Cases: Align items, distribute space, arrange items in one direction.
 ## Grid
 Gris is a two dimensional layout system which helps us to arrange rows and columns simultaneously together and is used for particularly complex layout purposes. When we have to work on both rows and coloumns and on powerful complexs layouts, then grid comes into matter tto control the layout system and for customization and handling of Page Layouts.
 
-![Screenshot 3](screenshots/day2.png)
+![Screenshot 4](screenshots/day2.png)
+
+# Day 3: JS + DOM Manipulation
+Day 3 marked the transition from static layouts to interactive web pages using JavaScript. The focus was on understanding modern JavaScript (ES6) and learning how to manipulate the DOM (Document Object Model) without using any external frameworks.
+
+We started with ES6 features that make JavaScript cleaner, safer, and easier to maintain. **Variables** (let, const) were used instead of var to ensure block scoping and avoid accidental redeclarations.
+1) let: block scoped variable which is re-assignable.
+2) const: block scoped varible which is not re-assignable.
+
+## Arrow functions 
+Arrow functions provide a concise syntax for writing functions and helped in understanding lexical scoping of this instead of writing the entire fucntion. These features encouraged writing predictable and readable code, which is essential for large applications.
+
+## Arrays and Objects
+Arrays were used to store lists of values or objects, while objects were used to represent real-world entities with properties.
+To work efficiently with data, we learned the following array methods:
+1) map() – to transform data into a new array.
+2) filter() – to extract specific data based on conditions.
+3) reduce() – to combine data into a single value.
+These methods introduced a functional programming approach and avoided mutating original data.
+
+## DOM Manipulation
+The DOM represents the HTML structure as objects that JavaScript can access and modify.
+1) Selecting elements using getElementById and querySelector
+2) Updating text and HTML content
+3) Adding, removing, and toggling CSS classes dynamically
+This allowed JavaScript to directly control what users see on the screen.
+
+## Event Listeners
+Event listeners were used to handle user interactions such as clicks and key presses. They work as a callback function that whenever one task or one event or its conditon gets satisfies, then to invoke, start off with a new fucntion which is added by addEventListener.
+By combining DOM manipulation with events, we were able to build interactive components.
+
+![Screenshot 5](screenshots/day3.1.png)
+![Screenshot 6](screenshots/day3.2.png)
+![Screenshot 7](screenshots/day3.3.png)
+![Screenshot 8](screenshots/day3.4.png)
+![Screenshot 9](screenshots/day3.5.png)
 
 
