@@ -4,7 +4,7 @@ This file will help us know about our learnings of Week 2 where we covered HTML,
 Learning  basics to advance interactive level JS website at the end of the week.
 In this report we will walkthrough our Week 2 journey covering each day deeply starting off with Day 1.
 
-## Day 1: HTML5 + Semantic Layout
+# Day 1: HTML5 + Semantic Layout
 
 So as we are starting off with HTML and we have to know what HTML, CSS and JS core roles are:
 **HTML- Structure => CSS- Presentation => JS- Behaviour**
@@ -60,5 +60,40 @@ It refers to the additional information which is given to assist technologies, w
 ![Screenshot 1](screenshots/day1.1.png)
 ![Screenshot 2](screenshots/day1.2.png)
 ![Screenshot 3](screenshots/day1.3.png)
+
+
+# Day 2: CSS Layout Mastering
+
+After creating the content and giving a meaning and structure to our work, now is the time to give presentation and layout to our content to describe how it looks or how it appears.
+
+There are 3 different ways by which we can apply our style to our HTML work which are:
+1) Inline: in the HTML itself
+2) Internal: BY using style tag to assign it
+3) EXternal: by creating a .css file and giving its path in the HTML file
+
+## CSS Selectors
+A CSS Selector tells the browser to select HTML elements to apply style to.
+There are multiple types of selectors such as:
+1) Element Selector
+2) Class Selector
+3) ID Selector
+4) Universal Selector
+5) Grouping Selector
+6) Pseudo-classes
+7) Pseudo-elements
+
+## Specificity
+Specificity refers to which rule to apply/ which rule wins when multiple target the same element.
+
+Universal => Element => Class => ID => Inline
+
+## Flexbox
+Flexbox is used to align items when are content is in One Dimension;i.e; it is a One Dimensional Layout system to arrange rows or columns with the help of main axis/cross axis.
+Uses Cases: Align items, distribute space, arrange items in one direction.
+
+## Grid
+Gris is a two dimensional layout system which helps us to arrange rows and columns simultaneously together and is used for particularly complex layout purposes. When we have to work on both rows and coloumns and on powerful complexs layouts, then grid comes into matter tto control the layout system and for customization and handling of Page Layouts.
+
+![Screenshot 3](screenshots/day2.png)
 
 
