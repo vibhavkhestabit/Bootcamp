@@ -131,4 +131,32 @@ By combining DOM manipulation with events, we were able to build interactive com
 ![Screenshot 8](screenshots/day3.4.png)
 ![Screenshot 9](screenshots/day3.5.png)
 
+# Day 4: JavaScript Utilities + LocalStorage Mini-Project
+Day 4 focused on writing reusable JavaScript utilities, debugging code efficiently, and building a mini-project using LocalStorage for data persistence.mWe learned how to debug JavaScript using browser DevTools instead of relying only on console.log.
+
+## Key debugging tools:
+1) **Breakpoints** to pause code execution at specific lines
+2) **Watch** expressions to monitor variable values in real time
+
+This helped in understanding program flow and identifying logical errors effectively.
+
+## Custom JavaScript Utilities
+- Debounce: Executes a function only after a delay once repeated calls stop.
+- Throttle: Limits function execution to once per fixed time interval.
+- groupBy: Groups objects in an array based on a specific property.
+These utilities are commonly used in real-world applications for optimization and data manipulation.
+
+## LocalStorage
+LocalStorage was introduced as a way to persist data in the browser even after a page refresh. Data stored as key–value pairs which helpes us to store essential details locally itself. Objects stored using JSON.stringify() and retrieved using JSON.parse()
+
+## Error Handling
+
+Error handling was implemented using try/catch blocks to gracefully handle runtime errors. A conceptual error boundary approach was followed by logging errors in a structured format. We learnt the working of try/catch block where we learnt how try command work, what is the workflow when it reads a throw command and if try block fails or throw block appears then it directs redirects to catch block.
+
+![Screenshot 10](screenshots/day4.1.png)
+![Screenshot 11](screenshots/day4.2.png)
+![Screenshot 12](screenshots/day4.3.png)
+![Screenshot 13](screenshots/day4.4.png)
+![Screenshot 14](screenshots/day4.5.png)
+![Screenshot 15](screenshots/day4.6.png)
 
