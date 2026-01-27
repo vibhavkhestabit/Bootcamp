@@ -1,67 +1,18 @@
-'use client';
-import Card from "@/components/ui/Card";
+import Link from 'next/link';
 import Button from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
-import Modal from "@/components/ui/Modal";
-import { useState } from 'react';
 
-export default function DashboardPage() {
-  const [isOpen, setIsOpen] = useState(false);
-
+export default function LandingPage() {
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 p-6 text-center">
+      <h1 className="text-4xl font-bold text-slate-900 mb-4">Welcome to Hestabit</h1>
+      <p className="text-lg text-slate-600 mb-8 max-w-md">
+        Your internal hub for project management, revenue tracking, and operations.
+      </p>
       
-      <section>
-        
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">Hestabit Dashboard</h1>
-            <p className="text-slate-500 text-sm">Real-time Operational Overview</p>
-          </div>
-          
-          <Button variant="primary" onClick={() => setIsOpen(true)}>
-            Download Report
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card title="Project Pipeline" color="primary" footer="View Project Details">
-            12 Active
-          </Card>
-
-          <Card title="Tickets Raised" color="warning" footer="View Support Desk">
-            24 Open
-          </Card>
-
-          <Card title="Monthly Revenue" color="success" footer="View Financials">
-            $142,500
-          </Card>
-
-          <Card title="Absenteeism Rate" color="danger" footer="View Attendance Log">
-            3.2%
-          </Card>
-        </div>
-      </section>
-
-      <hr className="border-slate-200" />
-
-      <section className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-        <h2 className="text-lg font-semibold mb-4 text-slate-700">Components Used in Day 2 Demonstrated</h2>
-        <div className="flex flex-wrap items-center gap-6">
-          <div className="flex gap-2">
-            <Badge variant="success">Active</Badge>
-            <Badge variant="warning">This Month</Badge>
-          </div>
-          <div className="flex gap-3">
-            <Button variant="secondary">Secondary Action</Button>
-            <Button variant="danger">Delete Data</Button>
-          </div>
-        </div>
-      </section>
-
-      <Modal open={isOpen} title="Report Download System" onClose={() => setIsOpen(false)}>
-        <p className="text-slate-600">The report generation module is currently being tested. This modal confirms the trigger is working!</p>
-      </Modal>
+      {/* Link helps navigate to the dashboard folder without a full page reload */}
+      <Link href="/dashboard">
+        <Button variant="primary">Go to Dashboard</Button>
+      </Link>
     </div>
   );
 }
