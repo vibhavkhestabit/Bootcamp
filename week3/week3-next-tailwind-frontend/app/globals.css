@@ -1,19 +1,12 @@
-/* Tailwind v4 entry */
 @import "tailwindcss";
 
-/* --------------------
-   Theme Tokens
--------------------- */
 @theme {
-  --color-bg-app: #f3f4f6;        /* gray-100 */
+  --color-bg-app: #f3f4f6;  
   --color-bg-card: #ffffff;
-  --color-text-primary: #111827; /* gray-900 */
-  --color-text-muted: #6b7280;   /* gray-500 */
+  --color-text-primary: #111827; 
+  --color-text-muted: #6b7280;   
 }
 
-/* --------------------
-   Base Styles
--------------------- */
 html,
 body {
   height: 100%;

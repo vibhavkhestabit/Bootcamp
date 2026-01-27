@@ -6,10 +6,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-gray-100">
-        {/* Top Navbar */}
         <Navbar />
 
-        {/* Sidebar + Main Content */}
         <div className="flex">
           <Sidebar />
 
