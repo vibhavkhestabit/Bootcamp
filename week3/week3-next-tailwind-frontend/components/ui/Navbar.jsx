@@ -1,31 +1,41 @@
+import Input from "./Input";
+
 export default function Navbar() {
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm">
-      {/* Left */}
+    <header className="h-16 bg-gradient-to-r from-slate-900 to-blue-900 border-b border-blue-800 flex items-center justify-between px-6 shadow-sm">
+      {/* Left Section */}
       <div className="flex items-center gap-4">
-        <button className="text-xl text-gray-600 hover:text-black transition">
+        <button
+          className="text-xl text-slate-300 hover:text-white transition"
+          aria-label="Toggle Sidebar"
+        >
           ☰
         </button>
-        <span className="text-sm text-gray-500 hidden md:block">
-          Dashboard
+
+        <span className="text-white font-bold text-lg tracking-tight">
+          Start Bootstrap
         </span>
       </div>
 
-      {/* Right */}
+      {/* Right Section */}
       <div className="flex items-center gap-4">
-        {/* Search */}
-        <div className="hidden sm:flex items-center overflow-hidden rounded-md border border-gray-300 focus-within:ring-2 focus-within:ring-indigo-500">
-          <input
+        {/* Search Container */}
+        <div className="hidden sm:flex items-center overflow-hidden rounded-md border border-slate-700 bg-slate-800 focus-within:ring-2 focus-within:ring-blue-500">
+          {/* Using your Input component with style overrides */}
+          <Input
             placeholder="Search..."
-            className="px-3 py-1.5 text-sm outline-none"
+            className="bg-transparent border-none text-slate-200 placeholder-slate-400 px-3 py-1.5 w-full focus:ring-0"
           />
-          <button className="bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700 transition">
+          
+          <button className="px-3 py-2 bg-white text-slate-900 hover:bg-slate-100 transition border-l border-slate-700">
             🔍
           </button>
         </div>
 
-        {/* Avatar */}
-        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 shadow-md" />
+        {/* Profile Icon */}
+        <div className="w-9 h-9 flex items-center justify-center rounded-full bg-white border border-slate-300 text-slate-900 hover:bg-slate-100 cursor-pointer transition">
+          👤
+        </div>
       </div>
     </header>
   );
