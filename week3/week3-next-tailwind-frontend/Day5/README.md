@@ -65,4 +65,11 @@ This is the day where we compiled all our learnings of the entire week in 1 plac
 - Component Scalability: We utilized a shared UI library (/components/ui) for Button, Card, Badge, Modal, and Input, proving that a well-architected design system reduces development time for new pages like /dashboard/profile.
 - Responsive Engineering: Every page was optimized with Tailwind's grid and flex systems to maintain clarity and usability from mobile screens to enterprise-grade desktop monitors using sm, md and lg which helped us configure for all device sizes. 
 
-
+![Screenshot 11](screenshots/day5-landing1.png)
+![Screenshot 12](screenshots/day5-landing2.png)
+![Screenshot 11](screenshots/day5-about.png)
+![Screenshot 12](screenshots/day5-login.png)
+![Screenshot 11](screenshots/day5-db1.png)
+![Screenshot 12](screenshots/day5-db2.png)
+![Screenshot 11](screenshots/day5-profile.png)
+![Screenshot 12](screenshots/day5-users.png)
