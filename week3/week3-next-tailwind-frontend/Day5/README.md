@@ -59,6 +59,10 @@ This day was entirely utilized to enhnace our landing page our undertsand how dy
 
 ## Week3: Day 5- Capstone Mini Project (No backend)
 
-This is the day where we compiled all our learnings of the entire week in 1 place, created mutilple folder and pages, for ex: login page, about page, profile page etc. Added them in the layout system and added routing to them so that it was convinient for us to fetch from one place to another
+This is the day where we compiled all our learnings of the entire week in 1 place, created mutilple folder and pages, for ex: login page, about page, profile page etc. Added them in the layout system and added routing to them so that it was convinient for us to fetch from one place to another, added a users page and table and associated it with data using map, adaptive navbar, sidebar and buttons wherever they were required were kept and other pages had their estemeed buttons, icons. Inculcated each page with responsive approach.
+
+- System Integration: We successfully merged isolated modules—the vibrant landing page, the high-performance analytics dashboard, and the administrative attendance tables—into a cohesive routing structure.
+- Component Scalability: We utilized a shared UI library (/components/ui) for Button, Card, Badge, Modal, and Input, proving that a well-architected design system reduces development time for new pages like /dashboard/profile.
+- Responsive Engineering: Every page was optimized with Tailwind's grid and flex systems to maintain clarity and usability from mobile screens to enterprise-grade desktop monitors using sm, md and lg which helped us configure for all device sizes. 
 
 
