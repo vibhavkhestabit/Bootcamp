@@ -4,6 +4,7 @@ export default function Button({
   variant = "primary",
   size = "md",
   onClick,
+  className = "", // 1. ADD THIS: Accept external classes
 }) {
   const base =
     "inline-flex items-center justify-center rounded-md font-medium transition focus:outline-none";
@@ -20,12 +21,11 @@ export default function Button({
     lg: "px-6 py-3 text-lg",
   };
 
-
-
   return (
     <button
       onClick={onClick}
-      className={`${base} ${variants[variant]} ${sizes[size]}`}
+      // 2. APPLY IT HERE: Combine base, variants, sizes, AND the new className
+      className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
     >
       {children}
     </button>
