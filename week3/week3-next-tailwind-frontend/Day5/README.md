@@ -36,7 +36,29 @@ This day we worked extensively on more components so that we knew how components
 
 ## Week3: Day 3- Next.js Routing + Layout System
 
+This was the day when we created multiple pages, layout structure and routing onto our project. Before that we were just using page.jsx and layout.jsx but here came the entire concept of routing and structure design making multiple folders and layout.jsx if required and page.jsx for each particular page. We also inculcated the concept of children in layout.jsx so that we didnt need to hardcode the repetitive entities required in our project in every page such as navbar, header, footer, sidebar etc.
 
+- Multi-Page Structure which helped in engineered routes for the Landing Page, About, Dashboard, and Profile.
+- Nested Layouts: Applied shared layouts so that internal dashboard pages automatically inherit the sidebar and navbar, while public pages remain full-screen. 
+- We also made the icons, navbar appear and disappear for different pages as the profile icon was needed in our dashboard page but not in our landing page so we set that if the pathname followed our landing page's path then its display will be none, in the same manner we used usePathname to add different attributes of the same entity in differnt conditions, that is we designed our landing page in a dark purple theme but our dashboard in dark blue theme so we used usePathname to assign particular themes after matching is the path follows the landing page or the dashbaord.
 
+![Screenshot 8](screenshots/about-ss.png)
+![Screenshot 9](screenshots/landing-ss.png)
+![Screenshot 10](screenshots/profile-ss.png)
+
+## Week3: Day 4- Dynamic UI + Image Optimization
+
+This day was entirely utilized to enhnace our landing page our undertsand how dynamicically we can configure our UI and also inserted an image in our landing to learn Image Optimization. We added header section, testimonials, action cards, and a footer section in our landing page to make iyt look appealing and attractive and also added a image to know how to work with them.
+
+- Optimized Image Rendering: We moved away from standard <img> tags to the next/image component, implementing features like automatic resizing, lazy loading, and WebP conversion to maintain high performance without sacrificing visual quality.
+- Responsive Architecture using Tailwind’s mobile-first breakpoints (sm:, md:, lg:), we engineered a layout that seamlessly adapts from a wide-screen desktop view to a single-column mobile experience. If no sm, md or lg is given then it follows the default for all and if only sm is given then it is also applied for md and lg devices, i.e.; only the minimum dimension is required to fetch and it will be only contniued in the bigger dimensions also. 
+- Then we enabled it with semantic section such as header, footer and could have also used aside which helped us to place our content at any one side and using them we could focus on separate individual content as I configured my page width to 40% and divided the heading of the page in multiple lines and multiple colours.
+
+![Screenshot 11](screenshots/ss1.png)
+![Screenshot 12](screenshots/ss2.png)
+
+## Week3: Day 5- Capstone Mini Project (No backend)
+
+This is the day where we compiled all our learnings of the entire week in 1 place, created mutilple folder and pages, for ex: login page, about page, profile page etc. Added them in the layout system and added routing to them so that it was convinient for us to fetch from one place to another
 
 
