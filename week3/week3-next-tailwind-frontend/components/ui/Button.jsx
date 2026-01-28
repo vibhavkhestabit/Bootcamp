@@ -4,7 +4,7 @@ export default function Button({
   variant = "primary",
   size = "md",
   onClick,
-  className = "", // 1. ADD THIS: Accept external classes
+  className = "", 
 }) {
   const base =
     "inline-flex items-center justify-center rounded-md font-medium transition focus:outline-none";
@@ -24,7 +24,6 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      // 2. APPLY IT HERE: Combine base, variants, sizes, AND the new className
       className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
     >
       {children}
