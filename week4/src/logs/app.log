@@ -1,0 +1,4 @@
+2026-01-29T11:29:49.218Z [INFO]: Database connected
+2026-01-29T11:29:49.220Z [INFO]: Middlewares loaded
+2026-01-29T11:29:49.220Z [INFO]: Routes mounted
+2026-01-29T11:29:49.221Z [INFO]: Server started on port 4000
