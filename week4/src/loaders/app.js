@@ -9,6 +9,10 @@ export default function loadApp() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  app.get("/health", (req, res) => {
+  res.status(200).send("ok");
+  });
+
   logger.info("Middlewares loaded");
 
   // Routes

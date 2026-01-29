@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/health", (req, res) => {
-  res.status(200).json({ status: "healthy" });
+  res.status(200).send("healthy");
 });
 
 // 404 handler (always last)
