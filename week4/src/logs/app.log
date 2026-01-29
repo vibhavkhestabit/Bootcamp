@@ -14,3 +14,8 @@
 2026-01-29T12:27:33.839Z [INFO]: Middlewares loaded
 2026-01-29T12:27:33.839Z [INFO]: Routes mounted
 2026-01-29T12:27:33.842Z [INFO]: Server started on port 4000
+2026-01-29T14:10:00.704Z [INFO]: Database connected
+2026-01-29T14:11:45.774Z [INFO]: Database connected
+2026-01-29T14:23:27.240Z [INFO]: Database connected
+2026-01-29T14:30:13.121Z [INFO]: Database connected
+2026-01-29T14:30:35.673Z [INFO]: Database connected
