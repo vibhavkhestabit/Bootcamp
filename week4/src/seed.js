@@ -1,54 +1,61 @@
-import connectDB from "./loaders/db.js";
-import UserRepository from "./repositories/user.repository.js";
-import ProductRepository from "./repositories/product.repository.js";
+import mongoose from 'mongoose';
+import UserRepository from './repositories/user.repository.js';
+import ProductRepository from './repositories/product.repository.js';
+import connectDB from './loaders/db.js'; 
 
-async function test() {
-  await connectDB();
+const seedDatabase = async () => {
+    try {
+        await connectDB();
+        console.log('Connected to MongoDB');
 
-  /* 🔹 Create User */
-  const user = await UserRepository.create({
-    firstName: "Vibhav",
-    lastName: "Khaneja",
-    email: "vibhav.khaneja@hestabit.in",
-    password: "Helloooooo",
-  });
+        await mongoose.connection.collection('users').deleteMany({});
+        await mongoose.connection.collection('products').deleteMany({});
+        console.log('Creating New Users');
 
-  console.log("USER CREATED:", user);
+        const user1 = await UserRepository.create({
+            firstName: 'Vibhav',
+            lastName: 'Khaneja',
+            email: 'vibhav.khaneja@hestabit.com',
+            password: 'VibhavKhaneja',
+            status: 'active'
+        });
 
-   const user2 = await UserRepository.create({
-    firstName: "Samarth",
-    lastName: "Singh",
-    email: "Sam@gmail.com",
-    password: "Samsung",
-  });
+        const user2 = await UserRepository.create({
+            firstName: 'Samarth',
+            lastName: 'Singh',
+            email: 'Sam@gmail.com',
+            password: 'SamS',
+            status: 'inactive'
+        });
 
-  console.log("USER CREATED:", user2);
+        console.log(`Created 2 users: ${user1.email}, ${user2.email}`);
+        console.log('Creating Products');
 
-  /* 🔹 Fetch User */
-  const fetchedUser = await UserRepository.findById(user._id);
-  console.log("USER FETCHED:", fetchedUser);
+        await ProductRepository.create({
+            name: 'Gaming Laptop',
+            price: 1200,
+            createdBy: user1._id
+        });
 
-  const fetchedUser2 = await UserRepository.findById(user2._id);
-  console.log("USER FETCHED:", fetchedUser2);
+        await ProductRepository.create({
+            name: 'Wireless Mouse',
+            price: 25,
+            createdBy: user2._id
+        });
 
-  /* 🔹 Create Product */
-  const product = await ProductRepository.create({
-    name: "Laptop",
-    price: 1500,
-    createdBy: user._id
-  });
+        await ProductRepository.create({
+            name: 'HD Monitor',
+            price: 300,
+            createdBy: user1._id
+        });
 
-  console.log("PRODUCT CREATED:", product);
+        console.log('Created 3 products');
+        process.exit(0);
 
-    const product2 = await ProductRepository.create({
-    name: "iPhone",
-    price: 4500,
-    createdBy: user2._id
-  });
+    } catch (error) {
+        console.error('Seeding failed:', error);
+        process.exit(1);
+    }
+};
 
-  console.log("PRODUCT CREATED:", product2);
-
-  process.exit(0);
-}
-
-test().catch(console.error);
+seedDatabase();

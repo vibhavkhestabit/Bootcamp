@@ -25,6 +25,9 @@ class ProductRepository {
   delete(id) {
     return Product.findByIdAndDelete(id);
   }
+  deleteMany(filter) {
+    return User.deleteMany(filter);
+  }
 }
 
 export default new ProductRepository();

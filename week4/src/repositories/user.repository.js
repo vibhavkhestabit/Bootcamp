@@ -25,6 +25,7 @@ class UserRepository {
   delete(id) {
     return User.findByIdAndDelete(id);
   }
+  
 }
 
 export default new UserRepository();
