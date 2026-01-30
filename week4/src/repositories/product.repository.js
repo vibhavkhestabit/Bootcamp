@@ -5,28 +5,44 @@ class ProductRepository {
     return Product.create(data);
   }
 
-  findById(id) {
-    return Product.findById(id);
-  }
-
-  findPaginated({ page = 1, limit = 10 }) {
+  // 🔹 The "Engine" method that was missing
+  async findAdvanced({ filters = {}, sort = { createdAt: -1 }, page = 1, limit = 10 }) {
     const skip = (page - 1) * limit;
 
-    return Product.find()
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
+    // Running find and count in parallel for high performance
+    const [data, total] = await Promise.all([
+      Product.find(filters).sort(sort).skip(skip).limit(limit),
+      Product.countDocuments(filters)
+    ]);
+
+    return { data, total, page, limit };
+  }
+
+  // 🔹 Added for Day 3 Soft Delete
+  softDelete(id) {
+    return Product.findByIdAndUpdate(
+      id, 
+      { deletedAt: new Date() }, 
+      { new: true }
+    );
+  }
+
+  findById(id, includeDeleted = false) {
+    const query = { _id: id };
+    if (!includeDeleted) query.deletedAt = null;
+    return Product.findOne(query);
   }
 
   update(id, data) {
-    return Product.findByIdAndUpdate(id, data, { new: true });
+    return Product.findOneAndUpdate(
+      { _id: id, deletedAt: null }, 
+      data, 
+      { new: true }
+    );
   }
 
-  delete(id) {
-    return Product.findByIdAndDelete(id);
-  }
   deleteMany(filter) {
-    return User.deleteMany(filter);
+    return Product.deleteMany(filter);
   }
 }
 

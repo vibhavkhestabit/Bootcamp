@@ -38,8 +38,8 @@ const seedDatabase = async () => {
         });
 
         await ProductRepository.create({
-            name: 'Wireless Mouse',
-            price: 25,
+            name: 'Wireless Laptop',
+            price: 600,
             createdBy: user2._id
         });
 
