@@ -1,44 +1,36 @@
 import ProductService from "../services/product.service.js";
 
-// 🔹 CREATE
-export const createProduct = async (req, res) => {
-  const product = await ProductService.createProduct(req.body);
-
-  res.status(201).json({
-    success: true,
-    data: product,
-  });
+/**
+ * POST /api/products
+ */
+export const createProduct = async (req, res, next) => {
+  const product = await ProductService.createProduct(req.validated.body);
+  res.status(201).json({ success: true, data: product });
 };
 
-// 🔹 READ (With Query Engine)
-export const getProducts = async (req, res) => {
-  const result = await ProductService.getAllProducts(req.query);
-
-  res.status(200).json({
-    success: true,
-    ...result,
-  });
+/**
+ * GET /api/products
+ */
+export const getProducts = async (req, res, next) => {
+  const result = await ProductService.getAllProducts(req.validated.query);
+  res.status(200).json({ success: true, ...result });
 };
 
-// 🔹 UPDATE
-export const updateProduct = async (req, res) => {
+/**
+ * PATCH /api/products/:id
+ */
+export const updateProduct = async (req, res, next) => {
   const product = await ProductService.updateProduct(
     req.params.id,
-    req.body
+    req.validated.body
   );
-
-  res.status(200).json({
-    success: true,
-    data: product,
-  });
+  res.status(200).json({ success: true, data: product });
 };
 
-// 🔹 DELETE (Soft Delete)
-export const deleteProduct = async (req, res) => {
+/**
+ * DELETE /api/products/:id
+ */
+export const deleteProduct = async (req, res, next) => {
   await ProductService.softDeleteProduct(req.params.id);
-
-  res.status(200).json({
-    success: true,
-    message: "Product moved to trash",
-  });
+  res.status(200).json({ success: true, message: "Product moved to trash" });
 };

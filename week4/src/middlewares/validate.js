@@ -1,22 +1,40 @@
-import Joi from "joi";
+import Joi from 'joi';
+import AppError from '../utils/appError.js';
 
-const validate = (schema, property = "body") => {
+/**
+ * DAY 4 - Validation Middleware
+ * Validates request body, query, and params against Joi schemas
+ */
+const validate = (schema) => {
   return (req, res, next) => {
-    const { error, value } = schema.validate(req[property], {
+    const toValidate = {};
+    
+    if (schema.body && req.body) toValidate.body = req.body;
+    if (schema.query && req.query) toValidate.query = req.query;
+    if (schema.params && req.params) toValidate.params = req.params;
+
+    const validationSchema = Joi.object({
+      body: schema.body || Joi.any(),
+      query: schema.query || Joi.any(),
+      params: schema.params || Joi.any(),
+    });
+
+    const { error, value } = validationSchema.validate(toValidate, {
       abortEarly: false,
       stripUnknown: true,
+      errors: { label: 'key' },
     });
 
     if (error) {
-      return next({
-        statusCode: 400,
-        message: "Validation failed",
-        code: "VALIDATION_ERROR",
-        details: error.details.map(d => d.message),
-      });
+      const errorMessage = error.details.map(d => d.message).join(', ');
+      return next(new AppError(errorMessage, 400, "VALIDATION_ERROR"));
     }
 
-    req[property] = value; // sanitized input
+    if (!req.validated) req.validated = {};
+    if (value.body) req.validated.body = value.body;
+    if (value.query) req.validated.query = value.query;
+    if (value.params) req.validated.params = value.params;
+
     next();
   };
 };

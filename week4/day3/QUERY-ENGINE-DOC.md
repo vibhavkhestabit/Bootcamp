@@ -1,6 +1,6 @@
-# Query Engine Documentation Documentation
+# Query Engine Documentation
 
-We are going to summarize our learnings for advance query searching and fucntionality which we have covered in Day 3 to support real world production level queries.
+We are going to summarize our learnings for advance query searching and functionality which we have covered in Day 3 to support real world production level queries.
 
 These learnings include:
 - Searching

@@ -15,28 +15,16 @@ import {
 
 const router = Router();
 
-// 🔹 POST /api/products - Create a product
-router.post(
-  "/",
-  validate(createProductSchema),
-  createProduct
-);
+// POST /api/products
+router.post("/", validate(createProductSchema), createProduct);
 
-// 🔹 GET /api/products - Get all with filters/pagination
-router.get(
-  "/",
-  validate(listProductSchema, "query"),
-  getProducts
-);
+// GET /api/products
+router.get("/", validate(listProductSchema, "query"), getProducts);
 
-// 🔹 PATCH /api/products/:id - Update specific product
-router.patch(
-  "/:id",
-  validate(updateProductSchema),
-  updateProduct
-);
+// PATCH /api/products/:id
+router.patch("/:id", validate(updateProductSchema), updateProduct);
 
-// 🔹 DELETE /api/products/:id - Soft delete product
+// DELETE /api/products/:id
 router.delete("/:id", deleteProduct);
 
 export default router;
