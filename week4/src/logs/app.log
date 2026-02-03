@@ -101,3 +101,20 @@
 2026-02-03T12:59:14.273Z [INFO]: Server started on port 4000
 2026-02-03T13:00:15.607Z [INFO]: Database connected
 2026-02-03T13:00:15.612Z [INFO]: Server started on port 4000
+2026-02-03 19:33:57 [INFO]: Database connected
+2026-02-03 19:33:57 [INFO]: Server started on port 4000
+2026-02-03 19:35:06 [ID: d038f88b-a62c-4c70-a93b-a3c0a1ef7326] [INFO]: GET /api/products
+2026-02-03 19:35:06 [ID: d038f88b-a62c-4c70-a93b-a3c0a1ef7326] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-03 19:42:00 [INFO]: Database connected
+2026-02-03 19:42:00 [INFO]: Server started on port 4000
+2026-02-03 19:48:35 [INFO]: Database connected
+2026-02-03 19:48:35 [INFO]: Server started on port 4000
+2026-02-03 19:49:14 [ID: e117a4b1-bb65-4761-be0a-9979b9839d74] [INFO]: GET /api/products
+2026-02-03 19:49:14 [ID: e117a4b1-bb65-4761-be0a-9979b9839d74] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-03 19:53:49 [ID: 204107be-5462-46c3-b86b-faf02f0796bd] [INFO]: GET /api/products
+2026-02-03 19:53:49 [ID: 204107be-5462-46c3-b86b-faf02f0796bd] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-03 19:57:09 [ID: 775bc775-ccdd-484e-8049-e8981b550084] [INFO]: POST /api/products/
+2026-02-03 19:57:10 [ID: 775bc775-ccdd-484e-8049-e8981b550084] [INFO]: Product created: 698205bd34c737a52e9d3fc8 by user: anonymous
+2026-02-03 19:57:10 [INFO]: [Worker] Starting email job 1 for recipient: inventory@store.com
+2026-02-03 19:57:11 [INFO]: [Worker] Email payload delivered for job 1
+2026-02-03 19:57:11 [INFO]: Job 1 (Email) has successfully completed.

@@ -1,7 +1,7 @@
 import path from "path";
 import dotenv from "dotenv";
 
-const NODE_ENV = process.env.environment|| "local";
+const NODE_ENV = process.env.environment || "local";
 
 const envFileMap = {
   local: ".env.local",
@@ -31,6 +31,8 @@ const config = {
   env: NODE_ENV,
   port: Number(process.env.PORT),
   dbUri: process.env.DB_URI,
+  // Added for Day 5 Logging requirements
+  logLevel: process.env.LOG_LEVEL || "info",
 };
 
 export default config;
