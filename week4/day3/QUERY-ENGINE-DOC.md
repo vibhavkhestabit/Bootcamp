@@ -52,9 +52,7 @@ To make an advanced query we used min price, max price, search operation, filter
 
 Error handling is handled by middlewares/error.middleware.js
 
-We have also used pre-save hooks, virtual and compound undexes which help us retrieve only required information and not the entire files.
-
-Soft deletes avoid costly remove operations.
+We have also used pre-save hooks, virtual and compound undexes which help us retrieve only required information and not the entire files. Soft deletes avoid costly remove operations.
 
 Day 3 focused on designing and implementing production-grade REST APIs that go far beyond basic CRUD operations. By the end of this day, we built a scalable, extensible, and performant Product API using a clean Controller → Service → Repository architecture.
 
