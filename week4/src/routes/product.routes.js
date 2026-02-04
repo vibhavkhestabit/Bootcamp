@@ -15,16 +15,12 @@ import {
 
 const router = Router();
 
-// POST /api/products
 router.post("/", validate(createProductSchema), createProduct);
 
-// GET /api/products
 router.get("/", validate(listProductSchema, "query"), getProducts);
 
-// PATCH /api/products/:id
 router.patch("/:id", validate(updateProductSchema), updateProduct);
 
-// DELETE /api/products/:id
 router.delete("/:id", deleteProduct);
 
 export default router;

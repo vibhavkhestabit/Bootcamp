@@ -1,10 +1,7 @@
 import Joi from 'joi';
 import AppError from '../utils/appError.js';
 
-/**
- * DAY 4 - Validation Middleware
- * Validates request body, query, and params against Joi schemas
- */
+
 const validate = (schema) => {
   return (req, res, next) => {
     const toValidate = {};

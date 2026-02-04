@@ -8,6 +8,6 @@ export default async function connectDB() {
     logger.info("Database connected");
   } catch (error) {
     logger.error("Database connection failed");
-    throw error; // ❗ app must not start
+    throw error;
   }
 }

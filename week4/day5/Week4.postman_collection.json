@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "78bd8b4f-469c-4faf-ac51-1d97727c3c60",
+		"name": "Week4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "52067691",
+		"_collection_link": "https://vibhavk-hestabit-8576259.postman.co/workspace/Vibhav-Khaneja's-Workspace~de766ff8-3a68-424b-8fe9-301d46ee0af3/collection/52067691-78bd8b4f-469c-4faf-ac51-1d97727c3c60?action=share&source=collection_link&creator=52067691"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "AddProduct",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"iPhone 15 Pro Max\",\n  \"price\": 1299,\n  \"category\": \"Electronics\",\n  \"tags\": [\"apple\", \"smartphone\", \"5g\"],\n  \"createdBy\": \"697b6c05c0e6810afe491147\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/products/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllProducts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_urf}}/api/products/:id",
+							"host": [
+								"{{base_urf}}"
+							],
+							"path": [
+								"api",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6981eb4950514fe51113c30d",
+									"type": "text",
+									"description": "Deleting Object"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddProduct2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Asus Gaming Laptop\",\n  \"price\": 560000,\n  \"category\": \"laptop\",\n  \"tags\": [\"Asus\", \"laptop\", \"6g\"],\n  \"createdBy\": \"697b6c05c0e6810afe491147\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_urf}}/api/products",
+							"host": [
+								"{{base_urf}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updation",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": 600000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_urf}}/api/products/:id",
+							"host": [
+								"{{base_urf}}"
+							],
+							"path": [
+								"api",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6982f26588a57b205ba688d3",
+									"description": "Updating Content"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ConditionalSearch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_urf}}/api/products?minPrice=500&search=Samsung",
+							"host": [
+								"{{base_urf}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "500"
+								},
+								{
+									"key": "search",
+									"value": "Samsung"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InlcudeDeleted",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

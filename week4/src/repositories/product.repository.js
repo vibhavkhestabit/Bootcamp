@@ -5,11 +5,9 @@ class ProductRepository {
     return Product.create(data);
   }
 
-  // 🔹 The "Engine" method that was missing
-  async findAdvanced({ filters = {}, sort = { createdAt: -1 }, page = 1, limit = 10 }) {
+  async findAdvanced({ filters = {}, sort = { createdAt: -1 }, page = 1, limit = 20 }) {
     const skip = (page - 1) * limit;
 
-    // Running find and count in parallel for high performance
     const [data, total] = await Promise.all([
       Product.find(filters).sort(sort).skip(skip).limit(limit),
       Product.countDocuments(filters)
@@ -18,7 +16,6 @@ class ProductRepository {
     return { data, total, page, limit };
   }
 
-  // 🔹 Added for Day 3 Soft Delete
   softDelete(id) {
     return Product.findByIdAndUpdate(
       id, 

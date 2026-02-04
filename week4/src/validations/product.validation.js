@@ -2,9 +2,6 @@ import Joi from "joi";
 
 const objectId = Joi.string().hex().length(24);
 
-/**
- * POST /api/products
- */
 export const createProductSchema = {
   body: Joi.object({
     name: Joi.string().trim().min(2).max(100).required(),
@@ -15,9 +12,6 @@ export const createProductSchema = {
   }),
 };
 
-/**
- * GET /api/products
- */
 export const listProductSchema = {
   query: Joi.object({
     search: Joi.string().trim().allow(""),
@@ -25,14 +19,11 @@ export const listProductSchema = {
     maxPrice: Joi.number().min(0),
     sort: Joi.string().pattern(/^[a-zA-Z]+:(asc|desc)$/),
     page: Joi.number().integer().min(1).default(1),
-    limit: Joi.number().integer().min(1).max(100).default(10),
+    limit: Joi.number().integer().min(1).max(100).default(20),
     includeDeleted: Joi.boolean().default(false),
   }),
 };
 
-/**
- * PATCH /api/products/:id
- */
 export const updateProductSchema = {
   body: Joi.object({
     name: Joi.string().trim().min(2).max(100),

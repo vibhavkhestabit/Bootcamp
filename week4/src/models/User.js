@@ -43,19 +43,16 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-/* 🔹 Pre-save hook (hash password) */
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-/* 🔹 Virtual field */
 userSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;
 });
 
-/* 🔹 Compound index */
 userSchema.index({ status: 1, createdAt: -1 });
 
 export default mongoose.model("User", userSchema);

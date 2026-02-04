@@ -24,7 +24,7 @@ class ProductService {
     }
 
     // 3. Soft Delete logic
-    if (includeDeleted !== "true") filters.deletedAt = null;
+    if (includeDeleted !== "true" && includeDeleted !== true) filters.deletedAt = null;
 
     // 4. Sort parsing (e.g., "price:desc")
     let sortObj = { createdAt: -1 };
@@ -37,7 +37,7 @@ class ProductService {
       filters,
       sort: sortObj,
       page: Number(page) || 1,
-      limit: Number(limit) || 10
+      limit: Number(limit) || 20
     });
   }
 
