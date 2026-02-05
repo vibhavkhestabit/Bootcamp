@@ -1,0 +1,41 @@
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: my-mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - day2
+
+  server:
+    build: ./server
+    container_name: my-server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/testdb 
+    networks:
+      - day2  
+
+  client:
+    build: ./client
+    container_name: my-client
+    ports:
+      - "3001:3000"
+    depends_on:
+      - server
+    stdin_open: true
+    tty: true
+    networks:
+      - day2 
+
+volumes:
+  mongo-data:
+
+networks:
+  day2:
+    driver: bridge
