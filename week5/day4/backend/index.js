@@ -4,7 +4,6 @@ import os from 'os';
 const app = express();
 const PORT = 3000;
 
-// Get the Container ID (Hostname) to prove Load Balancing works
 const containerID = os.hostname();
 
 app.get('/', (req, res) => {
