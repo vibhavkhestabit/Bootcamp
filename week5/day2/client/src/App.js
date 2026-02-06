@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './App.css'; // <--- THIS WAS MISSING!
+import './App.css';
 
 function App() {
   const [message, setMessage] = useState('Loading...');

@@ -26,7 +26,7 @@ Compose ensures **consistency and persistence** by defining volumes that keep da
 
 ## Docker Network
 
-Docker Networking Docker networking enables containers to communicate with each other securely, isolated from the host machine. In our setup, Docker Compose creates a network that provides automatic DNS resolution, allowing the backend to find the database simply by using its service name instead of dealing with IP addresses.
+Docker networking enables containers to communicate with each other securely, isolated from the host machine. In our setup, Docker Compose creates a network that provides automatic DNS resolution, allowing the backend to find the database simply by using its service name instead of dealing with IP addresses.
 
 If we don't add a network manually, Docker Compose automatically creates a default network for the project and joins all services to it, enabling them to communicate seamlessly using their service names as hostnames.
 
