@@ -4,16 +4,15 @@ import os from 'os';
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
-    // Gets the Container ID (e.g., "8a7b9c...")
+app.get('/api', (req, res) => {
     const containerID = os.hostname();
     
     console.log(`Request served by container: ${containerID}`);
     
     res.send(`
         <div style="font-family: sans-serif; text-align: center; padding: 50px;">
-            <h1>Load Balancing Demo</h1>
-            <p>Response served by Container ID:</p>
+            <h1>Day 3 Task Completion</h1>
+            <p>Week 5 Day 3, Using Ngnix Load Balancer to replicate instances and this is our container id:</p>
             <h2 style="color: blue; border: 2px solid blue; display: inline-block; padding: 10px;">${containerID}</h2>
         </div>
     `);

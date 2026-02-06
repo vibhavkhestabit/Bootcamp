@@ -1,5 +1,4 @@
 services:
-  # The Backend Fleet (2 Instances)
   backend:
     build: ./backend
     deploy:
@@ -7,12 +6,11 @@ services:
     networks:
       - day3_net
 
-  # The Load Balancer
   nginx:
     image: nginx:latest
     container_name: load-balancer
     ports:
-      - "8080:80" # Maps localhost:8080 -> Container:80
+      - "8080:80" 
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
