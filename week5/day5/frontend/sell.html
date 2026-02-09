@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sell Your Sneaker - Sneaker Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-container { max-width: 500px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <h1>Sneaker <span>Hub</span></h1>
+    </header>
+
+    <nav class="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Buy Sneakers</a></li>
+            <li><a href="sell.html" class="active" style="color:#ff3f6c">Sell Sneaker</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </nav>
+
+    <main class="main" style="grid-column: 1 / -1;">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 20px;">List Your Sneaker</h2>
+            <form id="sellForm">
+                
+                <div class="form-group">
+                    <label>Sneaker Name</label>
+                    <input type="text" name="name" placeholder="e.g. Air Jordan 1 Retro" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Brand</label>
+                    <select name="brand" required>
+                        <option value="Nike">Nike</option>
+                        <option value="Adidas">Adidas</option>
+                        <option value="Puma">Puma</option>
+                        <option value="New Balance">New Balance</option>
+                        <option value="Converse">Converse</option>
+                        <option value="Vans">Vans</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <label>Price (₹)</label>
+                        <input type="number" name="price" placeholder="4999" required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Size (UK)</label>
+                        <input type="number" name="size" placeholder="9" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" name="image" placeholder="https://example.com/shoe.jpg" required>
+                    <small style="color: #666;">Paste a link to the image.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Condition</label>
+                    <select name="condition" id="conditionSelect" onchange="toggleAgeField()">
+                        <option value="New">Brand New</option>
+                        <option value="Refurbished">Refurbished / Used</option>
+                    </select>
+                </div>
+
+                <div class="form-group hidden" id="ageGroup">
+                    <label>How old is it?</label>
+                    <input type="text" name="age" placeholder="e.g. 6 months, 1 year">
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="3" placeholder="Tell us about the shoe..."></textarea>
+                </div>
+
+                <button type="submit" class="cta" style="width: 100%;">Post Ad</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="banner">Join our community of sneakerheads!</footer>
+</div>
+
+<script>
+    function toggleAgeField() {
+        const condition = document.getElementById('conditionSelect').value;
+        const ageGroup = document.getElementById('ageGroup');
+        if (condition === 'Refurbished') {
+            ageGroup.classList.remove('hidden');
+        } else {
+            ageGroup.classList.add('hidden');
+        }
+    }
+
+    document.getElementById('sellForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const res = await fetch('/api/products', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                alert(' Sneaker Listed Successfully!');
+                window.location.href = 'products.html'; 
+            } else {
+                const err = await res.json();
+                alert(' Error: ' + err.error);
+            }
+        } catch (err) {
+            alert(' Server Error. Is Backend running?');
+        }
+    });
+</script>
+</body>
+</html>

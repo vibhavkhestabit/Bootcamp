@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Sneakers - Sneaker Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .badge { position: absolute; top: 10px; right: 10px; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; z-index: 5;}
+        .badge-new { background: #28a745; color: white; }
+        .badge-used { background: #ffc107; color: #333; }
+        
+        .filters { margin: 20px 0; display: flex; gap: 10px; }
+        .product { position: relative; }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <h1>Sneaker <span>Hub</span></h1>
+    </header>
+
+    <nav class="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html" class="active">Buy Sneakers</a></li>
+            <li><a href="sell.html">Sell Sneaker</a></li>
+            <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
+        </ul>
+    </nav>
+
+    <main class="main" style="grid-column: 1 / -1;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Fresh Drops & Community Listings</h2>
+            <div class="filters">
+                <select id="sortSelect" onchange="loadProducts()">
+                    <option value="newest">Newest First</option>
+                    <option value="rating_desc">Highest Rated ⭐</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                </select>
+            </div>
+        </div>
+
+        <section class="product-list" id="product-grid">
+            <div class="loader"></div>
+        </section>
+    </main>
+
+    <footer class="banner">Authenticated. Verified. Fast Shipping.</footer>
+</div>
+
+<script>
+    async function loadProducts() {
+        const sort = document.getElementById('sortSelect').value;
+        const container = document.getElementById('product-grid');
+        
+        // Loader
+        container.innerHTML = '<div class="loader"></div>';
+
+        try {
+            const res = await fetch(`/api/products?sort=${sort}`);
+            const products = await res.json();
+            
+            container.innerHTML = ''; 
+
+            if(products.length === 0) {
+                container.innerHTML = '<p>No products found.</p>';
+                return;
+            }
+
+            products.forEach(p => {
+                const isRefurbished = p.condition === 'Refurbished';
+                const badgeClass = isRefurbished ? 'badge-used' : 'badge-new';
+                const badgeText = isRefurbished ? 'Pre-Owned' : 'New';
+                const ageText = isRefurbished ? `<br><small style="color:#666">Age: ${p.age}</small>` : '';
+                
+                // Check if rating exists, otherwise show default or 'New'
+                const ratingValue = p.rating !== undefined ? p.rating : '4.5';
+
+                const card = `
+                    <div class="product">
+                        <span class="badge ${badgeClass}">${badgeText}</span>
+                        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'">
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 5px;">
+                            <h3 style="margin: 0; font-size: 1.1em;">${p.name}</h3>
+                            <div style="background: #e6f7e9; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.85em; color: #28a745; white-space: nowrap;">
+                                ⭐ ${ratingValue}
+                            </div>
+                        </div>
+
+                        <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">${p.description}</p>
+                        ${ageText}
+                        
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+                            <strong style="color: #ff3f6c; font-size: 1.1em;">₹${p.price}</strong>
+                            <button class="cta" onclick="addToCart('${p._id}', '${p.name}', ${p.price}, '${p.image}')" style="padding: 8px 12px; font-size: 0.9em;">Add +</button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = '<p style="color:red">Failed to load. Is Backend running?</p>';
+        }
+    }
+
+    // --- Cart Functions ---
+    function addToCart(id, name, price, image) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push({ id, name, price, image });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        alert(name + " added to cart!");
+    }
+
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+    }
+
+    loadProducts(); 
+    updateCartCount();
+</script>
+</body>
+</html>

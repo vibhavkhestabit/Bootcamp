@@ -1,0 +1,57 @@
+services:
+  # 1. The Database (MongoDB)
+  mongo:
+    image: mongo:latest
+    container_name: sneaker_mongo
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app_net
+
+  # 2. The Backend API (Node.js)
+  backend:
+    build: ./backend
+    container_name: sneaker_backend
+    restart: always
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/sneaker-hub
+      - PORT=3000
+    depends_on:
+      - mongo
+    networks:
+      - app_net
+
+  # 3. The Frontend UI (Node.js HTTP Server)
+  frontend:
+    build: ./frontend
+    container_name: sneaker_frontend
+    restart: always
+    volumes:
+      # Map local folder to the Node app folder for LIVE EDITING
+      - ./frontend:/app
+    networks:
+      - app_net
+
+  # 4. The Gateway (Public NGINX)
+  gateway:
+    image: nginx:latest
+    container_name: sneaker_gateway
+    ports:
+      - "80:80"    # HTTP
+      - "443:443"  # HTTPS
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge
+
+volumes:
+  mongo_data:
