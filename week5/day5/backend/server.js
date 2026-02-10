@@ -5,9 +5,8 @@ const router = express.Router();
 
 router.get('/products', async (req, res) => {
     try {
-        let sortQuery = { createdAt: -1 }; // Default: Newest
+        let sortQuery = { createdAt: -1 }; 
 
-        // Add Rating Sort
         if (req.query.sort === 'rating_desc') {
             sortQuery = { rating: -1 };
         } else if (req.query.sort === 'price_asc') {
@@ -16,7 +15,6 @@ router.get('/products', async (req, res) => {
             sortQuery = { price: -1 };
         }
 
-        // FILTER: Only show items where isDeleted is NOT true
         const products = await Product.find({ isDeleted: { $ne: true } }).sort(sortQuery);
         res.status(200).json(products);
     } catch (err) {
