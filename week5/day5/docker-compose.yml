@@ -1,4 +1,5 @@
 services:
+  # 1. The Database (MongoDB)
   mongo:
     image: mongo:latest
     container_name: sneaker_mongo
@@ -7,6 +8,12 @@ services:
       - mongo_data:/data/db
     networks:
       - app_net
+    # ✅ LOG ROTATION
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -14,6 +21,7 @@ services:
       retries: 5
       start_period: 5s
 
+  # 2. The Backend API (Node.js)
   backend:
     build: ./backend
     container_name: sneaker_backend
@@ -26,6 +34,12 @@ services:
         condition: service_healthy
     networks:
       - app_net
+    # ✅ LOG ROTATION
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/products"]
       interval: 10s
@@ -33,6 +47,7 @@ services:
       retries: 3
       start_period: 5s
 
+  # 3. The Frontend UI (Node.js HTTP Server)
   frontend:
     build: ./frontend
     container_name: sneaker_frontend
@@ -41,12 +56,19 @@ services:
       - ./frontend:/app
     networks:
       - app_net
+    # ✅ LOG ROTATION
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:80"]
       interval: 10s
       timeout: 5s
       retries: 3
 
+  # 4. The Gateway (Public NGINX)
   gateway:
     image: nginx:latest
     container_name: sneaker_gateway
@@ -63,6 +85,12 @@ services:
         condition: service_healthy
     networks:
       - app_net
+    # ✅ LOG ROTATION
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   app_net:
