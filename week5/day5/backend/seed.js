@@ -14,7 +14,7 @@ const initialProducts = [
         size: 9,
         image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=500&q=80",
         condition: "New",
-        rating: 4.6, // 
+        rating: 4.6, 
         description: "Chunky design with street influence."
     },
     {
@@ -24,7 +24,7 @@ const initialProducts = [
         size: 10,
         image: "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=500&q=80",
         condition: "New",
-        rating: 4.9, // ⭐⭐
+        rating: 4.9, 
         description: "Iconic silhouette loved worldwide."
     },
     {
@@ -84,7 +84,7 @@ const initialProducts = [
         size: 10,
         image: "https://images.unsplash.com/photo-1588117260148-447884962ca5?auto=format&fit=crop&w=500&q=80",
         condition: "New",
-        rating: 5.0, // ⭐⭐⭐⭐⭐
+        rating: 5.0,
         description: "Ultimate comfort and hype."
     }
 ];

@@ -1,142 +1,231 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Sneaker Hub</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sneaker Hub</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <h1>Sneaker <span>Hub</span></h1>
+      </header>
 
-<div class="page">
-  <header class="header">
-    <h1>Sneaker <span>Hub</span></h1>
-  </header>
+      <nav class="menu">
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="products.html">Buy Sneakers</a></li>
+          <li><a href="sell.html">Sell Sneaker</a></li>
+          <li><a href="cart.html">Cart</a></li>
+        </ul>
+      </nav>
 
-  <nav class="menu">
-    <ul>
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="products.html">Buy Sneakers</a></li>
-      <li><a href="sell.html">Sell Sneaker</a></li>
-      <li><a href="cart.html">Cart</a></li>
-    </ul>
-  </nav>
+      <section class="hero">
+        <div class="hero-text">
+          <h2>Step Into Style</h2>
+          <p class="subtitle">
+            Discover iconic sneakers from top global brands.
+          </p>
 
-  <section class="hero">
-    <div class="hero-text">
-      <h2>Step Into Style</h2>
-      <p class="subtitle">
-        Discover iconic sneakers from top global brands.
-      </p>
+          <div class="hero-actions">
+            <button
+              class="cta"
+              onclick="window.location.href = 'products.html'"
+            >
+              Shop Now
+            </button>
+            <button
+              class="cta secondary"
+              onclick="window.location.href = 'products.html?sort=newest'"
+            >
+              View New Drops
+            </button>
+          </div>
 
-      <div class="hero-actions">
-        <button class="cta" onclick="window.location.href='products.html'">Shop Now</button>
-        <button class="cta secondary" onclick="window.location.href='products.html?sort=newest'">View New Drops</button>
-      </div>
-
-      <div class="hero-stats">
-        <div>
-          <strong>500+</strong>
-          <span>Styles</span>
+          <div class="hero-stats">
+            <div>
+              <strong>500+</strong>
+              <span>Styles</span>
+            </div>
+            <div>
+              <strong>20+</strong>
+              <span>Brands</span>
+            </div>
+            <div>
+              <strong>24×7</strong>
+              <span>Support</span>
+            </div>
+          </div>
         </div>
-        <div>
-          <strong>20+</strong>
-          <span>Brands</span>
-        </div>
-        <div>
-          <strong>24×7</strong>
-          <span>Support</span>
-        </div>
-      </div>
+      </section>
+
+      <main class="main">
+        <h3 style="margin-bottom: 20px">Featured Drops</h3>
+        <section class="product-list" id="featured-products">
+          <div class="loader"></div>
+        </section>
+
+        <h3 style="margin-bottom: 20px; margin-top: 40px">Highly Rated</h3>
+        <section class="product-list" id="rated-products">
+          <div class="loader"></div>
+        </section>
+
+        <section class="brand-row">
+          <div class="brand-card">NIKE</div>
+          <div class="brand-card">ADIDAS</div>
+          <div class="brand-card">NEW BALANCE</div>
+          <div class="brand-card">CONVERSE</div>
+        </section>
+      </main>
+      <aside class="sidebar">
+        <section class="sidebar-card" style="text-align: center; padding: 20px">
+          <h3 style="color: #333; margin: 15px">Sell Your Kicks?</h3>
+          <p class="muted" style="margin-bottom: 10px">
+            Have a pair you don't wear? List them on our Refurbished
+            Marketplace.
+          </p>
+
+          <div style="display: flex; gap: 10px; margin-bottom: 10px">
+            <div
+              style="
+                flex: 1;
+                background: #f0f8ff;
+                padding: 10px;
+                border-radius: 6px;
+              "
+            >
+              <strong style="display: block; color: #007bff; font-size: 1.2em"
+                >24h</strong
+              >
+              <small>Avg Sale Time</small>
+            </div>
+            <div
+              style="
+                flex: 1;
+                background: #fff0f5;
+                padding: 10px;
+                border-radius: 6px;
+              "
+            >
+              <strong style="display: block; color: #ff3f6c; font-size: 1.2em"
+                >0%</strong
+              >
+              <small>Listing Fee</small>
+            </div>
+          </div>
+
+          <img
+            src="https://i.ytimg.com/vi/v7cp4fLQPLY/maxresdefault.jpg"
+            alt="Sneaker Resale"
+            style="
+              width: 100%;
+              border-radius: 8px;
+              margin-bottom: 10px;
+              border: 1px solid #eee;
+            "
+          />
+
+          <button
+            class="cta-green"
+            onclick="window.location.href = 'sell.html'"
+          >
+            Start Selling
+          </button>
+        </section>
+
+        <section
+          class="sidebar-card"
+          style="margin-top: 5px; text-align: center; padding: 25px 20px"
+        >
+          <h3 style="color: #333; margin-bottom: 5px">
+            Request Desired Article
+          </h3>
+          <p
+            class="muted"
+            style="font-size: 0.9em; margin-bottom: 15px; line-height: 1.4"
+          >
+            We source rare kicks on demand. Tell us what you need.
+          </p>
+
+          <input
+            type="text"
+            id="request-name"
+            placeholder="Sneaker Name (e.g. Yeezy)"
+            style="
+              width: 100%;
+              padding: 12px;
+              margin-bottom: 10px;
+              border: 1px solid #ddd;
+              border-radius: 6px;
+              box-sizing: border-box;
+              font-size: 14px;
+            "
+          />
+
+          <input
+            type="number"
+            id="request-size"
+            placeholder="Size (UK) e.g. 9"
+            style="
+              width: 100%;
+              padding: 12px;
+              margin-bottom: 15px;
+              border: 1px solid #ddd;
+              border-radius: 6px;
+              box-sizing: border-box;
+              font-size: 14px;
+            "
+          />
+
+          <button class="cta-green" onclick="submitRequest()">
+            Submit Request
+          </button>
+        </section>
+      </aside>
+
+      <footer class="banner">Free shipping on orders over ₹1999</footer>
     </div>
-  </section>
 
-  <main class="main">
-    <h3 style="margin-bottom: 20px;">Featured Drops</h3>
-    <section class="product-list" id="featured-products">
-        <div class="loader"></div>
-    </section>
-
-    <h3 style="margin-bottom: 20px; margin-top: 40px;">Highly Rated 🔥</h3>
-    <section class="product-list" id="rated-products">
-        <div class="loader"></div>
-    </section>
-
-    <section class="brand-row">
-      <div class="brand-card">NIKE</div>
-      <div class="brand-card">ADIDAS</div>
-      <div class="brand-card">NEW BALANCE</div>
-      <div class="brand-card">CONVERSE</div>
-    </section>
-  </main>
-
-  <aside class="sidebar">
-    <section class="sidebar-card" style="text-align: center; padding: 20px;">
-      <h3 style="color: #333; margin: 15px;">Sell Your Kicks?</h3>
-      <p class="muted" style="margin-bottom: 15px; margin-top: 15px;">
-        Have a pair you don't wear? List them on our Refurbished Marketplace.
-      </p>
-
-      <div style="display: flex; gap: 10px; margin-top: 15px; margin-bottom: 15px;">
-        <div style="flex: 1; background: #f0f8ff; padding: 10px; border-radius: 6px;">
-            <strong style="display: block; color: #007bff; font-size: 1.2em;">24h</strong>
-            <small>Avg Sale Time</small>
-        </div>
-        <div style="flex: 1; background: #fff0f5; padding: 10px; border-radius: 6px;">
-            <strong style="display: block; color: #ff3f6c; font-size: 1.2em;">0%</strong>
-            <small>Listing Fee</small>
-        </div>
-      </div>
-
-      <img src="https://i.ytimg.com/vi/v7cp4fLQPLY/maxresdefault.jpg" 
-           alt="Sneaker Resale" 
-           style="width: 100%; border-radius: 8px; margin-top: 15px; margin-bottom: 15px; border: 1px solid #eee;">
-
-      <button class="cta-green" onclick="window.location.href='sell.html'">Start Selling</button>
-    </section>
-  </aside>
-
-  <footer class="banner">
-    Free shipping on orders over ₹1999
-  </footer>
-</div>
-
-<script>
-    async function loadHomePage() {
+    <script>
+      async function loadHomePage() {
         try {
-            // 1. Fetch ALL products (Sorted by newest)
-            const res = await fetch('/api/products?sort=newest');
-            const products = await res.json();
-            
-            // --- Row 1: Featured (First 4 newest) ---
-            const featuredContainer = document.getElementById('featured-products');
-            featuredContainer.innerHTML = '';
-            
-            if(!Array.isArray(products)) {
-                 featuredContainer.innerHTML = '<p>Error loading products.</p>';
-                 return;
-            }
-            // Take first 4
-            products.slice(0, 4).forEach(p => featuredContainer.innerHTML += createCard(p));
+          // 1. Fetch ALL products (Sorted by newest)
+          const res = await fetch("/api/products?sort=newest");
+          const products = await res.json();
 
-            // --- Row 2: Highly Rated (Sort by Rating logic) ---
-            // Clone array and sort: Highest rating (5.0) to Lowest (0)
-            const ratedProducts = [...products].sort((a, b) => (b.rating || 0) - (a.rating || 0));
-            
-            const ratedContainer = document.getElementById('rated-products');
-            ratedContainer.innerHTML = '';
-            // Take top 4 rated
-            ratedProducts.slice(0, 4).forEach(p => ratedContainer.innerHTML += createCard(p));
+          // --- Row 1: Featured (First 4 newest) ---
+          const featuredContainer =
+            document.getElementById("featured-products");
+          featuredContainer.innerHTML = "";
 
+          if (!Array.isArray(products)) {
+            featuredContainer.innerHTML = "<p>Error loading products.</p>";
+            return;
+          }
+          // Take first 4
+          products
+            .slice(0, 4)
+            .forEach((p) => (featuredContainer.innerHTML += createCard(p)));
+
+          const ratedProducts = [...products].sort(
+            (a, b) => (b.rating || 0) - (a.rating || 0),
+          );
+
+          const ratedContainer = document.getElementById("rated-products");
+          ratedContainer.innerHTML = "";
+          // Take top 4 rated
+          ratedProducts
+            .slice(0, 4)
+            .forEach((p) => (ratedContainer.innerHTML += createCard(p)));
         } catch (err) {
-            console.error(err);
+          console.error(err);
         }
-    }
+      }
 
-    // Helper to generate Card HTML
-    function createCard(p) {
-        // Fallback to 0 if rating is missing, so we know if data is bad
-        const rating = p.rating !== undefined ? p.rating : 'New'; 
-        
+      // Helper to generate Card HTML
+      function createCard(p) {
+        const rating = p.rating !== undefined ? p.rating : "New";
+
         return `
             <div class="product">
                 <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/150'">
@@ -148,14 +237,13 @@
                     </div>
                 </div>
                 
-                <p style="font-size: 0.9em; color: #666;">${p.description ? p.description.substring(0, 30) + '...' : ''}</p>
+                <p style="font-size: 0.9em; color: #666;">${p.description ? p.description.substring(0, 30) + "..." : ""}</p>
                 <strong style="color: #ff3f6c;">₹${p.price}</strong>
             </div>
         `;
-    }
+      }
 
-    loadHomePage();
-</script>
-
-</body>
+      loadHomePage();
+    </script>
+  </body>
 </html>

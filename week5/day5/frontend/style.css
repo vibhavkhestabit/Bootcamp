@@ -111,7 +111,7 @@
 .badge-used { background: #ffc107; color: #333; }
 
 .cta-green {
-  background: #28a745; /* Bootstrap Green */
+  background: #28a745; 
   color: white;
   border: none;
   padding: 12px 20px;

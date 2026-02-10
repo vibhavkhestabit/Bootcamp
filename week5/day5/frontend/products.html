@@ -35,7 +35,7 @@
             <div class="filters">
                 <select id="sortSelect" onchange="loadProducts()">
                     <option value="newest">Newest First</option>
-                    <option value="rating_desc">Highest Rated ⭐</option>
+                    <option value="rating_desc">Highest Rated </option>
                     <option value="price_asc">Price: Low to High</option>
                     <option value="price_desc">Price: High to Low</option>
                 </select>
@@ -55,7 +55,6 @@
         const sort = document.getElementById('sortSelect').value;
         const container = document.getElementById('product-grid');
         
-        // Loader
         container.innerHTML = '<div class="loader"></div>';
 
         try {
@@ -75,7 +74,6 @@
                 const badgeText = isRefurbished ? 'Pre-Owned' : 'New';
                 const ageText = isRefurbished ? `<br><small style="color:#666">Age: ${p.age}</small>` : '';
                 
-                // Check if rating exists, otherwise show default or 'New'
                 const ratingValue = p.rating !== undefined ? p.rating : '4.5';
 
                 const card = `
