@@ -36,7 +36,7 @@ def clean_data(df, drop_columns=None, missing_threshold=0.7):
     # --- STEP 3: Dynamic Column Dropping (Garbage Collection) ---
     missing_percent = df.isnull().mean()
     high_missing_cols = missing_percent[missing_percent > missing_threshold].index.tolist()
-    
+    path
     if high_missing_cols:
         print(f"Dropping columns with >{int(missing_threshold*100)}% missing: {high_missing_cols}")
         df = df.drop(columns=high_missing_cols)
