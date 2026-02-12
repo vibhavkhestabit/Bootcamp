@@ -86,11 +86,12 @@ Outlier detection identifies extreme values that deviate significantly from the 
 
 ### Z-score
 
-Z-score detects outliers by measuring how many standard deviations a value is from the mean. It is suitable only for approximately normally distributed data and is sensitive to extreme values.
+Z-score detects outliers by measuring how many standard deviations a value is from the mean. It is suitable only for approximately normally distributed data and is sensitive to extreme values. The dataset where bell curve is formed is suitable to be dealt with outliers using Z-score. 
 
 ### IQR
 
 IQR detects outliers using percentile-based boundaries derived from the middle 50% of the data. It is robust to skewed distributions and is preferred for real-world, non-normal datasets.
+We make four quartiles where Q1 is at 25th percentile and is the median for the lower value dataset, Q3 is at the 75th percentile and is the median for the higher dataset while Q2 is at 50th percentile and is the median for the entire dataset.
 
 ## Data Scaling
 Data scaling standardizes the range of numerical features so that all features contribute equally to model training. It is essential for distance-based and gradient-based algorithms.
@@ -137,3 +138,42 @@ Exploratory Data Analysis (EDA) is the process of understanding a dataset before
 6. Correlation Analysis: Correlation analysis is used to detect relationships and redundancy among features. Highly correlated features can cause multicollinearity and are often removed or combined.
 
 7. EDA-Driven Decisions: All insights from EDA are translated into concrete preprocessing and modeling decisions. EDA is considered complete only when it leads to clear, actionable outcomes.
+
+## EDA performed by us on Day 1
+
+1) Library Imports & Visualization Configuration and Loading Raw and Processed Datasets
+
+You import Pandas and NumPy for data handling, and Seaborn/Matplotlib for visualization. Plot styles and figure size are set globally so that all charts are clean, readable, and consistent throughout the analysis.
+
+You load the raw dataset (dataset.csv) and the processed dataset (final.csv). This allows you to compare how the data looks before cleaning and after preprocessing, which is important for validating whether the pipeline worked correctly.
+
+![ss](screenshots/day6-2.png)
+
+2) Missing Value Analysis and Missing Data Heatmap
+
+You calculate both the count and percentage of missing values in each column. This helps identify which features have data quality issues and whether some columns should be dropped or imputed during preprocessing.
+
+The heatmap visually shows where missing values occur across the dataset. Instead of reading numbers, this gives an instant understanding of patterns of missingness (random vs column-specific vs row-specific).
+
+![ss](screenshots/day6-3.png)
+
+3) Target Variable Distribution (Class Imbalance Check)
+
+Using a count plot on the Survived column, you analyze whether the dataset is imbalanced. This is critical because class imbalance can bias model training and may require techniques like class weights or SMOTE.
+
+![ss](screenshots/day6-4.png)
+
+4) Raw Feature Distribution and Processed Data Distribution Comparison
+
+Histograms of numeric features help you understand data spread, skewness, and outliers in the raw data. This step is essential for deciding whether scaling, transformation, or outlier handling is needed.
+
+You plot histograms again using the cleaned dataset. This confirms whether preprocessing steps like imputation or column removal changed the data distribution in a reasonable and expected way.
+
+![ss](screenshots/day6-5.png)
+![ss](screenshots/day6-6.png)
+
+5) Correlation Analysis
+
+The correlation matrix shows how numeric features relate to each other and to the target. This helps identify strong predictors, multicollinearity, and redundant features that may affect model performance.
+
+![ss](screenshots/day6-7.png)
