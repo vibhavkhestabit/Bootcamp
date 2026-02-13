@@ -184,3 +184,7 @@ Key idea: Highly correlated features carry similar information and can confuse t
 - Model interpretation
 - Created a reusable feature_list.json, enabling
 - Transparency in feature selection
+
+![ss](screenshots/ss1.png)
+![ss](screenshots/ss2.png)
+![ss](screenshots/ss3.png)
