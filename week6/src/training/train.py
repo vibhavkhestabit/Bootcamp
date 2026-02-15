@@ -39,12 +39,27 @@ def train_and_evaluate():
     X_train, X_test, y_train, y_test = load_data(DATA_DIR)
     print(f"Data loaded. Training size: {X_train.shape[0]} rows.")
 
-    # 2. Initialize Models
+# 2. Initialize Models (With Explicit Regularization visible!)
     models = {
-        "Logistic Regression": LogisticRegression(max_iter=1000, random_state=42),
-        "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
-        "XGBoost": XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42),
-        "Neural Network": MLPClassifier(max_iter=1000, random_state=42)
+        # Logistic Regression
+        # penalty='l2': Uses Ridge Regularization (The Equalizer)
+        # C=1.0: The strength. Smaller 'C' = Stronger Regularization (Simpler model).
+        "Logistic Regression": LogisticRegression(penalty='l2', C=1.0, max_iter=1000, random_state=42),
+
+        # Random Forest
+        # Regularization here is "Structural" (limiting tree growth)
+        # max_depth=None: No limit (Default). Setting this to 5 or 10 would regularize it.
+        # min_samples_leaf=1: Default. Increasing this prevents memorizing single rows.
+        "Random Forest": RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_leaf=1, random_state=42),
+
+        # XGBoost
+        # reg_lambda=1: L2 Regularization (Standard default).
+        # reg_alpha=0: L1 Regularization (Off by default).
+        "XGBoost": XGBClassifier(use_label_encoder=False, eval_metric='logloss', reg_lambda=1, reg_alpha=0, random_state=42),
+
+        # Neural Network
+        # alpha=0.0001: L2 Regularization penalty on the weights.
+        "Neural Network": MLPClassifier(alpha=0.0001, max_iter=1000, random_state=42)
     }
 
     results = {}
