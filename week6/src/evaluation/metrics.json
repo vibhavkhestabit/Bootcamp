@@ -1,30 +1,66 @@
 {
     "Logistic Regression": {
-        "Accuracy": 0.7989,
-        "Precision": 0.7714,
-        "Recall": 0.7297,
-        "F1_Score": 0.75,
-        "ROC_AUC": 0.883
+        "Training_Metrics": {
+            "Accuracy": 0.83,
+            "Precision": 0.8068,
+            "Recall": 0.7199,
+            "F1_Score": 0.7607,
+            "ROC_AUC": 0.8557
+        },
+        "Test_Metrics": {
+            "Accuracy": 0.7989,
+            "Precision": 0.7714,
+            "Recall": 0.7297,
+            "F1_Score": 0.75,
+            "ROC_AUC": 0.883
+        }
     },
     "Random Forest": {
-        "Accuracy": 0.8212,
-        "Precision": 0.7917,
-        "Recall": 0.7703,
-        "F1_Score": 0.7808,
-        "ROC_AUC": 0.9172
+        "Training_Metrics": {
+            "Accuracy": 0.816,
+            "Precision": 0.7771,
+            "Recall": 0.7161,
+            "F1_Score": 0.7452,
+            "ROC_AUC": 0.8489
+        },
+        "Test_Metrics": {
+            "Accuracy": 0.8212,
+            "Precision": 0.7917,
+            "Recall": 0.7703,
+            "F1_Score": 0.7808,
+            "ROC_AUC": 0.9172
+        }
     },
     "XGBoost": {
-        "Accuracy": 0.8268,
-        "Precision": 0.7722,
-        "Recall": 0.8243,
-        "F1_Score": 0.7974,
-        "ROC_AUC": 0.9041
+        "Training_Metrics": {
+            "Accuracy": 0.7992,
+            "Precision": 0.7392,
+            "Recall": 0.7199,
+            "F1_Score": 0.7293,
+            "ROC_AUC": 0.8425
+        },
+        "Test_Metrics": {
+            "Accuracy": 0.8268,
+            "Precision": 0.7722,
+            "Recall": 0.8243,
+            "F1_Score": 0.7974,
+            "ROC_AUC": 0.9041
+        }
     },
     "Neural Network": {
-        "Accuracy": 0.8324,
-        "Precision": 0.8143,
-        "Recall": 0.7703,
-        "F1_Score": 0.7917,
-        "ROC_AUC": 0.8938
+        "Training_Metrics": {
+            "Accuracy": 0.8061,
+            "Precision": 0.7808,
+            "Recall": 0.6751,
+            "F1_Score": 0.7235,
+            "ROC_AUC": 0.835
+        },
+        "Test_Metrics": {
+            "Accuracy": 0.8324,
+            "Precision": 0.8143,
+            "Recall": 0.7703,
+            "F1_Score": 0.7917,
+            "ROC_AUC": 0.8938
+        }
     }
 }

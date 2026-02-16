@@ -5,7 +5,8 @@ import json
 import os
 import sys
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, cross_validate
+from sklearn.metrics import roc_auc_score, accuracy_score
 
 # Ensure directories exist
 os.makedirs('models', exist_ok=True)
@@ -13,27 +14,26 @@ os.makedirs('tuning', exist_ok=True)
 
 print("Script started successfully.")
 
-# 1. Load Processed Data (The Smart Way)
-print("Loading processed training data...")
+# 1. Load Processed Data (Train AND Test)
+print("Loading processed data...")
 try:
-    # Load the arrays we created on Day 2/3
+    # Load Training Data (For Tuning)
     X_train = np.load('data/processed/X_train.npy')
-    y_train = np.load('data/processed/y_train.npy')
+    y_train = np.load('data/processed/y_train.npy').ravel()
     
-    # Flatten y_train to ensure it's the right shape (n_samples,) for Sklearn
-    y_train = y_train.ravel()
+    # Load Test Data (For Final Evaluation)
+    X_test = np.load('data/processed/X_test.npy')
+    y_test = np.load('data/processed/y_test.npy').ravel()
     
-    print(f"   X_train loaded: {X_train.shape}")
-    print(f"   y_train loaded: {y_train.shape}")
+    print(f"   X_train: {X_train.shape}")
+    print(f"   X_test:  {X_test.shape}")
 
 except FileNotFoundError:
-    print("ERROR: Processed data not found in 'data/processed/'.")
-    print("Please ensure X_train.npy and y_train.npy exist.")
+    print("ERROR: Processed data not found.")
     sys.exit(1)
 
-# 2. Define the Objective Function for Optuna
+# 2. Define the Objective Function (Optimizing on Train Only)
 def objective(trial):
-    # Hyperparameter search space
     param = {
         'n_estimators': trial.suggest_int('n_estimators', 50, 300),
         'max_depth': trial.suggest_int('max_depth', 3, 20),
@@ -45,10 +45,8 @@ def objective(trial):
     
     model = RandomForestClassifier(**param)
     
-    # 5-Fold Cross-Validation on the processed Training Data
-    # We use ROC-AUC as the success metric
+    # We optimize for ROC-AUC using Cross-Validation
     score = cross_val_score(model, X_train, y_train, cv=5, scoring='roc_auc').mean()
-    
     return score
 
 # 3. Run Optimization
@@ -57,27 +55,56 @@ optuna.logging.set_verbosity(optuna.logging.WARNING)
 study = optuna.create_study(direction='maximize')
 study.optimize(objective, n_trials=20, show_progress_bar=True)
 
-# 4. Results
-print("\n--- Best Parameters Found ---")
-print(study.best_params)
-print(f"Best ROC-AUC: {study.best_value:.4f}")
+print("\n--- Tuning Complete ---")
+print(f"Best CV ROC-AUC: {study.best_value:.4f}")
+print("Best Params:", study.best_params)
 
-# 5. Train and Save Best Model
-print("Saving best model...")
+# 4. Final Evaluation: Train vs Test
+print("\n--- Final Evaluation of Tuned Model ---")
+
+# Re-create the best model
 best_params = study.best_params
 best_model = RandomForestClassifier(**best_params, random_state=42)
 
-# Train on the full X_train
+# A. Calculate Robust Training Metrics (CV)
+# We re-run CV on the best params to get the official Training Score
+cv_results = cross_validate(best_model, X_train, y_train, cv=5, scoring='roc_auc')
+train_roc_mean = cv_results['test_score'].mean()
+train_roc_std = cv_results['test_score'].std()
+
+# B. Train on Full Training Set
 best_model.fit(X_train, y_train)
 
-joblib.dump(best_model, 'models/best_tuned_model.pkl')
-print("Saved: models/best_tuned_model.pkl")
+# C. Calculate Test Metrics (The "Reality Check")
+y_prob_test = best_model.predict_proba(X_test)[:, 1]
+test_roc = roc_auc_score(y_test, y_prob_test)
 
-# Save detailed results to JSON
+# D. Print Comparison
+print(f"Training ROC-AUC (CV): {train_roc_mean:.4f} (+/- {train_roc_std:.4f})")
+print(f"Test ROC-AUC:          {test_roc:.4f}")
+
+# Check for Overfitting
+gap = train_roc_mean - test_roc
+if gap > 0.05:
+    print(f"⚠️  WARNING: Overfitting detected! (Gap: {gap:.4f})")
+else:
+    print(f"✅  Model is robust. (Gap: {gap:.4f})")
+
+# 5. Save Results & Model
+print("\nSaving results...")
+
+joblib.dump(best_model, 'models/best_tuned_model.pkl')
+
 results = {
-    "best_score_roc_auc": study.best_value,
-    "best_params": study.best_params
+    "best_params": best_params,
+    "training_roc_auc_mean": train_roc_mean,
+    "training_roc_auc_std": train_roc_std,
+    "test_roc_auc": test_roc,
+    "overfitting_gap": gap
 }
+
 with open('tuning/results.json', 'w') as f:
     json.dump(results, f, indent=4)
+
+print("Saved: models/best_tuned_model.pkl")
 print("Saved: tuning/results.json")

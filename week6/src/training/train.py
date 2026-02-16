@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Sklearn Metrics & Validation
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_validate
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
 
 # The 4 Models
@@ -22,7 +22,8 @@ def load_data(data_dir):
     X_test = np.load(os.path.join(data_dir, "X_test.npy"))
     y_train = np.load(os.path.join(data_dir, "y_train.npy"))
     y_test = np.load(os.path.join(data_dir, "y_test.npy"))
-    return X_train, X_test, y_train, y_test
+    # Flatten y for models that expect 1D arrays
+    return X_train, X_test, y_train.ravel(), y_test.ravel()
 
 def train_and_evaluate():
     # Setup Paths
@@ -31,7 +32,6 @@ def train_and_evaluate():
     MODEL_DIR = os.path.join(BASE_DIR, "models")
     EVAL_DIR = os.path.join(BASE_DIR, "evaluation")
     
-    # Ensure output directories exist
     os.makedirs(MODEL_DIR, exist_ok=True)
     os.makedirs(EVAL_DIR, exist_ok=True)
 
@@ -39,26 +39,11 @@ def train_and_evaluate():
     X_train, X_test, y_train, y_test = load_data(DATA_DIR)
     print(f"Data loaded. Training size: {X_train.shape[0]} rows.")
 
-# 2. Initialize Models (With Explicit Regularization visible!)
+    # 2. Initialize Models
     models = {
-        # Logistic Regression
-        # penalty='l2': Uses Ridge Regularization (The Equalizer)
-        # C=1.0: The strength. Smaller 'C' = Stronger Regularization (Simpler model).
         "Logistic Regression": LogisticRegression(penalty='l2', C=1.0, max_iter=1000, random_state=42),
-
-        # Random Forest
-        # Regularization here is "Structural" (limiting tree growth)
-        # max_depth=None: No limit (Default). Setting this to 5 or 10 would regularize it.
-        # min_samples_leaf=1: Default. Increasing this prevents memorizing single rows.
         "Random Forest": RandomForestClassifier(n_estimators=100, max_depth=None, min_samples_leaf=1, random_state=42),
-
-        # XGBoost
-        # reg_lambda=1: L2 Regularization (Standard default).
-        # reg_alpha=0: L1 Regularization (Off by default).
         "XGBoost": XGBClassifier(use_label_encoder=False, eval_metric='logloss', reg_lambda=1, reg_alpha=0, random_state=42),
-
-        # Neural Network
-        # alpha=0.0001: L2 Regularization penalty on the weights.
         "Neural Network": MLPClassifier(alpha=0.0001, max_iter=1000, random_state=42)
     }
 
@@ -69,22 +54,37 @@ def train_and_evaluate():
 
     # 3. Training Loop
     print("\n--- Starting Model Training & Cross-Validation ---")
+    
+    # Define the 5 metrics we want to track
+    scoring_metrics = ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']
+
     for name, model in models.items():
         print(f"\nTraining {name}...")
         
-        # A. 5-Fold Cross Validation (on Training Set)
-        cv_scores = cross_val_score(model, X_train, y_train, cv=5, scoring='accuracy')
-        print(f"  CV Accuracy (5-fold): {cv_scores.mean():.4f} (+/- {cv_scores.std():.4f})")
+        # A. Calculate Training Metrics (using 5-Fold CV)
+        # This returns a dictionary with keys like 'test_accuracy', 'test_precision' etc.
+        cv_results = cross_validate(model, X_train, y_train, cv=5, scoring=scoring_metrics)
         
-        # B. Train on Full Training Set
+        # Calculate the Mean of each metric across the 5 folds
+        train_metrics = {
+            "Accuracy": round(cv_results['test_accuracy'].mean(), 4),
+            "Precision": round(cv_results['test_precision'].mean(), 4),
+            "Recall": round(cv_results['test_recall'].mean(), 4),
+            "F1_Score": round(cv_results['test_f1'].mean(), 4),
+            "ROC_AUC": round(cv_results['test_roc_auc'].mean(), 4)
+        }
+        
+        print(f"  Train (CV) Metrics: {train_metrics}")
+
+        # B. Train Final Model
         model.fit(X_train, y_train)
         
         # C. Predict on Test Set
         y_pred = model.predict(X_test)
-        y_prob = model.predict_proba(X_test)[:, 1] # Get probabilities for ROC-AUC
+        y_prob = model.predict_proba(X_test)[:, 1] 
         
-        # D. Calculate Metrics
-        metrics = {
+        # D. Calculate Test Metrics
+        test_metrics = {
             "Accuracy": round(accuracy_score(y_test, y_pred), 4),
             "Precision": round(precision_score(y_test, y_pred), 4),
             "Recall": round(recall_score(y_test, y_pred), 4),
@@ -92,16 +92,21 @@ def train_and_evaluate():
             "ROC_AUC": round(roc_auc_score(y_test, y_prob), 4)
         }
         
-        results[name] = metrics
-        print(f"  Test Metrics: {metrics}")
+        print(f"  Test Metrics:       {test_metrics}")
         
-        # E. Keep track of the best model (using ROC-AUC as the deciding factor)
-        if metrics["ROC_AUC"] > best_roc_auc:
-            best_roc_auc = metrics["ROC_AUC"]
+        # E. Store Comparison
+        results[name] = {
+            "Training_Metrics": train_metrics,
+            "Test_Metrics": test_metrics
+        }
+        
+        # F. Track Best Model (using Test ROC-AUC)
+        if test_metrics["ROC_AUC"] > best_roc_auc:
+            best_roc_auc = test_metrics["ROC_AUC"]
             best_model_name = name
             best_model_instance = model
 
-    # 4. Save Metrics to JSON
+    # 4. Save Detailed Metrics to JSON
     metrics_path = os.path.join(EVAL_DIR, "metrics.json")
     with open(metrics_path, "w") as f:
         json.dump(results, f, indent=4)
@@ -112,7 +117,7 @@ def train_and_evaluate():
     joblib.dump(best_model_instance, model_path)
     print(f"✅ Best Model ({best_model_name}) saved to {model_path}")
 
-    # 6. Plot Confusion Matrix for the Best Model
+    # 6. Plot Confusion Matrix
     y_pred_best = best_model_instance.predict(X_test)
     cm = confusion_matrix(y_test, y_pred_best)
     

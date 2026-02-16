@@ -1,10 +1,13 @@
 {
-    "best_score_roc_auc": 0.8613964177139926,
     "best_params": {
-        "n_estimators": 87,
-        "max_depth": 7,
-        "min_samples_split": 9,
-        "min_samples_leaf": 1,
+        "n_estimators": 299,
+        "max_depth": 10,
+        "min_samples_split": 2,
+        "min_samples_leaf": 2,
         "max_features": "sqrt"
-    }
+    },
+    "training_roc_auc_mean": 0.8626266730623312,
+    "training_roc_auc_std": 0.01727334760568882,
+    "test_roc_auc": 0.9060489060489061,
+    "overfitting_gap": -0.04342223298657488
 }
