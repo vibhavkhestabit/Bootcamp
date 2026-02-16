@@ -1,0 +1,10 @@
+{
+    "best_score_roc_auc": 0.8728044043523056,
+    "best_params": {
+        "n_estimators": 93,
+        "max_depth": 14,
+        "min_samples_split": 4,
+        "min_samples_leaf": 4,
+        "max_features": "log2"
+    }
+}
