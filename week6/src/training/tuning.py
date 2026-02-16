@@ -89,7 +89,7 @@ best_model.fit(X_scaled, y)
 joblib.dump(best_model, 'models/best_tuned_model.pkl')
 print("Saved: models/best_tuned_model.pkl")
 
-# Save detailed results to JSON
+# Save detailed results to JSON file
 results = {
     "best_score_roc_auc": study.best_value,
     "best_params": study.best_params
