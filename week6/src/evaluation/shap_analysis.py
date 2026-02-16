@@ -1,68 +1,79 @@
 import shap
 import joblib
-import pandas as pd
+import json
+import numpy as np
 import matplotlib.pyplot as plt
 import os
 import sys
-from sklearn.preprocessing import StandardScaler
 
 # Ensure directory exists
 os.makedirs('evaluation', exist_ok=True)
 
-# 1. Load Data & Tuned Model
-print("Loading resources...")
+print("Script started successfully.")
 
+# 1. Load Resources
+print("Loading model and processed data...")
 try:
-    model = joblib.load('models/best_tuned_model.pkl')
-    # UPDATED PATH: pointing to data/raw/dataset.csv
-    df_train = pd.read_csv('data/raw/dataset.csv')
-    print(f"Data loaded: {df_train.shape}")
-except FileNotFoundError as e:
-    print(f"ERROR: File not found - {e}")
-    print("Please check your 'models' folder or 'data/raw' folder.")
+    # PRIORITY: Try loading the Tuned Model (Day 4)
+    if os.path.exists('models/best_tuned_model.pkl'):
+        model_path = 'models/best_tuned_model.pkl'
+        print(f"   -> Loading Tuned Model: {model_path}")
+    # FALLBACK: Day 3 Model
+    elif os.path.exists('models/best_model.pkl'):
+        model_path = 'models/best_model.pkl'
+        print(f"   -> Loading Standard Model: {model_path}")
+    else:
+        raise FileNotFoundError("No model found in 'models/' directory.")
+
+    model = joblib.load(model_path)
+    
+    # Load Processed Data (Fast & Consistent)
+    X_train = np.load('data/processed/X_train.npy')
+    
+    # Load Feature Names (For readable plots)
+    with open('data/processed/feature_names.json', 'r') as f:
+        feature_names = json.load(f)
+        
+    print(f"   Training data loaded: {X_train.shape}")
+    print(f"   Features: {feature_names}")
+
+except Exception as e:
+    print(f"ERROR: {e}")
     sys.exit(1)
-
-# Preprocessing (Must match training exactly)
-features = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare']
-
-# Check for missing columns
-missing_cols = [col for col in features if col not in df_train.columns]
-if missing_cols:
-    print(f"ERROR: Missing columns: {missing_cols}")
-    sys.exit(1)
-
-X = pd.get_dummies(df_train[features], drop_first=True)
-X = X.fillna(X.mean())
-
-scaler = StandardScaler()
-X_scaled = pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
 
 # 2. Create SHAP Explainer
-# TreeExplainer is optimized for Random Forest
 print("Calculating SHAP values... (This might take a moment)")
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(X_scaled)
 
-# Handle Binary Classification (We want index 1 = 'Survived')
-# Random Forest SHAP values are a list [Class 0, Class 1]
+# TreeExplainer is optimized for Random Forests
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(X_train)
+
+# Handle Binary Classification (Select Class 1 = Survived)
 if isinstance(shap_values, list):
     shap_values_survived = shap_values[1]
 else:
     shap_values_survived = shap_values
 
-# 3. Generate Summary Plot (Global Importance)
+# 3. Generate Summary Plot
+print("Generating Summary Plot...")
 plt.figure(figsize=(10, 6))
-shap.summary_plot(shap_values_survived, X_scaled, show=False)
+shap.summary_plot(shap_values_survived, X_train, feature_names=feature_names, show=False)
 plt.title("SHAP Summary: Feature Impact on Survival")
 plt.savefig('evaluation/shap_summary.png', bbox_inches='tight')
-print("Saved: evaluation/shap_summary.png")
+print("   Saved: evaluation/shap_summary.png")
 plt.close()
 
-# 4. Generate Dependence Plot (Age vs Survival)
-plt.figure(figsize=(10, 6))
-shap.dependence_plot("Age", shap_values_survived, X_scaled, show=False)
-plt.title("SHAP Dependence: Age vs Impact")
-plt.savefig('evaluation/shap_dependence_age.png', bbox_inches='tight')
-print("Saved: evaluation/shap_dependence_age.png")
+# 4. Generate Dependence Plot (Age)
+if "Age" in feature_names:
+    print("Generating Dependence Plot for 'Age'...")
+    age_idx = feature_names.index("Age")
+    
+    plt.figure(figsize=(10, 6))
+    shap.dependence_plot(age_idx, shap_values_survived, X_train, feature_names=feature_names, show=False)
+    plt.title("SHAP Dependence: Age vs Impact")
+    plt.savefig('evaluation/shap_dependence_age.png', bbox_inches='tight')
+    print("   Saved: evaluation/shap_dependence_age.png")
+else:
+    print("Skipping Age plot: 'Age' feature not found.")
 
 print("\nSHAP analysis complete.")

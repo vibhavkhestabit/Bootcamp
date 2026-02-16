@@ -1,61 +1,70 @@
 import pandas as pd
+import numpy as np
 import joblib
+import json
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 import sys
-from sklearn.preprocessing import StandardScaler
 
 # Ensure directory exists
 os.makedirs('evaluation', exist_ok=True)
 
-# 1. Load Data & Model
+print("Script started successfully.")
+
+# 1. Load Resources
 print("Loading resources...")
 try:
+    # Load the Tuned Model
     model = joblib.load('models/best_tuned_model.pkl')
-    # UPDATED PATH: pointing to data/raw/dataset.csv
-    df = pd.read_csv('data/raw/dataset.csv')
-    print(f"Data loaded: {df.shape}")
-except FileNotFoundError as e:
-    print(f"ERROR: File not found - {e}")
+    
+    # Load the EXACT data the model was trained on
+    X_train = np.load('data/processed/X_train.npy')
+    y_train = np.load('data/processed/y_train.npy').ravel()
+    
+    # Load Raw Data just for the Names (to identify the people)
+    df_raw = pd.read_csv('data/raw/dataset.csv')
+    
+    # Load Feature Names for the plot labels
+    with open('data/processed/feature_names.json', 'r') as f:
+        feature_names = json.load(f)
+
+except Exception as e:
+    print(f"ERROR: Missing files - {e}")
     sys.exit(1)
 
-y_true = df['Survived']
-
-features = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare']
-X = pd.get_dummies(df[features], drop_first=True)
-X = X.fillna(X.mean())
-
-scaler = StandardScaler()
-X_scaled = pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
-
-# 2. Get Predictions & Probabilities
-y_pred = model.predict(X_scaled)
-y_prob = model.predict_proba(X_scaled)[:, 1] # Probability of 'Survived'
+# 2. Get Predictions
+print("Identifying failures using X_train...")
+y_pred = model.predict(X_train)
+y_prob = model.predict_proba(X_train)[:, 1]
 
 # 3. Identify Errors
-df['Predicted'] = y_pred
-df['Probability'] = y_prob
-df['Is_Error'] = df['Predicted'] != y_true
-df['Error_Magnitude'] = abs(df['Probability'] - df['Survived'])
+# We slice df_raw to match the length of X_train (just in case they differ)
+results = df_raw.iloc[:len(X_train)].copy()
+results['Predicted'] = y_pred
+results['Probability'] = y_prob
+results['Actual'] = y_train
+results['Is_Error'] = results['Predicted'] != results['Actual']
+results['Error_Magnitude'] = abs(results['Probability'] - results['Actual'])
 
-# Filter for Wrong Predictions
-errors = df[df['Is_Error'] == True].copy()
-
-# Sort by "Confidence in Wrong Answer"
-# Example: Predicted 0.99 chance of survival, but actually died (Magnitude 0.99)
+errors = results[results['Is_Error'] == True].copy()
 worst_errors = errors.sort_values('Error_Magnitude', ascending=False).head(10)
 
 print("\n--- Top 10 Worst Model Failures ---")
-print(worst_errors[['Name', 'Survived', 'Predicted', 'Probability', 'Error_Magnitude']])
+print(worst_errors[['Name', 'Actual', 'Predicted', 'Probability', 'Error_Magnitude']])
 
-# 4. Save Error CSV
+# 4. Save Outputs
 errors.to_csv('evaluation/model_errors.csv', index=False)
 print("\nSaved: evaluation/model_errors.csv")
 
-# 5. Visualize Failure Zones
-plt.figure(figsize=(10, 6))
-sns.scatterplot(data=errors, x='Age', y='Fare', hue='Survived', style='Sex', s=100, palette='viridis')
-plt.title("Map of Model Failures (Age vs Fare)")
-plt.savefig('evaluation/error_map.png')
-print("Saved: evaluation/error_map.png")
+# 5. Visualize (Using the indices from the processed features)
+if "Age" in feature_names and "Fare" in feature_names:
+    age_idx = feature_names.index("Age")
+    fare_idx = feature_names.index("Fare")
+    
+    plt.figure(figsize=(10, 6))
+    # We use the raw values for plotting so they are easier to read
+    sns.scatterplot(data=errors, x='Age', y='Fare', hue='Actual', style='Sex', s=100, palette='viridis')
+    plt.title("Map of Model Failures (Age vs Fare)")
+    plt.savefig('evaluation/error_map.png')
+    print("Saved: evaluation/error_map.png")

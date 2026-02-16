@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import optuna
 import joblib
 import json
@@ -6,7 +6,6 @@ import os
 import sys
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
-from sklearn.preprocessing import StandardScaler
 
 # Ensure directories exist
 os.makedirs('models', exist_ok=True)
@@ -14,44 +13,25 @@ os.makedirs('tuning', exist_ok=True)
 
 print("Script started successfully.")
 
-# 1. Load Data
-print("Loading data...")
+# 1. Load Processed Data (The Smart Way)
+print("Loading processed training data...")
 try:
-    # Load dataset from the raw directory
-    df_train = pd.read_csv('data/raw/dataset.csv')
-    print(f"Data loaded: {df_train.shape}")
+    # Load the arrays we created on Day 2/3
+    X_train = np.load('data/processed/X_train.npy')
+    y_train = np.load('data/processed/y_train.npy')
     
-    # Check for target column
-    if 'Survived' not in df_train.columns:
-        print("ERROR: 'Survived' column not found in dataset.csv")
-        sys.exit(1)
-        
-    y = df_train['Survived']
+    # Flatten y_train to ensure it's the right shape (n_samples,) for Sklearn
+    y_train = y_train.ravel()
     
+    print(f"   X_train loaded: {X_train.shape}")
+    print(f"   y_train loaded: {y_train.shape}")
+
 except FileNotFoundError:
-    print("ERROR: 'data/raw/dataset.csv' not found.")
-    print("Please check that you are running this from the 'src' folder.")
+    print("ERROR: Processed data not found in 'data/processed/'.")
+    print("Please ensure X_train.npy and y_train.npy exist.")
     sys.exit(1)
 
-# 2. Preprocessing
-print("Preprocessing data...")
-features = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare']
-
-# Check if required features exist
-missing_cols = [col for col in features if col not in df_train.columns]
-if missing_cols:
-    print(f"ERROR: Missing columns in dataset: {missing_cols}")
-    sys.exit(1)
-
-# Encode categorical variables and handle missing values
-X = pd.get_dummies(df_train[features], drop_first=True)
-X = X.fillna(X.mean())
-
-# Scale features
-scaler = StandardScaler()
-X_scaled = pd.DataFrame(scaler.fit_transform(X), columns=X.columns)
-
-# 3. Define the Objective Function for Optuna
+# 2. Define the Objective Function for Optuna
 def objective(trial):
     # Hyperparameter search space
     param = {
@@ -65,31 +45,35 @@ def objective(trial):
     
     model = RandomForestClassifier(**param)
     
-    # 5-Fold Cross-Validation optimizing for ROC-AUC
-    score = cross_val_score(model, X_scaled, y, cv=5, scoring='roc_auc').mean()
+    # 5-Fold Cross-Validation on the processed Training Data
+    # We use ROC-AUC as the success metric
+    score = cross_val_score(model, X_train, y_train, cv=5, scoring='roc_auc').mean()
+    
     return score
 
-# 4. Run Optimization
+# 3. Run Optimization
 print("Starting Optuna optimization (20 trials)...")
 optuna.logging.set_verbosity(optuna.logging.WARNING) 
 study = optuna.create_study(direction='maximize')
 study.optimize(objective, n_trials=20, show_progress_bar=True)
 
-# 5. Results
+# 4. Results
 print("\n--- Best Parameters Found ---")
 print(study.best_params)
 print(f"Best ROC-AUC: {study.best_value:.4f}")
 
-# 6. Train and Save Best Model
+# 5. Train and Save Best Model
 print("Saving best model...")
 best_params = study.best_params
 best_model = RandomForestClassifier(**best_params, random_state=42)
-best_model.fit(X_scaled, y)
+
+# Train on the full X_train
+best_model.fit(X_train, y_train)
 
 joblib.dump(best_model, 'models/best_tuned_model.pkl')
 print("Saved: models/best_tuned_model.pkl")
 
-# Save detailed results to JSON file
+# Save detailed results to JSON
 results = {
     "best_score_roc_auc": study.best_value,
     "best_params": study.best_params
