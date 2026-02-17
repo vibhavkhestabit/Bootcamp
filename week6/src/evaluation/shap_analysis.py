@@ -12,22 +12,20 @@ import sys
 os.makedirs('evaluation', exist_ok=True)
 print("Script started successfully.")
 
-# 1. Load Resources
-try:
-    # Check for Tuned Model first, then Standard
-    model_path = 'models/best_tuned_model.pkl' if os.path.exists('models/best_tuned_model.pkl') else 'models/best_model.pkl'
-    if not os.path.exists(model_path): raise FileNotFoundError("No model found.")
+# Determine model path
+model_path = 'models/best_tuned_model.pkl' if os.path.exists('models/best_tuned_model.pkl') else 'models/best_model.pkl'
 
-    print(f"Loading Model: {model_path}")
-    model = joblib.load(model_path)
-    X_train = np.load('data/processed/X_train.npy')
-    
-    with open('data/processed/feature_names.json', 'r') as f:
-        feature_names = json.load(f)
+# Load the Model
+model = joblib.load(model_path)
 
-except Exception as e:
-    print(f"ERROR: {e}")
-    sys.exit(1)
+# Load the Processed Training Data
+X_train = np.load('data/processed/X_train.npy')
+
+# Load the Feature Names
+with open('data/processed/feature_names.json', 'r') as f:
+    feature_names = json.load(f)
+
+print(f"Successfully loaded: {model_path}")
 
 # 2. Calculate SHAP Values
 print("Calculating SHAP values...")
