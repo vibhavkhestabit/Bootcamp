@@ -7,3 +7,6 @@ dvc  # For dataset versioning
 joblib
 python-dotenv
 notebook
+fastapi
+uvicorn
+pydantic
