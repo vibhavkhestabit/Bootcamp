@@ -60,8 +60,7 @@ def transform_and_split(df, test_size=0.2):
     
     with open('models/training_baselines.json', 'w') as f:
         json.dump(baselines, f, indent=4)
-    print("✅ Saved models/training_baselines.json")
-    # -----------------------------------------------------------
+    print(" Saved models/training_baselines.json")
 
     X = df.drop(columns=['Survived'])
     y = df['Survived'].values

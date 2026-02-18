@@ -117,6 +117,4 @@ if __name__ == "__main__":
     MASK_OUT = os.path.join(BASE_DIR, "data/processed/selected_mask.npy")
     PLOT_OUT = os.path.join(BASE_DIR, "reports/feature_importance.png")
     
-    # --- CONFIGURATION HERE ---
-    # Add any feature you want to ban to this list
     select_features(X_TRAIN, Y_TRAIN, FEAT_NAMES, MASK_OUT, PLOT_OUT, exclude_features=["Name_Length"])

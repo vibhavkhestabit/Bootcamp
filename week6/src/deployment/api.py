@@ -36,23 +36,23 @@ try:
     # Try loading the tuned model first
     if os.path.exists(MODEL_PATH):
         model = joblib.load(MODEL_PATH)
-        print(f"✅ Loaded Tuned Model from: {MODEL_PATH}")
+        print(f" Loaded Tuned Model from: {MODEL_PATH}")
     # Fallback to the baseline model
     elif os.path.exists(BACKUP_PATH):
         model = joblib.load(BACKUP_PATH)
-        print(f"⚠️ Tuned model not found. Loaded Backup from: {BACKUP_PATH}")
+        print(f" Tuned model not found. Loaded Backup from: {BACKUP_PATH}")
     else:
-        raise FileNotFoundError(f"❌ No model found at {MODEL_PATH} or {BACKUP_PATH}")
+        raise FileNotFoundError(f" No model found at {MODEL_PATH} or {BACKUP_PATH}")
 
     # Load Preprocessor
     if os.path.exists(PREPROCESSOR_PATH):
         preprocessor = joblib.load(PREPROCESSOR_PATH)
-        print(f"✅ Loaded Preprocessor from: {PREPROCESSOR_PATH}")
+        print(f" Loaded Preprocessor from: {PREPROCESSOR_PATH}")
     else:
-        raise FileNotFoundError(f"❌ Preprocessor not found at {PREPROCESSOR_PATH}")
+        raise FileNotFoundError(f" Preprocessor not found at {PREPROCESSOR_PATH}")
 
 except Exception as e:
-    print(f"❌ CRITICAL ERROR: {e}")
+    print(f" CRITICAL ERROR: {e}")
     print(f"Debug Info - Current Dir: {CURRENT_DIR}")
     print(f"Debug Info - Src Dir: {SRC_DIR}")
     # We raise the error to stop the app if models are missing
