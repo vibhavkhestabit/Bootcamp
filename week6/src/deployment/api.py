@@ -11,23 +11,52 @@ from datetime import datetime
 # Initialize App
 app = FastAPI(title="Titanic Survival Prediction API", version="1.0")
 
-# --- 1. Load Resources ---
-MODEL_PATH = "models/best_tuned_model.pkl"
-# Fallback if tuned model doesn't exist
-if not os.path.exists(MODEL_PATH):
-    MODEL_PATH = "models/best_model.pkl"
+# --- 1. Load Resources (ROBUST PATH FIX) ---
 
-PREPROCESSOR_PATH = "models/preprocessor.pkl"
-LOG_FILE = "prediction_logs.csv"
+# Get the directory where THIS file (api.py) is currently located
+# Example: /app/src/deployment/
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Go up one level to find the 'src' folder
+# Example: /app/src/
+SRC_DIR = os.path.dirname(CURRENT_DIR)
+
+# Define paths relative to the 'src' directory
+MODELS_DIR = os.path.join(SRC_DIR, "models")
+MODEL_PATH = os.path.join(MODELS_DIR, "best_tuned_model.pkl")
+BACKUP_PATH = os.path.join(MODELS_DIR, "best_model.pkl")
+PREPROCESSOR_PATH = os.path.join(MODELS_DIR, "preprocessor.pkl")
+LOG_FILE = os.path.join(SRC_DIR, "prediction_logs.csv")
 
 # Load Model & Preprocessor
+model = None
+preprocessor = None
+
 try:
-    model = joblib.load(MODEL_PATH)
-    preprocessor = joblib.load(PREPROCESSOR_PATH)
-    print("✅ Model and Preprocessor loaded successfully.")
+    # Try loading the tuned model first
+    if os.path.exists(MODEL_PATH):
+        model = joblib.load(MODEL_PATH)
+        print(f"✅ Loaded Tuned Model from: {MODEL_PATH}")
+    # Fallback to the baseline model
+    elif os.path.exists(BACKUP_PATH):
+        model = joblib.load(BACKUP_PATH)
+        print(f"⚠️ Tuned model not found. Loaded Backup from: {BACKUP_PATH}")
+    else:
+        raise FileNotFoundError(f"❌ No model found at {MODEL_PATH} or {BACKUP_PATH}")
+
+    # Load Preprocessor
+    if os.path.exists(PREPROCESSOR_PATH):
+        preprocessor = joblib.load(PREPROCESSOR_PATH)
+        print(f"✅ Loaded Preprocessor from: {PREPROCESSOR_PATH}")
+    else:
+        raise FileNotFoundError(f"❌ Preprocessor not found at {PREPROCESSOR_PATH}")
+
 except Exception as e:
-    print(f"❌ Error loading files: {e}")
-    # We don't exit here so the app can start and show errors if hit
+    print(f"❌ CRITICAL ERROR: {e}")
+    print(f"Debug Info - Current Dir: {CURRENT_DIR}")
+    print(f"Debug Info - Src Dir: {SRC_DIR}")
+    # We raise the error to stop the app if models are missing
+    raise e
 
 # --- 2. Input Schema ---
 class Passenger(BaseModel):
@@ -45,7 +74,6 @@ def log_prediction(request_id, input_data, prediction, probability):
     """Logs the input and output to a CSV file for monitoring."""
     log_entry = input_data.dict()
     log_entry['request_id'] = request_id
-    # We log the INTEGER (0/1) so drift_checker can calculate means later
     log_entry['prediction'] = prediction 
     log_entry['probability'] = probability
     log_entry['timestamp'] = datetime.now().isoformat()
@@ -59,7 +87,6 @@ def log_prediction(request_id, input_data, prediction, probability):
         writer.writerow(log_entry)
 
 def apply_feature_engineering(data: dict):
-    """Replicates the logic from build_features.py"""
     df = pd.DataFrame([data])
     
     # 1. Family Features
@@ -75,7 +102,14 @@ def apply_feature_engineering(data: dict):
     df['Is_Senior'] = (df['Age'] > 60).astype(int)
     
     # 4. Title Extraction
-    df['Title'] = df['Name'].apply(lambda x: x.split(',')[1].split('.')[0].strip())
+    # We use a safe split in case the format is unexpected
+    def extract_title(name):
+        try:
+            return name.split(',')[1].split('.')[0].strip()
+        except IndexError:
+            return "Mr" # Default fallback
+            
+    df['Title'] = df['Name'].apply(extract_title)
     common_titles = ['Mr', 'Miss', 'Mrs', 'Master']
     df['Title'] = df['Title'].apply(lambda x: x if x in common_titles else 'Rare')
     
@@ -101,24 +135,19 @@ def predict(passenger: Passenger):
         raw_df = apply_feature_engineering(passenger.dict())
         
         # B. Transform (Scaling/Encoding)
-        # The preprocessor expects specific columns. The order matches the training DataFrame.
         processed_data = preprocessor.transform(raw_df)
         
         # C. Predict
-        # Get the raw integer (0 or 1) for logic
         prediction_val = int(model.predict(processed_data)[0])
         probability = float(model.predict_proba(processed_data)[0][1])
         
         # D. Format Output
-        # Convert integer to readable string
         prediction_label = "Survived" if prediction_val == 1 else "Dead"
         
-        # Extract the engineered features to show back to the user
-        # (Converts the single-row DataFrame to a dictionary)
+        # Extract features for response
         used_features_dict = raw_df.iloc[0].to_dict()
 
         # E. Log
-        # We log the original INTEGER 'prediction_val' to keep math easy for drift detection
         log_prediction(request_id, passenger, prediction_val, probability)
         
         return {

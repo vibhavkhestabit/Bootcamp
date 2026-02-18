@@ -1,21 +1,21 @@
 {
-    "timestamp": "2026-02-17T19:18:32.719010",
-    "drift_detected": false,
+    "timestamp": "2026-02-18T11:49:44.647966",
+    "drift_detected": true,
     "metrics": {
         "age": {
-            "current": 32.4615,
+            "current": 37.5789,
             "baseline": 29.3616,
-            "diff": 3.1
+            "diff": 8.2174
         },
         "fare": {
-            "current": 28.6397,
+            "current": 272.6393,
             "baseline": 32.2042,
-            "diff": 3.5645
+            "diff": 240.435
         },
         "survival": {
-            "current": 0.4615,
+            "current": 0.3684,
             "baseline": 0.3838,
-            "diff": 0.0777
+            "diff": 0.0154
         }
     }
 }
