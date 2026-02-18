@@ -1,13 +1,13 @@
 {
     "best_params": {
-        "n_estimators": 299,
-        "max_depth": 10,
+        "n_estimators": 112,
+        "max_depth": 16,
         "min_samples_split": 2,
         "min_samples_leaf": 2,
         "max_features": "sqrt"
     },
-    "training_roc_auc_mean": 0.8626266730623312,
-    "training_roc_auc_std": 0.01727334760568882,
-    "test_roc_auc": 0.9060489060489061,
-    "overfitting_gap": -0.04342223298657488
+    "training_roc_auc_mean": 0.8643184994600089,
+    "training_roc_auc_std": 0.012947491702676209,
+    "test_roc_auc": 0.912097812097812,
+    "overfitting_gap": -0.047779312637803106
 }

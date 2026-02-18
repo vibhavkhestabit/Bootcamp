@@ -22,7 +22,6 @@ def load_data(data_dir):
     X_test = np.load(os.path.join(data_dir, "X_test.npy"))
     y_train = np.load(os.path.join(data_dir, "y_train.npy"))
     y_test = np.load(os.path.join(data_dir, "y_test.npy"))
-    # Flatten y for models that expect 1D arrays
     return X_train, X_test, y_train.ravel(), y_test.ravel()
 
 def train_and_evaluate():
@@ -31,13 +30,26 @@ def train_and_evaluate():
     DATA_DIR = os.path.join(BASE_DIR, "data", "processed")
     MODEL_DIR = os.path.join(BASE_DIR, "models")
     EVAL_DIR = os.path.join(BASE_DIR, "evaluation")
+    MASK_PATH = os.path.join(DATA_DIR, "selected_mask.npy") 
     
     os.makedirs(MODEL_DIR, exist_ok=True)
     os.makedirs(EVAL_DIR, exist_ok=True)
 
     # 1. Load Data
     X_train, X_test, y_train, y_test = load_data(DATA_DIR)
-    print(f"Data loaded. Training size: {X_train.shape[0]} rows.")
+    print(f"Data loaded. Original shape: {X_train.shape}")
+
+    if os.path.exists(MASK_PATH):
+        print(f"Found feature mask at {MASK_PATH}")
+        mask = np.load(MASK_PATH)
+        
+        # Apply mask to Train and Test
+        X_train = X_train[:, mask]
+        X_test = X_test[:, mask]
+        
+        print(f" Applied Mask. New shape: {X_train.shape} (Features reduced from {len(mask)} to {sum(mask)})")
+    else:
+        print(" No selection mask found. Training on ALL features.")
 
     # 2. Initialize Models
     models = {
@@ -62,7 +74,6 @@ def train_and_evaluate():
         print(f"\nTraining {name}...")
         
         # A. Calculate Training Metrics (using 5-Fold CV)
-        # This returns a dictionary with keys like 'test_accuracy', 'test_precision' etc.
         cv_results = cross_validate(model, X_train, y_train, cv=5, scoring=scoring_metrics)
         
         # Calculate the Mean of each metric across the 5 folds
@@ -110,12 +121,12 @@ def train_and_evaluate():
     metrics_path = os.path.join(EVAL_DIR, "metrics.json")
     with open(metrics_path, "w") as f:
         json.dump(results, f, indent=4)
-    print(f"\n✅ All metrics saved to {metrics_path}")
+    print(f"\n All metrics saved to {metrics_path}")
 
     # 5. Save the Best Model
     model_path = os.path.join(MODEL_DIR, "best_model.pkl")
     joblib.dump(best_model_instance, model_path)
-    print(f"✅ Best Model ({best_model_name}) saved to {model_path}")
+    print(f" Best Model ({best_model_name}) saved to {model_path}")
 
     # 6. Plot Confusion Matrix
     y_pred_best = best_model_instance.predict(X_test)
@@ -130,7 +141,7 @@ def train_and_evaluate():
     
     cm_path = os.path.join(EVAL_DIR, "confusion_matrix.png")
     plt.savefig(cm_path)
-    print(f"✅ Confusion Matrix plotted and saved to {cm_path}")
+    print(f" Confusion Matrix plotted and saved to {cm_path}")
 
 if __name__ == "__main__":
     train_and_evaluate()

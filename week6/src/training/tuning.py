@@ -17,19 +17,35 @@ print("Script started successfully.")
 # 1. Load Processed Data (Train AND Test)
 print("Loading processed data...")
 try:
+    # Define paths explicitly for reliability
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DATA_DIR = os.path.join(BASE_DIR, "data", "processed")
+    MASK_PATH = os.path.join(DATA_DIR, "selected_mask.npy")
+
     # Load Training Data (For Tuning)
-    X_train = np.load('data/processed/X_train.npy')
-    y_train = np.load('data/processed/y_train.npy').ravel()
+    X_train = np.load(os.path.join(DATA_DIR, 'X_train.npy'))
+    y_train = np.load(os.path.join(DATA_DIR, 'y_train.npy')).ravel()
     
     # Load Test Data (For Final Evaluation)
-    X_test = np.load('data/processed/X_test.npy')
-    y_test = np.load('data/processed/y_test.npy').ravel()
+    X_test = np.load(os.path.join(DATA_DIR, 'X_test.npy'))
+    y_test = np.load(os.path.join(DATA_DIR, 'y_test.npy')).ravel()
     
-    print(f"   X_train: {X_train.shape}")
-    print(f"   X_test:  {X_test.shape}")
+    print(f"   Original X_train: {X_train.shape}")
 
-except FileNotFoundError:
-    print("ERROR: Processed data not found.")
+    if os.path.exists(MASK_PATH):
+        print(f"Found feature mask at {MASK_PATH}")
+        mask = np.load(MASK_PATH)
+        
+        X_train = X_train[:, mask]
+        X_test = X_test[:, mask]
+        
+        print(f" Applied Mask. New shape: {X_train.shape} (Using {sum(mask)} features)")
+    else:
+        print(" No selection mask found. Tuning on ALL features.")
+    
+
+except FileNotFoundError as e:
+    print(f"ERROR: {e}")
     sys.exit(1)
 
 # 2. Define the Objective Function (Optimizing on Train Only)
@@ -59,7 +75,7 @@ print("\n--- Tuning Complete ---")
 print(f"Best CV ROC-AUC: {study.best_value:.4f}")
 print("Best Params:", study.best_params)
 
-# 4. Final Evaluation: Train vs Test
+# 4. Final Evaluation of Tuned Model
 print("\n--- Final Evaluation of Tuned Model ---")
 
 # Re-create the best model
@@ -67,7 +83,6 @@ best_params = study.best_params
 best_model = RandomForestClassifier(**best_params, random_state=42)
 
 # A. Calculate Robust Training Metrics (CV)
-# We re-run CV on the best params to get the official Training Score
 cv_results = cross_validate(best_model, X_train, y_train, cv=5, scoring='roc_auc')
 train_roc_mean = cv_results['test_score'].mean()
 train_roc_std = cv_results['test_score'].std()
@@ -86,14 +101,18 @@ print(f"Test ROC-AUC:          {test_roc:.4f}")
 # Check for Overfitting
 gap = train_roc_mean - test_roc
 if gap > 0.05:
-    print(f"⚠️  WARNING: Overfitting detected! (Gap: {gap:.4f})")
+    print(f"  WARNING: Overfitting detected! (Gap: {gap:.4f})")
 else:
-    print(f"✅  Model is robust. (Gap: {gap:.4f})")
+    print(f"  Model is robust. (Gap: {gap:.4f})")
 
 # 5. Save Results & Model
 print("\nSaving results...")
 
-joblib.dump(best_model, 'models/best_tuned_model.pkl')
+# Ensure Models directory uses absolute path if possible or relative to script
+MODEL_SAVE_PATH = os.path.join(BASE_DIR, 'models', 'best_tuned_model.pkl')
+RESULTS_SAVE_PATH = os.path.join(BASE_DIR, 'tuning', 'results.json')
+
+joblib.dump(best_model, MODEL_SAVE_PATH)
 
 results = {
     "best_params": best_params,
@@ -103,8 +122,8 @@ results = {
     "overfitting_gap": gap
 }
 
-with open('tuning/results.json', 'w') as f:
+with open(RESULTS_SAVE_PATH, 'w') as f:
     json.dump(results, f, indent=4)
 
-print("Saved: models/best_tuned_model.pkl")
-print("Saved: tuning/results.json")
+print(f"Saved: {MODEL_SAVE_PATH}")
+print(f"Saved: {RESULTS_SAVE_PATH}")

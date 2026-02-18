@@ -1,66 +1,66 @@
 {
     "Logistic Regression": {
         "Training_Metrics": {
-            "Accuracy": 0.83,
-            "Precision": 0.8068,
-            "Recall": 0.7199,
-            "F1_Score": 0.7607,
-            "ROC_AUC": 0.8557
+            "Accuracy": 0.8216,
+            "Precision": 0.7954,
+            "Recall": 0.7087,
+            "F1_Score": 0.7488,
+            "ROC_AUC": 0.8581
         },
         "Test_Metrics": {
-            "Accuracy": 0.7989,
-            "Precision": 0.7714,
+            "Accuracy": 0.7877,
+            "Precision": 0.75,
             "Recall": 0.7297,
-            "F1_Score": 0.75,
-            "ROC_AUC": 0.883
+            "F1_Score": 0.7397,
+            "ROC_AUC": 0.8822
         }
     },
     "Random Forest": {
         "Training_Metrics": {
-            "Accuracy": 0.816,
-            "Precision": 0.7771,
-            "Recall": 0.7161,
-            "F1_Score": 0.7452,
-            "ROC_AUC": 0.8489
+            "Accuracy": 0.8075,
+            "Precision": 0.7634,
+            "Recall": 0.7088,
+            "F1_Score": 0.7348,
+            "ROC_AUC": 0.8566
         },
         "Test_Metrics": {
-            "Accuracy": 0.8212,
-            "Precision": 0.7917,
-            "Recall": 0.7703,
-            "F1_Score": 0.7808,
-            "ROC_AUC": 0.9172
+            "Accuracy": 0.8101,
+            "Precision": 0.7632,
+            "Recall": 0.7838,
+            "F1_Score": 0.7733,
+            "ROC_AUC": 0.9069
         }
     },
     "XGBoost": {
         "Training_Metrics": {
-            "Accuracy": 0.7992,
-            "Precision": 0.7392,
-            "Recall": 0.7199,
-            "F1_Score": 0.7293,
-            "ROC_AUC": 0.8425
+            "Accuracy": 0.8118,
+            "Precision": 0.768,
+            "Recall": 0.7162,
+            "F1_Score": 0.7407,
+            "ROC_AUC": 0.8546
         },
         "Test_Metrics": {
-            "Accuracy": 0.8268,
-            "Precision": 0.7722,
-            "Recall": 0.8243,
-            "F1_Score": 0.7974,
-            "ROC_AUC": 0.9041
+            "Accuracy": 0.8212,
+            "Precision": 0.8,
+            "Recall": 0.7568,
+            "F1_Score": 0.7778,
+            "ROC_AUC": 0.8673
         }
     },
     "Neural Network": {
         "Training_Metrics": {
-            "Accuracy": 0.8061,
-            "Precision": 0.7808,
-            "Recall": 0.6751,
-            "F1_Score": 0.7235,
-            "ROC_AUC": 0.835
+            "Accuracy": 0.8202,
+            "Precision": 0.8152,
+            "Recall": 0.6791,
+            "F1_Score": 0.7382,
+            "ROC_AUC": 0.8419
         },
         "Test_Metrics": {
-            "Accuracy": 0.8324,
-            "Precision": 0.8143,
-            "Recall": 0.7703,
-            "F1_Score": 0.7917,
-            "ROC_AUC": 0.8938
+            "Accuracy": 0.8045,
+            "Precision": 0.8197,
+            "Recall": 0.6757,
+            "F1_Score": 0.7407,
+            "ROC_AUC": 0.8641
         }
     }
 }
