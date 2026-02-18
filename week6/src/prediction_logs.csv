@@ -21,3 +21,5 @@ Pclass,Name,Sex,Age,SibSp,Parch,Fare,Embarked,request_id,prediction,probability,
 1,"Khaneja, Mr. Roma",female,80.0,10,10,1000.0,S,59e86d6f-89b5-47fc-b7ee-44796ee71f17,1,0.6261426793199368,2026-02-18T11:45:39.735456
 1,"Khaneja, Mr. Roma",female,80.0,10,10,1000.0,S,7ca5f173-e5e2-4fec-b00e-6adf5edf7165,1,0.6595015847247991,2026-02-18T13:30:04.616442
 1,"Khaneja, Mr. Roma",female,80.0,10,10,1000.0,S,df2ba3c9-72ab-4b1d-bb75-b3817ba9ac70,1,0.6595015847247991,2026-02-18T13:35:56.939660
+1,"Khaneja, Mr. Rajveer",male,80.0,10,10,1000.0,S,db9c98dc-3f11-4dac-857d-0ef66bfbbc64,0,0.385250634344647,2026-02-18T15:38:07.029102
+1,"Khaneja, Mr. Vibhav",male,21.0,1,2,10000.0,S,d46da4f0-a549-45b3-ba0e-1a6387e90c0e,0,0.27309038388082507,2026-02-18T15:39:22.466622
