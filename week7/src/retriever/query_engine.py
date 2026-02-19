@@ -31,11 +31,11 @@ def test_retrieval():
             allow_dangerous_deserialization=True
         )
     except Exception as e:
-        print(f"❌ Error loading index: {e}")
+        print(f" Error loading index: {e}")
         return
 
     # 3. Interactive Loop
-    print("\n🔎 --- PURE RETRIEVAL MODE (No LLM) ---")
+    print("\n --- PURE RETRIEVAL MODE (No LLM) ---")
     print("This tool shows you exactly what text chunks are being found for your query.")
     print("Type 'exit' to quit.\n")
 
