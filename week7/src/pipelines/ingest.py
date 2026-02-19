@@ -6,7 +6,6 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 # --- PATH SETUP ---
-# Ensures the project root is in the system path so we can import src.embeddings
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, '../../'))
 sys.path.append(project_root)
@@ -21,7 +20,6 @@ from src.embeddings.embedder import Embedder
 load_dotenv()
 
 # --- CONFIGURATION PATHS ---
-# Based on your structure: data is inside src/
 DATA_PATH = os.path.join(current_dir, "../data/raw")
 CHUNKS_EXPORT_PATH = os.path.join(current_dir, "../data/chunks")
 DB_PATH = os.path.join(current_dir, "../vectorstore/db_faiss")
@@ -65,7 +63,6 @@ def load_documents():
     return documents
 
 def save_chunks_to_disk(chunks):
-    """Saves chunks as a JSON file for inspection/debugging as per Day 1 requirements."""
     if not os.path.exists(CHUNKS_EXPORT_PATH):
         os.makedirs(CHUNKS_EXPORT_PATH)
     
@@ -81,7 +78,7 @@ def save_chunks_to_disk(chunks):
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(chunk_data, f, indent=4)
     
-    print(f"✅ Exported {len(chunks)} chunks to {file_path}")
+    print(f" Exported {len(chunks)} chunks to {file_path}")
 
 def ingest():
     print(f"\n--- Starting Ingestion Process ---")
@@ -89,10 +86,10 @@ def ingest():
     # 1. Load Data
     raw_docs = load_documents()
     if not raw_docs:
-        print("❌ No documents found! Please check the path and file permissions.")
+        print(" No documents found! Please check the path and file permissions.")
         return
 
-    print(f"✅ Loaded {len(raw_docs)} document pages.")
+    print(f" Loaded {len(raw_docs)} document pages.")
 
     # 2. Chunking
     chunk_size = int(os.getenv("CHUNK_SIZE", 500))
@@ -115,7 +112,7 @@ def ingest():
         if "source" in chunk.metadata:
             chunk.metadata["filename"] = os.path.basename(chunk.metadata["source"])
 
-    print(f"✅ Split into {len(chunks)} chunks with metadata tags.")
+    print(f" Split into {len(chunks)} chunks with metadata tags.")
 
     # 4. Export Chunks for Inspection
     save_chunks_to_disk(chunks)
@@ -130,7 +127,7 @@ def ingest():
     vectorstore = FAISS.from_documents(chunks, embeddings)
     
     vectorstore.save_local(DB_PATH)
-    print(f"✅ Ingestion Complete. Index saved successfully.")
+    print(f" Ingestion Complete. Index saved successfully.")
 
 if __name__ == "__main__":
     ingest()
