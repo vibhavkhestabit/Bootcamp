@@ -46,7 +46,7 @@ Solution:
 
 ## Cross-Validation
 
-Cross-validation is a technique to test how stable your model is. Instead of training the model once on one set of data, we split the data into *K equal parts*. 
+Cross-validation is a technique to test how stable our model is. Instead of training the model once on one set of data, we split the data into *K equal parts*. 
 - We train the model 5 separate times, each time using a different part as the "Test Set" and the rest as "Training."We end up with 5 different scores. 
 - We look at two things:
 1) Mean (Average Score): How accurate is it generally
@@ -74,7 +74,7 @@ Solution: Apply Regularization.
 Mean Score = 90% (+/- 1%). (Scores: 90%, 91%, 89%, 90%, 90%).
 Diagnosis: Good Fit (Robust).
 
-Result: The model learned the true patterns. It performs consistently well regardless of which slice of data it sees.Fix: None. You are ready to deploy.
+Result: The model learned the true patterns. It performs consistently well regardless of which slice of data it sees. Noe the model is deployable.
 
 ## Regularization
 
@@ -87,14 +87,14 @@ Two types of Regularization:
 1) L1 Regularization (Lasso)
 Adds the Absolute Value of weights:w as the penalty.
 Result: It shrinks less important feature weights all the way to Zero.
-Best For: Feature Selection. It literally deletes useless columns from your model.
-Use Case: When you have 100 features but suspect only 10 are actually useful.
+Best For: Feature Selection. It literally deletes useless columns from our model.
+Use Case: When we have 100 features but suspect only 10 are actually useful.
 
 2) L2 Regularization (Ridge)
 Adds the Squared Value of weights:w as the penalty.
 Result: It shrinks all weights to be very small, but rarely zero.
 Best For: Stability. It prevents any single feature from dominating the prediction.
-Use Case: The default choice. Good when most features are somewhat useful and you just want a stable model.
+Use Case: The default choice. Good when most features are somewhat useful and we just want a stable model.
 
 ## Models
 
@@ -103,7 +103,7 @@ Use Case: The default choice. Good when most features are somewhat useful and yo
 1) It is the simplest classification algorithm that predicts the probability of an outcome (between 0 and 1) rather than a direct "Yes" or "No."
 2) It works by drawing a linear boundary (a straight line or plane) through the data to separate the two classes.
 3) The core mechanism is the Sigmoid Function, an S-shaped curve that squashes any input number into a probability value.
-4) It is highly interpretable because you can see the exact "weight" (coefficient) assigned to each feature, telling you if it increases or decreases the chance of the outcome.
+4) It is highly interpretable because we can see the exact weight (coefficient) assigned to each feature, telling us if it increases or decreases the chance of the outcome.
 5) However, it often underperforms on complex datasets because it assumes a linear relationship and cannot capture intricate patterns without manual feature engineering.
 
 ### Random Forest
@@ -137,39 +137,38 @@ Use Case: The default choice. Good when most features are somewhat useful and yo
 - It is the most intuitive metric, simply calculating the percentage of total predictions that were correct (both True Positives and True Negatives).
 - However, it is extremely misleading when dealing with imbalanced datasets (e.g., 99% healthy, 1% sick), because a model can just guess the majority class every time and still get a 99% score.
 - It treats all errors equally, not distinguishing between a "False Alarm" and a "Missed Detection."
-- Use it only when your classes are evenly balanced (e.g., 50/50) and both types of errors are equally bad.
+- Use it only when our classes are evenly balanced (e.g., 50/50) and both types of errors are equally bad.
 
 ### Precision
 
-- It measures the quality of your positive predictions: "Out of all the times the model said 'Yes', how many were actually 'Yes'?"
+- It measures the quality of our positive predictions: "Out of all the times the model said 'Yes', how many were actually 'Yes'?"
 - It is obsessed with minimizing False Positives.
 - A high precision score means the model is "conservative"—it rarely makes a prediction unless it is very confident.
 - Use it when the cost of a false alarm is high, such as in Spam Detection or YouTube Recommendations.
-- If you optimize only for Precision, you might miss a lot of real cases (Low Recall).
+- If we optimize only for Precision, we might miss a lot of real cases (Low Recall).
 
 ### Recall (Sensitivity)
 
-- It measures the completeness of your positive predictions: "Out of all the actual 'Yes' cases in the real world, how many did the model find?"
+- It measures the completeness of our positive predictions: "Out of all the actual 'Yes' cases in the real world, how many did the model find?"
 - It is obsessed with minimizing False Negatives.
 - A high recall score means the model is "aggressive"—it tries to catch every single positive case, even if it triggers some false alarms.
 - Use it when missing a case is dangerous or fatal, such as in Cancer Diagnosis (better to test a healthy person than miss a sick one) or Fraud Detection.
-- If you optimize only for Recall, your precision will drop because you will catch too much "noise."
+- If we optimize only for Recall, our precision will drop because we will catch too much "noise."
 
 ### F1-Score
 
 - It is the Harmonic Mean of Precision and Recall, creating a single score that balances both metrics.
 - Unlike a simple average, it punishes extreme values—if either Precision or Recall is very low, the F1-Score will tank.
-- Use it when you have an imbalanced dataset (like the Titanic, where more died than survived) and need to compare models fairly.
-- A high F1-Score guarantees that your model is both capturing enough positives (Recall) and not making too many mistakes (Precision).
+- Use it when we have an imbalanced dataset (like the Titanic, where more died than survived) and need to compare models fairly.
+- A high F1-Score guarantees that our model is both capturing enough positives (Recall) and not making too many mistakes (Precision).
 
 ### ROC-AUC (Area Under the Curve)
 
 - This metric evaluates how well the model can distinguish between the two classes (Positive vs. Negative) across all possible probability thresholds.
 - It plots the True Positive Rate against the False Positive Rate; a score of 0.5 is random guessing, while 1.0 is a perfect model.
-- It is "threshold-invariant," meaning it tells you if the model is fundamentally smart, regardless of whether you cut the probability at 50%, 10%, or 90%.
-- Use it when you need to rank different models (e.g., Random Forest vs. XGBoost) to see which one has the best raw predictive power.
-- It is the gold standard for model comparison because it isn't affected by the specific business decision (threshold) you make later.
-
+- It is "threshold-invariant," meaning it tells us if the model is fundamentally smart, regardless of whether we cut the probability at 50%, 10%, or 90%.
+- Use it when we need to rank different models (e.g., Random Forest vs. XGBoost) to see which one has the best raw predictive power.
+- It is the gold standard for model comparison because it isn't affected by the specific business decision (threshold) we make later.
 
 ## Correlation Matrix Analysis
 

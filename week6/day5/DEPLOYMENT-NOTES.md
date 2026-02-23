@@ -136,7 +136,7 @@ python monitoring/drift_checker.py
 
 ![ss](screenshots/drift.png)
 
-This will compare prediction_logs.csv against the training baseline and alert you if significant drift is detected.
+This will compare prediction_logs.csv against the training baseline and alert us if significant drift is detected.
 
 
 

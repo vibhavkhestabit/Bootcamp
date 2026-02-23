@@ -143,15 +143,15 @@ Exploratory Data Analysis (EDA) is the process of understanding a dataset before
 
 1) Library Imports & Visualization Configuration and Loading Raw and Processed Datasets
 
-You import Pandas and NumPy for data handling, and Seaborn/Matplotlib for visualization. Plot styles and figure size are set globally so that all charts are clean, readable, and consistent throughout the analysis.
+We import Pandas and NumPy for data handling, and Seaborn/Matplotlib for visualization. Plot styles and figure size are set globally so that all charts are clean, readable, and consistent throughout the analysis.
 
-You load the raw dataset (dataset.csv) and the processed dataset (final.csv). This allows you to compare how the data looks before cleaning and after preprocessing, which is important for validating whether the pipeline worked correctly.
+We load the raw dataset (dataset.csv) and the processed dataset (final.csv). This allows us to compare how the data looks before cleaning and after preprocessing, which is important for validating whether the pipeline worked correctly.
 
 ![ss](screenshots/day6-2.png)
 
 2) Missing Value Analysis and Missing Data Heatmap
 
-You calculate both the count and percentage of missing values in each column. This helps identify which features have data quality issues and whether some columns should be dropped or imputed during preprocessing.
+We calculate both the count and percentage of missing values in each column. This helps identify which features have data quality issues and whether some columns should be dropped or imputed during preprocessing.
 
 The heatmap visually shows where missing values occur across the dataset. Instead of reading numbers, this gives an instant understanding of patterns of missingness (random vs column-specific vs row-specific).
 
@@ -159,15 +159,15 @@ The heatmap visually shows where missing values occur across the dataset. Instea
 
 3) Target Variable Distribution (Class Imbalance Check)
 
-Using a count plot on the Survived column, you analyze whether the dataset is imbalanced. This is critical because class imbalance can bias model training and may require techniques like class weights or SMOTE.
+Using a count plot on the Survived column, we analyze whether the dataset is imbalanced. This is critical because class imbalance can bias model training and may require techniques like class weights or SMOTE.
 
 ![ss](screenshots/day6-4.png)
 
 4) Raw Feature Distribution and Processed Data Distribution Comparison
 
-Histograms of numeric features help you understand data spread, skewness, and outliers in the raw data. This step is essential for deciding whether scaling, transformation, or outlier handling is needed.
+Histograms of numeric features help us understand data spread, skewness, and outliers in the raw data. This step is essential for deciding whether scaling, transformation, or outlier handling is needed.
 
-You plot histograms again using the cleaned dataset. This confirms whether preprocessing steps like imputation or column removal changed the data distribution in a reasonable and expected way.
+We plot histograms again using the cleaned dataset. This confirms whether preprocessing steps like imputation or column removal changed the data distribution in a reasonable and expected way.
 
 ![ss](screenshots/day6-5.png)
 ![ss](screenshots/day6-6.png)
