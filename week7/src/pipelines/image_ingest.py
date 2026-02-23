@@ -37,7 +37,7 @@ class ImageIngestor:
         files = [f for f in os.listdir(IMAGE_DIR) if f.lower().endswith(valid_extensions)]
         
         if not files:
-            print(f"⚠️ No images found in {IMAGE_DIR}. Please add some and try again.")
+            print(f" No images found in {IMAGE_DIR}. Please add some and try again.")
             return
 
         for filename in files:
@@ -55,10 +55,15 @@ class ImageIngestor:
             if ocr_text:
                 print(f" - OCR Found: {len(ocr_text)} characters")
             
-            # 3. Embedding
-            embedding = self.clip.embed_image(filepath)
+            # 3. Embedding (HYBRID FUSION)
 
-            vectors.append(embedding)
+            image_embedding = np.array(self.clip.embed_image(filepath))
+            
+            caption_embedding = np.array(self.clip.embed_text(caption))
+            
+            hybrid_embedding = (0.6 * caption_embedding) + (0.4 * image_embedding)
+
+            vectors.append(hybrid_embedding)
             metadata_store.append({
                 "filename": filename,
                 "filepath": filepath,
@@ -79,12 +84,12 @@ class ImageIngestor:
         
         # 4. Save to FAISS
         index.add(vectors_np)
-        faiss.write_index(index, os.path.join(DB_PATH, "images.index"))
+        faiss.write_index(index, os.path.join(DB_PATH, "images_index.faiss"))
         
         with open(os.path.join(DB_PATH, "metadata.pkl"), "wb") as f:
             pickle.dump(metadata_store, f)
             
-        print(f"\n✅ Successfully ingested {len(vectors)} images into Multimodal Vector DB.")
+        print(f"\n Successfully ingested {len(vectors)} images into Multimodal Vector DB.")
 
 if __name__ == "__main__":
     print("--- Starting Multimodal Ingestion Pipeline ---")
