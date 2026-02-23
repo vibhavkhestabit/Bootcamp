@@ -70,7 +70,7 @@ if __name__ == "__main__":
     print("MODE 3: Image → Text Answer (Ready for LLM)")
     print("="*50)
     if os.path.exists(test_image_path):
-        results_mode_3 = searcher.search_by_image(test_image_path, top_k=1)
+        results_mode_3 = searcher.search_by_image(test_image_path, top_k=2)
         for res in results_mode_3:
             print(f" Extracted Context for LLM:")
             print(f"System: 'The user uploaded an image. Here is the data extracted from it:'")
