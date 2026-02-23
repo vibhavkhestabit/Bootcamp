@@ -4,7 +4,7 @@ Today we are starting with week 7 and in this week we will be covering Gen AI an
 
 ## 1. Ingestion: The Intake Valve
 
-Ingestion is the process of bringing outside data into your local environment. In your project, this is handled by PyPDFLoader.
+Ingestion is the process of bringing outside data into our local environment. In our project, this is handled by PyPDFLoader.
 
 The Core Learning: In an enterprise setting, ingestion isn't just about reading. It’s about **standardization**. Whether the input is a PDF, CSV, or TXT, the ingestion layer must turn it into a unified Document Object that contains the raw text and its associated metadata.
 
@@ -15,12 +15,12 @@ The practice of attaching contextual key-value pairs (like `source_file`, `page_
 A vector database only stores the text and its mathematical representation. Without metadata, an LLM might generate a correct answer but will be completely incapable of proving where it got the information.
 
 **Source Attribution:** Metadata allows the RAG system to provide citations. This builds user trust and solves the hallucination verification problem.
-**Pre-Filtering:** Metadata allows you to narrow down a search before doing expensive vector math. For example, you can tell the retriever: Only perform similarity search on chunks where `category == 'HR_Policy'` and `year == 2024`.
+**Pre-Filtering:** Metadata allows we to narrow down a search before doing expensive vector math, we can tell the retriever: Only perform similarity search on chunks where `category == 'HR_Policy'` and `year == 2024`.
 
 ## 2. Chunking: The Precision Slicer
 
-Once we have the text, we can't feed a whole book to the AI at once. You must perform Chunking.
-The Core Learning: You are balancing Precision vs. Context.
+Once we have the text, we can't feed a whole book to the AI at once, we must perform Chunking.
+The Core Learning: We are balancing Precision vs. Context.
 - If we slice too thin (small chunks), we lose the meaning of the sentence.
 - If we slice too thick (large chunks), the "mathematical fingerprint" becomes blurry.
 
@@ -50,13 +50,13 @@ The pipeline that translates human language (text chunks) into machine-readable 
 Standard database searches rely on exact keyword matches (e.g., searching for compensation will miss documents that only say salary).Embedding models map text to a numerical space based on **semantic meaning**. 
 
 **The Translation:** Models like `all-MiniLM-L6-v2` read a text chunk and output a fixed-length array of numbers. Words with similar meanings are plotted physically closer together in this mathematical space.
-**The Golden Rule:** The exact same embedding model used to ingest and store the documents must be used to embed the user's query. If you use a different model, the mathematical coordinates will not align, and the search will fail.
+**The Golden Rule:** The exact same embedding model used to ingest and store the documents must be used to embed the user's query. If we use a different model, the mathematical coordinates will not align, and the search will fail.
 
 ## 4. FAISS: The High-Speed Library
 
 Once we have 1,000+ vectors, we need a way to find the right one instantly which is done using FAISS. FAISS is a Local Vector Database. Unlike a traditional database that searches for exact, FAISS searches for Distance.
 
-How it works: When we ask a question, your query is turned into a vector. FAISS looks through its "map" of document vectors and pulls the 3 or 5 dots that are physically closest to your query's dot. This is called Semantic Search.
+How it works: When we ask a question, our query is turned into a vector. FAISS looks through its "map" of document vectors and pulls the 3 or 5 dots that are physically closest to our query's dot. This is called Semantic Search.
 
 FAISS takes in our vectors and embeddings and creates a dual file structure and stores it locally using vectorstore.save_local so that it doesnt have to re-read, re-split and then re-generate the files again and it gets saved in the local FAISS directory.
 
@@ -64,10 +64,10 @@ We get 2 FAISS Files:
 
 ### 1. index.faiss — The Mathematical Map
 
-- This is a binary file that stores the spatial coordinates of your data. It is the part of the system that understands distance but has no idea what the actual words are.
-- The Vectors: It contains a massive list of numerical arrays. For your project, each chunk of text was converted into a list of 384 numbers.
-- The Search Structure: It stores the Index Structure (Flat index/HNSW graph). This structure allows FAISS to quickly calculate which dot" in the 384-dimensional space are closest to your query's dot.
-- Anonymized Data: If you opened this file in a text editor, it would look like gibberish. It does not contain English words; it only contains the floating-point numbers that represent the meaning of those words.
+- This is a binary file that stores the spatial coordinates of our data. It is the part of the system that understands distance but has no idea what the actual words are.
+- The Vectors: It contains a massive list of numerical arrays. In our project, each chunk of text was converted into a list of 384 numbers.
+- The Search Structure: It stores the Index Structure (Flat index/HNSW graph). This structure allows FAISS to quickly calculate which dot" in the 384-dimensional space are closest to our query's dot.
+- Anonymized Data: If we opened this file in a text editor, it would look like gibberish. It does not contain English words; it only contains the floating-point numbers that represent the meaning of those words.
 
 ### 2. index.pkl — The Memory Map (Pickle File)
 
@@ -79,7 +79,7 @@ We get 2 FAISS Files:
 
 ## Query Workflow
 
-1) Your Query: "What is the form about?"
+1) Our Query: "What is the form about?"
 2) Conversion: Embedder turned that sentence into a vector;i.e.; a list of 384 numbers.
 3) The Search (index.faiss): FAISS looked at our query vector and found the top 3 closest vectors in its mathematical map. It returned the IDs of those vectors.
 4) The Lookup (index.pkl): The system went to the pickle file and asked, "What text and metadata belong to IDs 101, 550, and 900?"
@@ -92,7 +92,7 @@ Searching through 1,000 chunks is easy. Searching through 10,000,000 is hard. FA
 
 ### Flat Index
 
-This is what you are likely using now. It is an **Exhaustive Search**. It compares the query vector to every single vector in the database. It is 100% accurate but slow for huge data.
+This is what we are likely using now. It is an **Exhaustive Search**. It compares the query vector to every single vector in the database. It is 100% accurate but slow for huge data.
 
 ### IVF (Inverted File Index):
 
