@@ -69,18 +69,18 @@ if __name__ == "__main__":
     raw_results = hybrid_retriever.retrieve(query, metadata_filters=my_filters)
     
     raw_results = hybrid_retriever.retrieve(query)
-    print(f"✅ Step 1: Retrieved {len(raw_results)} initial chunks via Hybrid Search.")
+    print(f" Step 1: Retrieved {len(raw_results)} initial chunks via Hybrid Search.")
 
     unique_results = cb.deduplicate(raw_results)
-    print(f"✅ Step 2: Removed duplicates. {len(unique_results)} unique chunks remain.")
+    print(f" Step 2: Removed duplicates. {len(unique_results)} unique chunks remain.")
 
     reranked_results = reranker.rerank(query, unique_results, top_k=3)
-    print("✅ Step 3: Reranked chunks using Cross-Encoder. Selected Top 3.")
+    print(" Step 3: Reranked chunks using Cross-Encoder. Selected Top 3.")
 
     final_context = cb.format_context(reranked_results)
     
     print("\n" + "="*60)
-    print("🎯 FINAL TRACEABLE CONTEXT (Ready for the LLM)")
+    print(" FINAL TRACEABLE CONTEXT (Ready for the LLM)")
     print("="*60)
     print(final_context)
     print("="*60)

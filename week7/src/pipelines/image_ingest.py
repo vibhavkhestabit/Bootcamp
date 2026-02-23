@@ -5,6 +5,7 @@ import numpy as np
 import pytesseract
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
+from pdf2image import convert_from_path
 import sys
 
 sys.path.append(os.path.abspath("src"))
@@ -22,63 +23,80 @@ class ImageIngestor:
 
     def generate_caption(self, image):
         inputs = self.blip_processor(image, return_tensors="pt")
-        out = self.blip_model.generate(**inputs)
+        out = self.blip_model.generate(**inputs, max_new_tokens=50)
         return self.blip_processor.decode(out[0], skip_special_tokens=True)
 
     def extract_text(self, image):
         return pytesseract.image_to_string(image).strip()
+
+    def _process_single_image(self, filename, filepath, vectors, metadata_store):
+        """Helper function to process a single image and append to lists"""
+        image = Image.open(filepath).convert("RGB")
+        
+        print(f"\nProcessing: {filename}")
+        
+        # 1. AI Captioning
+        caption = self.generate_caption(image)
+        print(f" - Caption: {caption}")
+        
+        # 2. OCR Extraction
+        ocr_text = self.extract_text(image)
+        if ocr_text:
+            print(f" - OCR Found: {len(ocr_text)} characters")
+        
+        # 3. Embedding (HYBRID FUSION)
+        image_embedding = np.array(self.clip.embed_image(filepath))
+        caption_embedding = np.array(self.clip.embed_text(caption))
+        hybrid_embedding = (0.6 * caption_embedding) + (0.4 * image_embedding)
+
+        vectors.append(hybrid_embedding)
+        metadata_store.append({
+            "filename": filename,
+            "filepath": filepath,
+            "caption": caption,
+            "ocr_text": ocr_text[:200] + "..." if len(ocr_text) > 200 else ocr_text
+        })
 
     def process_directory(self):
         os.makedirs(DB_PATH, exist_ok=True)
         metadata_store = []
         vectors = []
 
-        valid_extensions = ('.png', '.jpg', '.jpeg')
+        valid_extensions = ('.png', '.jpg', '.jpeg', '.pdf')
         files = [f for f in os.listdir(IMAGE_DIR) if f.lower().endswith(valid_extensions)]
         
         if not files:
-            print(f" No images found in {IMAGE_DIR}. Please add some and try again.")
+            print(f"No images or PDFs found in {IMAGE_DIR}. Please add some and try again.")
             return
 
         for filename in files:
             filepath = os.path.join(IMAGE_DIR, filename)
-            image = Image.open(filepath).convert("RGB")
             
-            print(f"\nProcessing: {filename}")
-            
-            # 1. AI Captioning
-            caption = self.generate_caption(image)
-            print(f" - Caption: {caption}")
-            
-            # 2. OCR Extraction
-            ocr_text = self.extract_text(image)
-            if ocr_text:
-                print(f" - OCR Found: {len(ocr_text)} characters")
-            
-            # 3. Embedding (HYBRID FUSION)
+            if filename.lower().endswith('.pdf'):
+                print(f"\nExtracting pages from PDF: {filename}")
+                
+                pages = convert_from_path(filepath)
+                
+                for i, page_image in enumerate(pages):
+                    page_filename = f"{os.path.splitext(filename)[0]}_page_{i+1}.jpg"
+                    page_filepath = os.path.join(IMAGE_DIR, page_filename)
+                    
+                    page_image.save(page_filepath, 'JPEG')
+                    print(f"  -> Extracted {page_filename}")
+                    
+                    # Process the newly extracted page as a normal image
+                    self._process_single_image(page_filename, page_filepath, vectors, metadata_store)
+                    
+            else:
+                self._process_single_image(filename, filepath, vectors, metadata_store)
 
-            image_embedding = np.array(self.clip.embed_image(filepath))
-            
-            caption_embedding = np.array(self.clip.embed_text(caption))
-            
-            hybrid_embedding = (0.6 * caption_embedding) + (0.4 * image_embedding)
-
-            vectors.append(hybrid_embedding)
-            metadata_store.append({
-                "filename": filename,
-                "filepath": filepath,
-                "caption": caption,
-                "ocr_text": ocr_text[:200] + "..." if len(ocr_text) > 200 else ocr_text
-            })
-
-        # --- THE MATH FIX IS HERE ---
         # 1. Convert to numpy array
         vectors_np = np.array(vectors, dtype=np.float32)
         
-        # 2. Normalize lengths to exactly 1.0 (Modifies array in-place)
+        # 2. Normalize lengths to exactly 1.0
         faiss.normalize_L2(vectors_np)
         
-        # 3. Use Inner Product (Which now equals Cosine Similarity)
+        # 3. Use Inner Product
         dimension = len(vectors[0])
         index = faiss.IndexFlatIP(dimension) 
         
@@ -89,7 +107,7 @@ class ImageIngestor:
         with open(os.path.join(DB_PATH, "metadata.pkl"), "wb") as f:
             pickle.dump(metadata_store, f)
             
-        print(f"\n Successfully ingested {len(vectors)} images into Multimodal Vector DB.")
+        print(f"\nSuccessfully ingested {len(vectors)} items into Multimodal Vector DB.")
 
 if __name__ == "__main__":
     print("--- Starting Multimodal Ingestion Pipeline ---")
