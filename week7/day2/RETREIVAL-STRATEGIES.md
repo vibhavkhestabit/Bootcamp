@@ -61,7 +61,7 @@ Context Engineering is the approach which we must follow.
 
 1. Hybrid Search & MMR 
 
-- BM25Retriever.from_documents: This takes your raw text and builds an exact-keyword index on the fly. We tell it to grab the top 5 matches (k=5). search_type="mmr".
+- BM25Retriever.from_documents: This takes our raw text and builds an exact-keyword index on the fly. We tell it to grab the top 5 matches (k=5). search_type="mmr".
 - fetch_k=20: First, FAISS does a fast mathematical search to grab the 20 closest vectors, k=5: Then, the MMR algorithm penalizes duplicates among those 20 and returns the 5 most diverse, relevant chunks.
 - EnsembleRetriever: This is the LangChain wrapper that takes the 5 keyword chunks and the 5 semantic chunks, applies the Reciprocal Rank Fusion (RRF) algorithm to their leaderboard positions, and outputs a single combined list. The weights=[0.5, 0.5] means we assign equal mathematical value to the rank positions from both search engines.
 
@@ -73,11 +73,11 @@ Context Engineering is the approach which we must follow.
 
 ### Reduce Hallucination
 
-An LLM hallucinates (lies) when it gets confused, overwhelmed, or lacks explicit instructions. Your pipeline completely neutralizes this.
+An LLM hallucinates (lies) when it gets confused, overwhelmed, or lacks explicit instructions. our pipeline completely neutralizes this.
 
 1. Optimizing the Context Window (top_k=3) 
 
-- By strictly limiting the data to only the 3 best chunks, you prevent the LLM from getting lost in the middle. A focused AI is an honest AI.
+- By strictly limiting the data to only the 3 best chunks, we prevent the LLM from getting lost in the middle. A focused AI is an honest AI.
 
 2. Chunk Deduplication
 
@@ -86,7 +86,7 @@ An LLM hallucinates (lies) when it gets confused, overwhelmed, or lacks explicit
 
 3. Traceable Formatting
 
-This is the most important one. By wrapping your chunks in [Source: file.pdf | Page: 69], you are explicitly giving the LLM an anchor to reality.
+This is the most important one. By wrapping our chunks in [Source: file.pdf | Page: 69], we are explicitly giving the LLM an anchor to reality.
 
 
 ![ss](screenshots/ss1.png)
