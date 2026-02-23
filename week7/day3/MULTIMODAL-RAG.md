@@ -35,3 +35,34 @@ A Multimodal Vector Database isn't just a pile of numbers; it requires a specifi
 
 When a query comes in, FAISS finds the nearest mathematical neighbors (the IDs). The system then uses those IDs to retrieve the rich metadata payload from the Document Store. This payload is what is finally injected into the LLM's prompt.
 
+## Data Ingestion Pipeline
+
+When a new visual asset (PNG, JPG, scanned PDF) enters the system, it undergoes a three-step processing phase before being stored:
+
+1.  **Semantic Embedding:** The raw image is passed through the CLIP vision encoder to generate a high-dimensional vector representing its conceptual meaning.
+2.  **Visual Captioning:** The image is passed through BLIP to generate a textual description of the scene or diagram.
+3.  **Data Extraction:** The image is scanned by Tesseract to extract raw text (OCR).
+4.  **Storage:** The CLIP vector is saved to the FAISS index. The BLIP caption, OCR text, and file path are saved as attached metadata.
+
+
+![ss](screenshots/ingest1.png)
+![ss](screenshots/ingest2.png)
+![ss](screenshots/ingest3.png)
+
+
+### 1. Text => Image
+**Mechanism:** The user inputs a natural language query
+**Execution:** The text is embedded using the CLIP text encoder. FAISS calculates the Cosine Similarity between the text vector and the stored image vectors, returning the closest visual match.
+
+### 2. Image => Image
+**Mechanism:** The user uploads an image.
+**Execution:** The image is embedded using the CLIP vision encoder. FAISS calculates the distance between this vector and other stored image vectors, returning visually or conceptually similar files.
+
+![ss](screenshots/mode1-2.png)
+
+### 3. Image => Text Answer
+**Mechanism:** The user uploads an image and asks a question about it.
+**Execution:** The system retrieves the image and extracts its attached metadata (the BLIP caption and the Tesseract OCR data). These two text strings are structured into a clean context prompt, allowing a standard text-based LLM to "read" the image and answer the user's question with high precision.
+
+![ss](screenshots/mode3.png)
+
