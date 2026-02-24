@@ -47,9 +47,19 @@ class ImageIngestor:
         # 3. Embedding (HYBRID FUSION)
         image_embedding = np.array(self.clip.embed_image(filepath))
         caption_embedding = np.array(self.clip.embed_text(caption))
-        hybrid_embedding = (0.6 * caption_embedding) + (0.4 * image_embedding)
+
+        if ocr_text and ocr_text.strip():
+            ocr_embedding = np.array(self.clip.embed_text(ocr_text))
+            
+            hybrid_embedding = (0.4 * caption_embedding) + (0.3 * ocr_embedding) + (0.3 * image_embedding)
+            print(f" Generated 3-way hybrid embedding for {filepath}")
+            
+        else:
+            hybrid_embedding = (0.6 * caption_embedding) + (0.4 * image_embedding)
+            print(f" No OCR found. Generated 2-way hybrid embedding for {filepath}")
 
         vectors.append(hybrid_embedding)
+
         metadata_store.append({
             "filename": filename,
             "filepath": filepath,
