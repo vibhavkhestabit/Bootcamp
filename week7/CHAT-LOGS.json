@@ -1,0 +1,9 @@
+[
+    {
+        "timestamp": "2026-02-24T19:51:46.035107",
+        "endpoint": "/ask-sql",
+        "user_query": "How many total customers are in the dataset?",
+        "ai_response": "There are 100 customers in the dataset.",
+        "confidence_score": 100
+    }
+]
