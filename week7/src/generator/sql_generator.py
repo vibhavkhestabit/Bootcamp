@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 
-# Automatically loads the secrets from your .env file
 load_dotenv()
 
 class SQLGenerator:
@@ -34,7 +33,6 @@ class SQLGenerator:
                 temperature=0, 
                 google_api_key=api_key
             )
-        # You can easily add 'elif provider == "openai":' here later!
         else:
             raise ValueError(f"Provider '{provider}' is not supported yet.")
 
@@ -45,6 +43,21 @@ class SQLGenerator:
         ])
         chain = prompt | self.llm
         response = chain.invoke({"schema": schema, "question": question})
+        return response.content.strip().replace("```sql", "").replace("```", "").strip()
+
+    def fix_sql(self, question, schema, bad_sql, error_message):
+        """Self-Healing: Asks the LLM to debug and fix its own broken SQL query."""
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "You are an expert SQL data analyst. Your previous query failed. Look at the error message and provide the corrected SQL query. Output ONLY the raw SQL query without markdown formatting or explanations. The table is named 'dataset'. Use the following schema:\n{schema}"),
+            ("user", "Question: {question}\nBad SQL: {bad_sql}\nDatabase Error: {error_message}\n\nPlease write the fixed SQL query:")
+        ])
+        chain = prompt | self.llm
+        response = chain.invoke({
+            "schema": schema, 
+            "question": question, 
+            "bad_sql": bad_sql, 
+            "error_message": error_message
+        })
         return response.content.strip().replace("```sql", "").replace("```", "").strip()
 
     def validate_sql(self, sql):
