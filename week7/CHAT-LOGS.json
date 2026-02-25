@@ -301,5 +301,15 @@
         "confidence_score": 100,
         "faithfulness_status": "Faithful",
         "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-02-25T19:49:16.232020",
+        "endpoint": "/ask",
+        "user_query": "Stock based compensation",
+        "ai_response": "AI Vision Summary:\nI found information regarding stock-based compensation.\n\nThe company measures stock-based compensation using the fair value based method on the grant date. Restricted stock units (RSUs) are valued based on the fair value of the company's publicly traded common stock, while stock options are assessed using a Black-Scholes option pricing model.\n\nStock-based compensation is allocated on a departmental basis according to the classification of the option holder or grant recipient. For the twelve months ended December 31, 2022, no income tax benefits were recognized in the statement of operations for stock-based compensation arrangements, and no stock-based compensation was capitalized as of that date.\n\nThe document also provides a breakdown of total stock-based compensation expense by function in millions.\n\n\ud83d\udcc1 Source Files:\n1. File: /home/vibhavkhaneja/training/week7/src/pipelines/../data/raw/file.pdf - Page: 68\n   - Content: Stock-based Compensation\n     The Company measures stock-based compensation using the fair value based method on the grant date. Restricted stock units (\u201cRSUs\u201d) are measured based on fair value of the\n     Company\u2019s publicly traded common stock, while stock options are measured using a Black-Scholes option pricing model with assumptions including expected term, risk-free\n\n2. File: /home/vibhavkhaneja/training/week7/src/pipelines/../data/raw/file.pdf - Page: 75\n   - Content: the twelve months ended December 31, 2022.\n     Stock-based Compensation Expense\n     Stock-based compensation is allocated on a departmental basis, based on the classification of the option holder or grant recipient. No income tax benefits have been recognized\n     in the statement of operations for stock-based compensation arrangements and no stock-based compensation has been capitalized as of December 31, 2022.\n     Total stock-based compensation expense by function was as follows (in millions):",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
     }
 ]
