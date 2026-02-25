@@ -9,20 +9,25 @@ class MemoryStore:
             with open(self.log_file, 'w') as f:
                 json.dump([], f)
 
-    def append_message(self, endpoint, user_query, ai_response, score=None):
+    def append_message(self, endpoint, user_query, ai_response, score=None, critique="None", feedback="None"):
         """Saves the interaction to the local JSON log."""
         with open(self.log_file, 'r') as f:
             logs = json.load(f)
         
-        faithfulness_label = "Faithful" if score >= 80 else "Unfaithful"
+        if isinstance(score, (int, float)):
+            faithfulness_label = "Faithful" if score >= 80 else "Unfaithful"
+        else:
+            faithfulness_label = "Unknown (Error)"
             
         entry = {
             "timestamp": datetime.now().isoformat(),
             "endpoint": endpoint,
             "user_query": user_query,
             "ai_response": ai_response,
+            "critique": critique,  
             "confidence_score": score,
-            "faithfulness_status": faithfulness_label
+            "faithfulness_status": faithfulness_label,
+            "human_feedback": feedback # <--- Boom! Saved to the audit log.
         }
         
         logs.append(entry)

@@ -1,5 +1,6 @@
 import sys
 import os
+import yaml
 
 sys.path.append(os.path.abspath("src"))
 from memory.memory_store import MemoryStore
@@ -27,8 +28,16 @@ class CapstoneRouter:
         self.memory = MemoryStore()
         self.evaluator = Evaluator()
         
-        # Initialize our foundational LLM
-        self.general_llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.7)
+        # 1. Point directly to your config folder
+        config_path = "src/config/model.yaml"
+        
+        with open(config_path, "r") as file:
+            config = yaml.safe_load(file)
+            
+        model_name = config.get("model_name", "gemini-2.5-flash-lite")
+        
+        # 2. Initialize our foundational Writer LLM
+        self.general_llm = ChatGoogleGenerativeAI(model=model_name, temperature=0.7)
         
         print("\n[System] Spinning up Data Pipelines...")
         
@@ -126,14 +135,26 @@ class CapstoneRouter:
                     search_results = self.vision_searcher.search_by_text(query, top_k=3)
                 
                 # 2. FORMAT THE OUTPUT
+                # 2. FORMAT THE OUTPUT
                 if search_results:
-                    draft_answer = "Here are the top matching images from your database:\n"
+                    # 1. Build the raw context AND the pretty list for the user
                     context_used = ""
-                    
-                    # Loop through the results and explicitly print the file names
+                    detailed_list = ""
                     for i, res in enumerate(search_results):
-                        draft_answer += f"{i+1}. File: {res['filename']}\n   - Caption: {res['caption']}\n   - OCR: {res['ocr_text']}\n\n"
                         context_used += f"File: {res['filename']} | Summary: {res['caption']} | OCR: {res['ocr_text']}\n"
+                        detailed_list += f"{i+1}. File: {res['filename']}\n   - Caption: {res['caption']}\n   - OCR: {res['ocr_text']}\n\n"
+                    
+                    # 2. Have the Writer Agent draft a conversational summary of ALL images
+                    prompt = f"""Here is data extracted from {len(search_results)} images: 
+                    {context_used}
+
+                    The user searched for: '{query}'. 
+                    Write a conversational summary that explicitly mentions and describes EVERY SINGLE image provided in the data above. Explain what each image shows, even if it doesn't perfectly match the user's exact search."""
+                    
+                    ai_summary = self.general_llm.invoke(prompt).content
+                    
+                    # 3. GLUE THEM TOGETHER! This is what will print at the bottom of app.py
+                    draft_answer = f" AI Vision Summary:\n{ai_summary}\n\n Source Files:\n{detailed_list}"
                 else:
                     draft_answer = "No matching images found in the database."
                     context_used = "None"
@@ -159,14 +180,21 @@ class CapstoneRouter:
         # AGENTIC EVALUATION & LOGGING
         # ---------------------------------------------------------
         print(" Running Agentic Evaluation & Hallucination Check...")
-        final_answer, confidence_score = self.evaluator.grade_and_refine(query, draft_answer, context_used)
-
-        self.memory.append_message(endpoint, query, final_answer, confidence_score)
+        final_answer, confidence_score, critique_text = self.evaluator.grade_and_refine(query, draft_answer, context_used)
 
         print("\n" + "="*50)
         print(f" Confidence Score: {confidence_score}/100")
+        if critique_text != "None (Score was 80+, no refinement needed)" and critique_text != "Skipped":
+            print(f" AI Critique: {critique_text}")
         print(f" Final AI Answer:\n{final_answer}")
         print("="*50 + "\n")
+
+
+        user_feedback = input(" Was this answer helpful? (y/n): ").strip().lower()
+        feedback_label = "Positive" if user_feedback == 'y' else "Negative"
+
+        # Pass it to memory!
+        self.memory.append_message(endpoint, query, final_answer, confidence_score, critique=critique_text, feedback=feedback_label)
 
 
 if __name__ == "__main__":

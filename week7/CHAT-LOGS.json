@@ -210,5 +210,96 @@
         "ai_response": "The customers with first names starting with 'A', in descending order, are: Anita, Alison, Alexandria, Alejandro, and Aimee.",
         "confidence_score": 100,
         "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T17:00:16.042044",
+        "endpoint": "/ask-sql",
+        "user_query": "Return the names of customers whose first name contain V anywhere",
+        "ai_response": "*   Virginia Dudley\n*   Vernon Kane",
+        "critique": "The original answer incorrectly included a customer whose first name contains a lowercase 'v' instead of the specified uppercase 'V'.",
+        "confidence_score": 60,
+        "faithfulness_status": "Unfaithful"
+    },
+    {
+        "timestamp": "2026-02-25T17:07:25.040188",
+        "endpoint": "/ask-sql",
+        "user_query": "names of customers where first name starts with A in descending order",
+        "ai_response": "Here are the names of customers whose first name starts with 'A', in descending order:\n\n*   Anita Benson\n*   Alison Vargas\n*   Alexandria Buck\n*   Alejandro Blair\n*   Aimee Downs",
+        "critique": "The previous answer accurately lists the customer names in descending alphabetical order based on their first names.",
+        "confidence_score": 50,
+        "faithfulness_status": "Unfaithful"
+    },
+    {
+        "timestamp": "2026-02-25T17:08:06.413729",
+        "endpoint": "/ask-sql",
+        "user_query": "return customers with first name starting with A in descending order",
+        "ai_response": "The customers with first names starting with 'A', in descending order, are: Anita, Alison, Alexandria, Alejandro, and Aimee.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T17:11:27.936584",
+        "endpoint": "/ask-sql",
+        "user_query": "count the customers where first name starts from A",
+        "ai_response": "There are 5 customers whose first name starts with 'A'.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:05:00.496415",
+        "endpoint": "/ask-image",
+        "user_query": "dog",
+        "ai_response": "Based on the image data I have, there's one image that features a dog. It's a picture of an angry chihuahua with its mouth open, and the image also contains the words \"the best dog training.\"\n\nHere are the specific files:\n1. File: just_image_angry_chihuahua.png.jpg\n   - Caption: a dog with its mouth open and the words, ' the best dog training '\n   - OCR: \n\n2. File: just_image_black-white-photography-people-pictures-4.jpg.jpg\n   - Caption: a young boy looks at the camera\n   - OCR: \n\n3. File: waterfall.png\n   - Caption: the water is blue\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:09:50.092079",
+        "endpoint": "/ask-image",
+        "user_query": "dog",
+        "ai_response": "Okay, you searched for 'dog'! Let's take a look at the images we have.\n\nFirst up, we have an image titled **just_image_angry_chihuahua.png.jpg**. This one is definitely relevant to your search, as it shows a dog with its mouth open, and it even has the words 'the best dog training' visible within the image.\n\nNext, we also have **just_image_black-white-photography-people-pictures-4.jpg.jpg**. While this one doesn't feature a dog, it shows a young boy looking directly at the camera, captured in black and white photography.\n\nAnd finally, there's **waterfall.png**. This image displays a beautiful scene where the water is distinctly blue, but no dogs are present in this one either.\n\nSo, out of the three, one image clearly features a dog, while the others show a boy and a blue waterfall!\n\nHere are the specific files:\n1. File: just_image_angry_chihuahua.png.jpg\n   - Caption: a dog with its mouth open and the words, ' the best dog training '\n   - OCR: \n\n2. File: just_image_black-white-photography-people-pictures-4.jpg.jpg\n   - Caption: a young boy looks at the camera\n   - OCR: \n\n3. File: waterfall.png\n   - Caption: the water is blue\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 99,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:20:25.798189",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": "\ud83e\udd16 AI Vision Summary:\nCertainly! You searched for 'cat,' and I found a few images that might interest you.\n\nFirst, there's an image of **a cat sitting on a wall**.\n\nThen, I have a picture of **a cat with striking blue eyes that is looking directly at the camera**.\n\nAnd finally, there's an adorable image of **a kitten lying comfortably on a bed**.\n\n\ud83d\udcc1 Source Files:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:23:16.399889",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": " AI Vision Summary:\nSure, I found some images of cats for you!\n\nThere's a picture of a **cat sitting on a wall**. Another image shows a **cat with striking blue eyes looking directly at the camera**. And finally, I have a photo of a **kitten comfortably lying down on a blanket**, which looks like it might be a bed.\n\n Source Files:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:23:44.662638",
+        "endpoint": "/ask-image",
+        "user_query": "/home/vibhavkhaneja/training/week7/src/data/images/images (1).jpeg",
+        "ai_response": " AI Vision Summary:\nIt looks like you were interested in images related to the moon! I found a few for you.\n\nFirst, there's an image of a **full moon with a white background**.\n\nThen, I have an image that shows a **full moon wall sticker**.\n\nAnd finally, there's a picture depicting **the moon and the earth**.\n\n Source Files:\n1. File: images (1).jpeg\n   - Caption: a full moon with a white background\n   - OCR: \n\n2. File: just_image_image30(1).jpeg.jpg\n   - Caption: a full moon wall sticker\n   - OCR: \n\n3. File: just_image_image29(1).jpeg.jpg\n   - Caption: the moon and the earth\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:40:42.034599",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": " AI Vision Summary:\nCertainly! You searched for 'cat', and I found a few images that might interest you.\n\nFirst, there's a picture of **a cat sitting on a wall**. It's a straightforward image of a feline perched on a wall.\n\nThen, we have an image titled **just_image__111515733_gettyimages-1208779325.jpg.jpg**. This one features **a cat with striking blue eyes, and it's looking directly at the camera**.\n\nFinally, there's an image named **kitten-lying-in-blanket.jpg**. This image shows **a kitten comfortably laying on a bed**, nestled in a blanket.\n\n Source Files:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
     }
 ]
