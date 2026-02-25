@@ -13,13 +13,16 @@ class MemoryStore:
         """Saves the interaction to the local JSON log."""
         with open(self.log_file, 'r') as f:
             logs = json.load(f)
+        
+        faithfulness_label = "Faithful" if score >= 80 else "Unfaithful"
             
         entry = {
             "timestamp": datetime.now().isoformat(),
             "endpoint": endpoint,
             "user_query": user_query,
             "ai_response": ai_response,
-            "confidence_score": score
+            "confidence_score": score,
+            "faithfulness_status": faithfulness_label
         }
         
         logs.append(entry)

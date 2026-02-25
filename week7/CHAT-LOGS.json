@@ -5,5 +5,210 @@
         "user_query": "How many total customers are in the dataset?",
         "ai_response": "There are 100 customers in the dataset.",
         "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T11:39:28.279771",
+        "endpoint": "/ask",
+        "user_query": "tell me about the product: aurora driver",
+        "ai_response": "The Aurora Driver is a comprehensive self-driving technology platform developed by Aurora Innovation, designed to enable vehicles to operate autonomously without human intervention.\n\nKey components and features include:\n*   **Full-Stack Solution:** A complete hardware and software system, encompassing sensors, software, and a powerful computing platform.\n*   **Sensor Suite:** Utilizes lidar (including their proprietary FirstLight lidar), radar, and cameras for 360-degree environmental perception in various conditions.\n*   **AI and Machine Learning:** Advanced algorithms process sensor data, predict road user behavior, and make driving decisions.\n*   **Safety-First:** Developed with a strong emphasis on achieving a high level of safety.\n\nThe Aurora Driver is primarily applied in two product areas:\n*   **Aurora Horizon:** For autonomous long-haul trucking.\n*   **Aurora Connect:** For autonomous ride-hailing services.\n\nAurora partners with vehicle manufacturers like Volvo and PACCAR to integrate this technology into purpose-built autonomous vehicles.",
+        "confidence_score": 0
+    },
+    {
+        "timestamp": "2026-02-25T11:45:24.226406",
+        "endpoint": "/ask",
+        "user_query": "tell me about the product: aurora driver",
+        "ai_response": "The Aurora Driver is a comprehensive product developed by Aurora Innovation, consisting of hardware, software, and services. It is designed to enable safe, cost-efficient, and high-uptime autonomous driving services.\n\nKey aspects of the Aurora Driver include:\n*   **Platform Design:** It is based on a common driver platform that can integrate with various vehicle makes, models, and classes to serve multiple commercial applications.\n*   **Components:** It is an advanced and scalable suite of self-driving hardware, software, and data services.\n*   **Customer Access:** Customers who subscribe to the Aurora Driver receive access to:\n    *   Aurora Driver hardware and software for safe and efficient autonomous operation of self-driving fleets.\n    *   Updates to the Aurora Driver, including map and software updates.\n    *   Aurora Beacon, an interface for efficient dispatch, deployment, and fleet monitoring.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T11:46:01.404747",
+        "endpoint": "/ask-image",
+        "user_query": "Moon",
+        "ai_response": "The moon.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T11:50:34.920046",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "Here are the top matching images from your database:\n1. File: moon.jpeg (Caption: the moon is seen in this image)\n2. File: just_image_image29(1).jpeg.jpg (Caption: the moon and the earth)\n3. File: just_image_26171394-0-image-a-49_1584634275032.jpg.jpg (Caption: the moon is seen in this image taken from the sky)\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T12:05:20.070062",
+        "endpoint": "/ask",
+        "user_query": "stock based compensation",
+        "ai_response": "Text RAG Execution Failed: Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 39.44051577s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '39s'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:09:03.918910",
+        "endpoint": "/ask",
+        "user_query": "stock based compensation",
+        "ai_response": "Text RAG Execution Failed: Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 32.283292825s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '32s'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:14:21.773910",
+        "endpoint": "/ask-sql",
+        "user_query": "Customers first name having s anyhwere in name and last name starting from a",
+        "ai_response": "SQL Execution Failed: Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 37.356722826s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '37s'}]}}",
+        "confidence_score": "Bypassed (API Limits)"
+    },
+    {
+        "timestamp": "2026-02-25T12:18:46.995602",
+        "endpoint": "/ask-sql",
+        "user_query": "Customers first name having s anyhwere in name and last name starting from a",
+        "ai_response": "SQL Execution Failed: Error calling model 'gemini-2.0-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\\nPlease retry in 48.561457753s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '48s'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:24:46.956880",
+        "endpoint": "/ask",
+        "user_query": "tell about doc",
+        "ai_response": "Text RAG Execution Failed: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:30:31.516407",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "Vision Search Failed: Error calling model 'gemini-2.5-flash' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:36:16.197877",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "The moon is seen in this image.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T12:38:04.130864",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "Here are the top matching images from your database:\n1. File: moon.jpeg (Caption: the moon is seen in this image)\n2. File: just_image_image29(1).jpeg.jpg (Caption: the moon and the earth)\n3. File: just_image_26171394-0-image-a-49_1584634275032.jpg.jpg (Caption: the moon is seen in this image taken from the sky)\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T12:38:49.801685",
+        "endpoint": "/ask-sql",
+        "user_query": "customers with first name starting with s and a anywhere in last name",
+        "ai_response": "The query returned 6 customers whose first names start with 'S' and whose last names contain the letter 'a'.",
+        "confidence_score": 67
+    },
+    {
+        "timestamp": "2026-02-25T12:54:23.395564",
+        "endpoint": "/ask-sql",
+        "user_query": "Return customers whose first name starts from s",
+        "ai_response": "The query returned 10 customers whose first names begin with the letter 'S'.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T13:24:54.640819",
+        "endpoint": "/ask-sql",
+        "user_query": "Return customers with first name starting with A",
+        "ai_response": "The query returned 5 customers whose first names begin with the letter 'A'.\n\n**Extracted Database Records:**\n- (6, '2d08FB17EE273F4', 'Aimee', 'Downs', 'Steele Group', 'Chavezborough', 'Bosnia and Herzegovina', '(283)437-3886x88321', '999-728-1637', 'louis27@gilbert.com', '2020-02-25', 'http://www.berger.net/')\n- (71, 'CBCd2Ac8E3eBDF9', 'Alexandria', 'Buck', 'Keller-Coffey', 'Nicolasfort', 'Iran', '078-900-4760x76668', '414-112-8700x68751', 'lee48@manning.com', '2021-02-20', 'https://ramsey.org/')\n- (74, 'A3F76Be153Df4a3', 'Anita', 'Benson', 'Parrish Ltd', 'Skinnerport', 'Russian Federation', '874.617.5668x69878', '(399)820-6418x0071', 'angie04@oconnell.com', '2020-02-09', 'http://oconnor.com/')\n- (80, 'A7F85c1DE4dB87f', 'Alejandro', 'Blair', 'Combs, Waller and Durham', 'Thomasland', 'Iceland', '(690)068-4641x51468', '555.509.8691x2329', 'elizabethbarr@ewing.com', '2020-09-19', 'https://mercado-blevins.com/')\n- (88, 'E4Bbcd8AD81fC5f', 'Alison', 'Vargas', 'Vaughn, Watts and Leach', 'East Cristinabury', 'Benin', '365-273-8144', '053-308-7653x6287', 'vcantu@norton.com', '2020-11-10', 'http://mason.info/')\n",
+        "confidence_score": 90
+    },
+    {
+        "timestamp": "2026-02-25T13:45:07.688313",
+        "endpoint": "/ask-sql",
+        "user_query": "customers with first name starting with a in descending order",
+        "ai_response": "The query returned 5 customers whose first names start with 'A', ordered alphabetically in descending order.\n\n**Extracted Database Records:**\n- (74, 'A3F76Be153Df4a3', 'Anita', 'Benson', 'Parrish Ltd', 'Skinnerport', 'Russian Federation', '874.617.5668x69878', '(399)820-6418x0071', 'angie04@oconnell.com', '2020-02-09', 'http://oconnor.com/')\n- (88, 'E4Bbcd8AD81fC5f', 'Alison', 'Vargas', 'Vaughn, Watts and Leach', 'East Cristinabury', 'Benin', '365-273-8144', '053-308-7653x6287', 'vcantu@norton.com', '2020-11-10', 'http://mason.info/')\n- (71, 'CBCd2Ac8E3eBDF9', 'Alexandria', 'Buck', 'Keller-Coffey', 'Nicolasfort', 'Iran', '078-900-4760x76668', '414-112-8700x68751', 'lee48@manning.com', '2021-02-20', 'https://ramsey.org/')\n- (80, 'A7F85c1DE4dB87f', 'Alejandro', 'Blair', 'Combs, Waller and Durham', 'Thomasland', 'Iceland', '(690)068-4641x51468', '555.509.8691x2329', 'elizabethbarr@ewing.com', '2020-09-19', 'https://mercado-blevins.com/')\n- (6, '2d08FB17EE273F4', 'Aimee', 'Downs', 'Steele Group', 'Chavezborough', 'Bosnia and Herzegovina', '(283)437-3886x88321', '999-728-1637', 'louis27@gilbert.com', '2020-02-25', 'http://www.berger.net/')\n",
+        "confidence_score": 90
+    },
+    {
+        "timestamp": "2026-02-25T13:46:32.067099",
+        "endpoint": "/ask-sql",
+        "user_query": "customers with name startig with letter a in descending order",
+        "ai_response": "The query returned 8 customers whose first or last names start with 'A', ordered by first name in descending order.",
+        "confidence_score": 50
+    },
+    {
+        "timestamp": "2026-02-25T13:49:34.955543",
+        "endpoint": "/ask-sql",
+        "user_query": "return customers with first name starting with A in descending order",
+        "ai_response": "The following customers have first names starting with 'A', listed in descending order:\n\n*   **Alice**\n*   **Andrew**\n*   **Anna**\n*   **Arthur**\n*   **Amy**",
+        "confidence_score": 50
+    },
+    {
+        "timestamp": "2026-02-25T13:49:49.497480",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": "Here are the top matching images from your database:\n1. File: images.jpeg (Caption: a cat sitting on a wall)\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg (Caption: a cat with blue eyes is looking at the camera)\n3. File: kitten-lying-in-blanket.jpg (Caption: a kitten is laying on a bed)\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T13:51:18.994942",
+        "endpoint": "/ask-sql",
+        "user_query": "Count the total customers with first name starting from A",
+        "ai_response": "There are 5 customers whose first name starts with the letter 'A'.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T13:59:00.620168",
+        "endpoint": "/ask-image",
+        "user_query": "pie-chart",
+        "ai_response": "Here are the top matching images from your database:\n1. File: pie_chart_images233.jpg.jpg (Caption: a pie chart with the percentage of digital marketing)\n2. File: bar_chart_image12 (3).png.jpg (Caption: a bar chart showing the percentage of people who have been on the internet)\n3. File: flow_chart_images459.jpg.jpg (Caption: a flow diagram with a block diagram)\n",
+        "confidence_score": 90
+    },
+    {
+        "timestamp": "2026-02-25T14:07:34.675455",
+        "endpoint": "/ask-image",
+        "user_query": "pie-chart",
+        "ai_response": "Here are the top matching images from your database:\n1. File: pie_chart_images233.jpg.jpg\n   - Caption: a pie chart with the percentage of digital marketing\n   - OCR: \u2018ig marketing stategy?\n\n2. File: bar_chart_image12 (3).png.jpg\n   - Caption: a bar chart showing the percentage of people who have been on the internet\n   - OCR: \u2014\u2014\n\n3. File: flow_chart_images459.jpg.jpg\n   - Caption: a flow diagram with a block diagram\n   - OCR: ney\n\n\u2018i\n\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T14:08:15.431106",
+        "endpoint": "/ask",
+        "user_query": "stock based compensation",
+        "ai_response": "Stock-based compensation is measured using the fair value based method on the grant date. Restricted stock units (RSUs) are measured based on the fair value of the Company\u2019s publicly traded common stock, while stock options are measured using a Black-Scholes option pricing model. For awards with only service conditions, the compensation is recognized on a straight-line basis over the requisite service period (generally the vesting period). For awards with service and performance conditions, it is recognized on a graded-vesting basis over the requisite service period. No income tax benefits have been recognized in the statement of operations for stock-based compensation arrangements, and no stock-based compensation has been capitalized as of December 31, 2022.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T14:40:04.194731",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": "Here are the top matching images from your database:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T14:40:48.593816",
+        "endpoint": "/ask-image",
+        "user_query": "images(1).jpeg",
+        "ai_response": "Here are the top matching images from your database:\n1. File: waterfall.png\n   - Caption: the water is blue\n   - OCR: \n\n2. File: flow_chart_images459.jpg.jpg\n   - Caption: a flow diagram with a block diagram\n   - OCR: ney\n\n\u2018i\n\n3. File: just_image_black-white-photography-people-pictures-4.jpg.jpg\n   - Caption: a young boy looks at the camera\n   - OCR: \n\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T14:42:30.232125",
+        "endpoint": "/ask-image",
+        "user_query": "/home/vibhavkhaneja/training/week7/src/data/images/images (1).jpeg",
+        "ai_response": "Here are the top matching images from your database:\n1. File: images (1).jpeg\n   - Caption: a full moon with a white background\n   - OCR: \n\n2. File: just_image_image30(1).jpeg.jpg\n   - Caption: a full moon wall sticker\n   - OCR: \n\n3. File: just_image_image29(1).jpeg.jpg\n   - Caption: the moon and the earth\n   - OCR: \n\n",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T14:48:39.885141",
+        "endpoint": "/ask-sql",
+        "user_query": "Customers with A in first name in descending order",
+        "ai_response": "SQL Execution Failed: Error calling model 'gemini-2.5-flash-lite' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite\\nPlease retry in 53.880400331s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash-lite', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '53s'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T16:06:06.168311",
+        "endpoint": "/ask-sql",
+        "user_query": "total customers count",
+        "ai_response": "There are 100 customers in total.",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T16:07:54.508424",
+        "endpoint": "/ask-sql",
+        "user_query": "return customers with first name starting with A in descending order",
+        "ai_response": "The customers with first names starting with 'A', in descending order, are: Anita, Alison, Alexandria, Alejandro, and Aimee.",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
     }
 ]
