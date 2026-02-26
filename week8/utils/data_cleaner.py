@@ -61,6 +61,9 @@ def prepare_and_clean_data():
     plt.hist(token_lengths, bins=50, color='blue', edgecolor='black', alpha=0.7)
     plt.axvline(MAX_TOKENS, color='red', linestyle='dashed', linewidth=2, label=f'Max Cutoff ({MAX_TOKENS})')
     plt.axvline(MIN_TOKENS, color='green', linestyle='dashed', linewidth=2, label=f'Min Cutoff ({MIN_TOKENS})')
+
+    plt.xlim(0, 1000)
+
     plt.title("Token Length Distribution (Before Filtering)")
     plt.xlabel("Number of Tokens")
     plt.ylabel("Frequency")
@@ -87,7 +90,7 @@ def prepare_and_clean_data():
             
     print(f"   -> Saved data/train.jsonl ({len(train_data)} samples)")
     print(f"   -> Saved data/val.jsonl ({len(val_data)} samples)")
-    print("\n✅ Day 1 Data Prep Complete!")
+    print("\n Data Prep Complete!")
 
 if __name__ == "__main__":
     prepare_and_clean_data()
