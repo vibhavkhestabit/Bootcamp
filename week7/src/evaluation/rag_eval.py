@@ -8,15 +8,11 @@ load_dotenv()
 
 class Evaluator:
     def __init__(self):
-        # Everything from here down MUST be indented 8 spaces (or 2 tabs)
         config_path = "src/config/model.yaml"
-        
         with open(config_path, "r") as file:
             config = yaml.safe_load(file)
-            
         model_name = config.get("model_name", "gemini-2.5-flash-lite")
         
-        # Initialize the Auditor LLM
         self.llm = ChatGoogleGenerativeAI(model=model_name, temperature=0)
 
     def grade_and_refine(self, question, draft_answer, context="N/A"):

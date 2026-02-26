@@ -27,7 +27,7 @@ class MemoryStore:
             "critique": critique,  
             "confidence_score": score,
             "faithfulness_status": faithfulness_label,
-            "human_feedback": feedback # <--- Boom! Saved to the audit log.
+            "human_feedback": feedback
         }
         
         logs.append(entry)
@@ -40,7 +40,6 @@ class MemoryStore:
         with open(self.log_file, 'r') as f:
             logs = json.load(f)
         
-        # Grab the last N items, format them as a memory string
         recent_logs = logs[-n:]
         memory_string = "Conversation History:\n"
         for log in recent_logs:
