@@ -58,7 +58,7 @@ def prepare_and_clean_data():
 
     print("4. Generating token distribution graph...")
     plt.figure(figsize=(10, 6))
-    plt.hist(token_lengths, bins=50, color='blue', edgecolor='black', alpha=0.7)
+    plt.hist(token_lengths, bins=100, color='blue', edgecolor='black', alpha=0.7)
     plt.axvline(MAX_TOKENS, color='red', linestyle='dashed', linewidth=2, label=f'Max Cutoff ({MAX_TOKENS})')
     plt.axvline(MIN_TOKENS, color='green', linestyle='dashed', linewidth=2, label=f'Min Cutoff ({MIN_TOKENS})')
 
