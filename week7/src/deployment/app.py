@@ -41,15 +41,15 @@ class CapstoneRouter:
         
         print("\n[System] Spinning up Data Pipelines...")
         
-        # 1. Initialize SQL System (Day 4)
+        # 3. Initialize SQL System (Day 4)
         print(" -> Loading SQL Pipeline...")
         self.sql_pipeline = SQLPipeline(data_file_path="src/data/sql/customers-100.csv")
         
-        # 2. Initialize Vision System (Day 3)
+        # 4. Initialize Vision System (Day 3)
         print(" -> Loading Vision Pipeline...")
         self.vision_searcher = ImageSearch()
         
-        # 3. Initialize Text RAG System (Days 1 & 2)
+        # 5. Initialize Text RAG System (Days 1 & 2)
         print(" -> Loading Text Vector DB & Retrievers...")
         self.embedder = Embedder()
         self.vectorstore = FAISS.load_local(
@@ -78,9 +78,7 @@ class CapstoneRouter:
 
         print("\n Processing Request...")
         
-        # ---------------------------------------------------------
         # ROUTE 1: TEXT RAG (/ask)
-        # ---------------------------------------------------------
         if endpoint == "/ask":
             try:
                 print(f" Running Hybrid Retrieval for query: '{query}'...")
@@ -96,16 +94,13 @@ class CapstoneRouter:
                 final_context = self.context_builder.format_context(reranked_results)
                 print(" Passing refined context and chat history to the LLM...")
                 
-                # Ask LLM using the retrieved text and memory
                 full_prompt = f"Context Documents:\n{final_context}\n\nConversation History:\n{chat_history}\n\nAnswer this new query: {query}"
                 draft_answer = self.general_llm.invoke(full_prompt).content
                 context_used = final_context
             except Exception as e:
                 draft_answer = f"Text RAG Execution Failed: {str(e)}"
             
-        # ---------------------------------------------------------
         # ROUTE 2: SQL DB (/ask-sql)
-        # ---------------------------------------------------------
         elif endpoint == "/ask-sql":
             try:
                 schema, conn = self.sql_pipeline.schema_loader.load_and_get_schema()
@@ -118,33 +113,26 @@ class CapstoneRouter:
             except Exception as e:
                 draft_answer = f"SQL Execution Failed: {str(e)}"
 
-        # ---------------------------------------------------------
         # ROUTE 3: VISION RAG (/ask-image)
-        # ---------------------------------------------------------
         elif endpoint == "/ask-image":
             import os
             try:
                 # 1. SMART ROUTING: Check if the user typed a valid file path
                 if os.path.isfile(query):
                     print(" Image file detected! Running Image-to-Image search...")
-                    # Call the image-to-image method you built in Day 3
                     search_results = self.vision_searcher.search_by_image(query, top_k=3)
                 else:
                     print(" Text query detected! Running Text-to-Image search...")
-                    # Fall back to standard text search
                     search_results = self.vision_searcher.search_by_text(query, top_k=3)
                 
                 # 2. FORMAT THE OUTPUT
-                # 2. FORMAT THE OUTPUT
                 if search_results:
-                    # 1. Build the raw context AND the pretty list for the user
                     context_used = ""
                     detailed_list = ""
                     for i, res in enumerate(search_results):
                         context_used += f"File: {res['filename']} | Summary: {res['caption']} | OCR: {res['ocr_text']}\n"
                         detailed_list += f"{i+1}. File: {res['filename']}\n   - Caption: {res['caption']}\n   - OCR: {res['ocr_text']}\n\n"
                     
-                    # 2. Have the Writer Agent draft a conversational summary of ALL images
                     prompt = f"""Here is data extracted from {len(search_results)} images: 
                     {context_used}
 
@@ -152,8 +140,6 @@ class CapstoneRouter:
                     Write a conversational summary that explicitly mentions and describes EVERY SINGLE image provided in the data above. Explain what each image shows, even if it doesn't perfectly match the user's exact search."""
                     
                     ai_summary = self.general_llm.invoke(prompt).content
-                    
-                    # 3. GLUE THEM TOGETHER! This is what will print at the bottom of app.py
                     draft_answer = f" AI Vision Summary:\n{ai_summary}\n\n Source Files:\n{detailed_list}"
                 else:
                     draft_answer = "No matching images found in the database."
@@ -170,15 +156,14 @@ class CapstoneRouter:
             else:
                 print("Memory stack is currently empty.")
             print("------------------------------\n")
-            return  # We return here so it doesn't try to run the Evaluator on the history!
+            return
             
         else:
-            print(" Invalid Endpoint. Use /ask, /ask-sql, or /ask-image")
+            print(" Invalid Endpoint. Use /ask, /ask-sql, /ask-image or /history")
             return
 
-        # ---------------------------------------------------------
         # AGENTIC EVALUATION & LOGGING
-        # ---------------------------------------------------------
+
         print(" Running Agentic Evaluation & Hallucination Check...")
         final_answer, confidence_score, critique_text = self.evaluator.grade_and_refine(query, draft_answer, context_used)
 
@@ -193,7 +178,6 @@ class CapstoneRouter:
         user_feedback = input(" Was this answer helpful? (y/n): ").strip().lower()
         feedback_label = "Positive" if user_feedback == 'y' else "Negative"
 
-        # Pass it to memory!
         self.memory.append_message(endpoint, query, final_answer, confidence_score, critique=critique_text, feedback=feedback_label)
 
 
