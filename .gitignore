@@ -4,4 +4,6 @@ logs/*.json
 *.tmp
 .DS_Store
 venv/
-.env
+.env*.safetensors
+model-f16.gguf
+model-q8_0.gguf
