@@ -1,4 +1,4 @@
-model,latency_sec,tokens_per_sec,vram_gb,accuracy
-base,1.58,0.63,2.05,medium
-fine_tuned,10.01,9.98,2.07,high
-gguf_q4,8.3,12.05,0.8,medium
+Model,Tokens/sec,Latency (s),VRAM (MB),RAM (MB),Accuracy (%)
+Base (FP16),9.4,4.26,0.0,2839.19,21.2
+Fine-Tuned (LoRA),8.44,4.74,0.0,2886.11,45.5
+GGUF (Q4_0),37.11,1.08,0.0,2300.97,42.7
