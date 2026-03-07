@@ -10,6 +10,10 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 from llama_cpp import Llama
 
+# --- NEW: Added imports for Cosine Similarity ---
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 # ---------------------------------------------------------
 # CONFIGURATION
 # ---------------------------------------------------------
@@ -76,9 +80,24 @@ def calculate_word_f1(prediction, reference):
     f1 = 2 * (precision * recall) / (precision + recall)
     return round(f1 * 100, 1)
 
+# --- NEW: Added Cosine Similarity Function ---
+def calculate_cosine_similarity(prediction, reference):
+    """Calculates vector-based Cosine Similarity using scikit-learn"""
+    if not prediction.strip() or not reference.strip():
+        return 0.0
+        
+    try:
+        vectorizer = CountVectorizer()
+        matrix = vectorizer.fit_transform([prediction, reference])
+        sim = cosine_similarity(matrix[0], matrix[1])[0][0]
+        return round(sim * 100, 1)
+    except ValueError:
+        return 0.0
+
 def run_hf_metrics(model_name, model, tokenizer, samples):
     print(f"\n{'='*50}\n[Benchmarking {model_name}...]\n{'='*50}")
     total_tokens, total_time, f1_scores = 0, 0, []
+    cosine_scores = [] # NEW: Tracking cosine scores
     
     for i, s in enumerate(samples):
         inputs = tokenizer(s["prompt"], return_tensors="pt").to("cuda" if torch.cuda.is_available() else "cpu")
@@ -91,28 +110,34 @@ def run_hf_metrics(model_name, model, tokenizer, samples):
         total_tokens += (outputs.shape[1] - inputs["input_ids"].shape[1])
         
         response = tokenizer.decode(outputs[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True).strip()
+        
         score = calculate_word_f1(response, s["reference"])
+        cos_score = calculate_cosine_similarity(response, s["reference"]) # NEW
+        
         f1_scores.append(score)
+        cosine_scores.append(cos_score) # NEW
         
         print(f"\n--- Sample {i+1} ---")
         print(f"Question  : {s['instruction']} {s['input']}".strip())
         print(f"Reference : {s['reference']}")
         print(f"Prediction: {response}")
-        print(f"F1 Score  : {score}%")
+        print(f"F1 Score  : {score}% | Cosine Sim: {cos_score}%") # UPDATED
         
     speed = round(total_tokens / total_time, 2)
     avg_latency = round(total_time / len(samples), 2)
     avg_accuracy = round(sum(f1_scores) / len(f1_scores), 1)
+    avg_cosine = round(sum(cosine_scores) / len(cosine_scores), 1) # NEW
     vram = get_vram_mb()
-    ram = get_ram_mb() # <--- NEW: Capture RAM here
+    ram = get_ram_mb() 
     
-    # Updated to include RAM in the dictionary
-    benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Accuracy (%)": avg_accuracy})
-    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Accuracy: {avg_accuracy}%")
+    # Updated to include Cosine Similarity in the dictionary
+    benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Accuracy (%)": avg_accuracy, "Cosine Similarity (%)": avg_cosine})
+    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Accuracy (F1): {avg_accuracy}% | Cosine Sim: {avg_cosine}%")
 
 def run_gguf_metrics(model_name, llm, samples):
     print(f"\n{'='*50}\n[Benchmarking {model_name}...]\n{'='*50}")
     total_tokens, total_time, f1_scores = 0, 0, []
+    cosine_scores = [] # NEW: Tracking cosine scores
     
     for i, s in enumerate(samples):
         start = time.time()
@@ -123,24 +148,29 @@ def run_gguf_metrics(model_name, llm, samples):
         total_tokens += output["usage"]["completion_tokens"]
         
         response = output["choices"][0]["text"].strip()
+        
         score = calculate_word_f1(response, s["reference"])
+        cos_score = calculate_cosine_similarity(response, s["reference"]) # NEW
+        
         f1_scores.append(score)
+        cosine_scores.append(cos_score) # NEW
         
         print(f"\n--- Sample {i+1} ---")
         print(f"Question  : {s['instruction']} {s['input']}".strip())
         print(f"Reference : {s['reference']}")
         print(f"Prediction: {response}")
-        print(f"F1 Score  : {score}%")
+        print(f"F1 Score  : {score}% | Cosine Sim: {cos_score}%") # UPDATED
         
     speed = round(total_tokens / total_time, 2)
     avg_latency = round(total_time / len(samples), 2)
     avg_accuracy = round(sum(f1_scores) / len(f1_scores), 1)
+    avg_cosine = round(sum(cosine_scores) / len(cosine_scores), 1) # NEW
     vram = get_vram_mb() 
     ram = get_ram_mb() 
     
-    # Updated to include RAM in the dictionary
-    benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Accuracy (%)": avg_accuracy})
-    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Accuracy: {avg_accuracy}%")
+    # Updated to include Cosine Similarity in the dictionary
+    benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Accuracy (%)": avg_accuracy, "Cosine Similarity (%)": avg_cosine})
+    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Accuracy (F1): {avg_accuracy}% | Cosine Sim: {avg_cosine}%")
 
 
 # =========================================================
@@ -219,8 +249,8 @@ if __name__ == "__main__":
     # --- 4. Save CSV ---
     os.makedirs(os.path.dirname(CSV_PATH), exist_ok=True)
     with open(CSV_PATH, mode='w', newline='') as file:
-        # Added RAM (MB) to the fieldnames list
-        writer = csv.DictWriter(file, fieldnames=["Model", "Tokens/sec", "Latency (s)", "VRAM (MB)", "RAM (MB)", "Accuracy (%)"])
+        # UPDATED: Added Cosine Similarity (%) to the CSV headers
+        writer = csv.DictWriter(file, fieldnames=["Model", "Tokens/sec", "Latency (s)", "VRAM (MB)", "RAM (MB)", "Accuracy (%)", "Cosine Similarity (%)"])
         writer.writeheader()
         writer.writerows(benchmark_results)
     print(f"\n✅ Benchmarks complete. Results saved strictly to {CSV_PATH}")
@@ -230,4 +260,3 @@ if __name__ == "__main__":
     streaming_output(gguf_llm)
     batch_inference(gguf_llm)
     multi_prompt_test(gguf_llm)
-    
