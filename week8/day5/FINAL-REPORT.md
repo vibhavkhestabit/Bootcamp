@@ -43,3 +43,4 @@ To ensure the API is flexible for different use cases, both endpoints expose adv
 ![ss](screenshots/ss1.png)
 ![ss](screenshots/ss2.png)
 ![ss](screenshots/ss3.png)
+![ss](screenshots/ss4.png)

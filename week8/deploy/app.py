@@ -1,5 +1,6 @@
 import uuid
 import logging
+import sys
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
@@ -125,3 +126,59 @@ async def chat_text(req: ChatRequest):
         "request_id": req_id,
         "response": response_text
     }
+
+if __name__ == "__main__":
+    print("\n" + "="*50)
+    print(" LAUNCHING CLI INTERACTIVE CHAT MODE")
+    print("Type 'exit' or 'quit' to stop.")
+    print("="*50)
+    
+    # Load model directly into RAM
+    llm = get_llm()
+    
+    # 1. Initialize Infinite Memory Buffer
+    chat_history = [
+        {"role": "system", "content": "You are a helpful and smart AI coding assistant."}
+    ]
+    
+    while True:
+        try:
+            # 2. Get User Input
+            user_text = input("\n You: ")
+            
+            if user_text.lower() in ['exit', 'quit']:
+                print(" Goodbye!")
+                break
+            if not user_text.strip():
+                continue
+                
+            # 3. Append user message to history
+            chat_history.append({"role": "user", "content": user_text})
+            
+            print(" AI: ", end="", flush=True)
+            
+            # 4. Stream directly from the local LLM model
+            stream = llm.create_chat_completion(
+                messages=chat_history, 
+                max_tokens=config.MAX_TOKENS,
+                temperature=config.DEFAULT_TEMP, 
+                top_p=config.DEFAULT_TOP_P, 
+                top_k=config.DEFAULT_TOP_K, 
+                stream=True
+            )
+            
+            assistant_reply = ""
+            for chunk in stream:
+                if "content" in chunk["choices"][0]["delta"]:
+                    text_chunk = chunk["choices"][0]["delta"]["content"]
+                    print(text_chunk, end="", flush=True)
+                    assistant_reply += text_chunk
+            
+            print() # Clean newline after completion
+            
+            # 5. Save the AI's response to memory for the next follow-up question
+            chat_history.append({"role": "assistant", "content": assistant_reply})
+            
+        except KeyboardInterrupt:
+            print("\n Exiting...")
+            break
