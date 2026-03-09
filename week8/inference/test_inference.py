@@ -66,21 +66,6 @@ def get_ram_mb():
     process = psutil.Process(os.getpid())
     return round(process.memory_info().rss / (1024 ** 2), 2)
 
-def calculate_word_f1(prediction, reference):
-    """Calculates word-overlap F1 score for accuracy"""
-    pred_words = set(prediction.lower().split())
-    ref_words = set(reference.lower().split())
-    if not pred_words or not ref_words: return 0.0
-    
-    common = pred_words.intersection(ref_words)
-    if not common: return 0.0
-    
-    precision = len(common) / len(pred_words)
-    recall = len(common) / len(ref_words)
-    f1 = 2 * (precision * recall) / (precision + recall)
-    return round(f1 * 100, 1)
-
-# --- NEW: Added Cosine Similarity Function ---
 def calculate_cosine_similarity(prediction, reference):
     """Calculates vector-based Cosine Similarity using scikit-learn"""
     if not prediction.strip() or not reference.strip():
@@ -111,28 +96,24 @@ def run_hf_metrics(model_name, model, tokenizer, samples):
         
         response = tokenizer.decode(outputs[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True).strip()
         
-        score = calculate_word_f1(response, s["reference"])
-        cos_score = calculate_cosine_similarity(response, s["reference"]) # NEW
-        
-        f1_scores.append(score)
-        cosine_scores.append(cos_score) # NEW
+        cos_score = calculate_cosine_similarity(response, s["reference"]) 
+        cosine_scores.append(cos_score) 
         
         print(f"\n--- Sample {i+1} ---")
         print(f"Question  : {s['instruction']} {s['input']}".strip())
         print(f"Reference : {s['reference']}")
         print(f"Prediction: {response}")
-        print(f"F1 Score  : {score}% | Cosine Sim: {cos_score}%") # UPDATED
+        print(f"Cosine Sim: {cos_score}%") 
         
     speed = round(total_tokens / total_time, 2)
     avg_latency = round(total_time / len(samples), 2)
-    avg_accuracy = round(sum(f1_scores) / len(f1_scores), 1)
-    avg_cosine = round(sum(cosine_scores) / len(cosine_scores), 1) # NEW
+    avg_cosine = round(sum(cosine_scores) / len(cosine_scores), 1)
     vram = get_vram_mb()
     ram = get_ram_mb() 
     
     # Updated to include Cosine Similarity in the dictionary
-    benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Accuracy (%)": avg_accuracy, "Cosine Similarity (%)": avg_cosine})
-    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Accuracy (F1): {avg_accuracy}% | Cosine Sim: {avg_cosine}%")
+    benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Cosine Similarity (%)": avg_cosine})
+    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Cosine Sim: {avg_cosine}%")
 
 def run_gguf_metrics(model_name, llm, samples):
     print(f"\n{'='*50}\n[Benchmarking {model_name}...]\n{'='*50}")
@@ -149,28 +130,24 @@ def run_gguf_metrics(model_name, llm, samples):
         
         response = output["choices"][0]["text"].strip()
         
-        score = calculate_word_f1(response, s["reference"])
-        cos_score = calculate_cosine_similarity(response, s["reference"]) # NEW
-        
-        f1_scores.append(score)
-        cosine_scores.append(cos_score) # NEW
+        cos_score = calculate_cosine_similarity(response, s["reference"]) 
+        cosine_scores.append(cos_score)
         
         print(f"\n--- Sample {i+1} ---")
         print(f"Question  : {s['instruction']} {s['input']}".strip())
         print(f"Reference : {s['reference']}")
         print(f"Prediction: {response}")
-        print(f"F1 Score  : {score}% | Cosine Sim: {cos_score}%") # UPDATED
+        print(f"Cosine Sim: {cos_score}%")
         
     speed = round(total_tokens / total_time, 2)
     avg_latency = round(total_time / len(samples), 2)
-    avg_accuracy = round(sum(f1_scores) / len(f1_scores), 1)
-    avg_cosine = round(sum(cosine_scores) / len(cosine_scores), 1) # NEW
+    avg_cosine = round(sum(cosine_scores) / len(cosine_scores), 1) 
     vram = get_vram_mb() 
     ram = get_ram_mb() 
     
     # Updated to include Cosine Similarity in the dictionary
-    benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Accuracy (%)": avg_accuracy, "Cosine Similarity (%)": avg_cosine})
-    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Accuracy (F1): {avg_accuracy}% | Cosine Sim: {avg_cosine}%")
+    benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Cosine Similarity (%)": avg_cosine})
+    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Cosine Sim: {avg_cosine}%")
 
 
 # =========================================================
@@ -250,7 +227,7 @@ if __name__ == "__main__":
     os.makedirs(os.path.dirname(CSV_PATH), exist_ok=True)
     with open(CSV_PATH, mode='w', newline='') as file:
         # UPDATED: Added Cosine Similarity (%) to the CSV headers
-        writer = csv.DictWriter(file, fieldnames=["Model", "Tokens/sec", "Latency (s)", "VRAM (MB)", "RAM (MB)", "Accuracy (%)", "Cosine Similarity (%)"])
+        writer = csv.DictWriter(file, fieldnames=["Model", "Tokens/sec", "Latency (s)", "VRAM (MB)", "RAM (MB)", "Cosine Similarity (%)"])
         writer.writeheader()
         writer.writerows(benchmark_results)
     print(f"\n✅ Benchmarks complete. Results saved strictly to {CSV_PATH}")
