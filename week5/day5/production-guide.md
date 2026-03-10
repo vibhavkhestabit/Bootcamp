@@ -64,6 +64,7 @@ We used Postman to rigorously test our backend API endpoints before integrating 
 ![ss](screenshots/day5-postman1.png)
 ![ss](screenshots/day5-postman2.png)
 ![ss](screenshots/day5-postman3.png)
+![ss](screenshots/day5-postman4.png)
 
 7) Service Details & Health Checks
 
