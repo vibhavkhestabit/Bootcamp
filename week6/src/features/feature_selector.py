@@ -24,11 +24,7 @@ def select_features(train_x_path, train_y_path, feature_names_path, output_mask_
     print(f"Original Training Set: {X_train.shape}")
     print(f"Features to Exclude: {exclude_features}")
 
-    # ---------------------------------------------------------
-    # 2. FILTERING LOGIC (The New Configuration)
-    # ---------------------------------------------------------
-    # We need to temporarily drop the excluded features to run RFE
-    # But we must remember where they were to rebuild the mask later!
+    # 2. FILTERING LOGIC 
     
     kept_indices = []
     dropped_indices = []
@@ -39,7 +35,6 @@ def select_features(train_x_path, train_y_path, feature_names_path, output_mask_
         else:
             kept_indices.append(i)
             
-    # Create the "Clean" X for RFE (without Name_Length)
     X_clean = X_train[:, kept_indices]
     clean_feature_names = [feature_names[i] for i in kept_indices]
     
@@ -50,10 +45,9 @@ def select_features(train_x_path, train_y_path, feature_names_path, output_mask_
     selector = RFE(estimator=model, n_features_to_select=10)
     selector.fit(X_clean, y_train)
     
-    clean_support = selector.support_ # Length: 19 (if 1 excluded)
+    clean_support = selector.support_ 
     
     # 4. REBUILD THE FULL MASK (Length: 20)
-    # We map the results back to the original slots
     full_mask = np.zeros(len(feature_names), dtype=bool)
     
     # Fill in the calculated choices
@@ -69,9 +63,7 @@ def select_features(train_x_path, train_y_path, feature_names_path, output_mask_
     print(f"Selection Complete. Mask shape restored to: {full_mask.shape}")
     print(f"Saved mask to {output_mask_path}")
     
-    # ---------------------------------------------------------
     # 5. VISUALIZATION (Plotting the Clean version)
-    # ---------------------------------------------------------
     print("Generating Feature Importance Plot...")
     
     # We fit a model on the CLEAN data for the plot

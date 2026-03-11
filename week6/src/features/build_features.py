@@ -38,19 +38,15 @@ def transform_and_split(df, test_size=0.2):
     X = df.drop(columns=['Survived'])
     y = df['Survived'].values
 
-
     print("Applying Feature Engineering Transformer...")
     engineer = TitanicFeatureEngineer()
     X_engineered = engineer.transform(X)
-
 
     categorical_cols = ['Sex', 'Embarked', 'Title']
     numerical_cols = ['Age', 'Fare', 'FamilySize', 'Fare_Per_Person', 'Name_Length', 'Age_Class']
     passthrough_cols = ['Pclass', 'IsAlone', 'Is_Child', 'Is_Senior']
     
-
     passthrough_cols = [c for c in passthrough_cols if c in X_engineered.columns]
-
 
     num_pipeline = Pipeline([('scaler', StandardScaler())])
     cat_pipeline = Pipeline([('onehot', OneHotEncoder(handle_unknown='ignore', sparse_output=False))])
@@ -63,20 +59,24 @@ def transform_and_split(df, test_size=0.2):
         ]
     )
 
-    print("Fitting preprocessor...")
-    X_processed = preprocessor.fit_transform(X_engineered)
+    print(f"Splitting data: {100*(1-test_size)}% Train, {100*test_size}% Test")
+    X_train_raw, X_test_raw, y_train, y_test = train_test_split(
+        X_engineered, y, test_size=test_size, random_state=42
+    )
+
+    print("Fitting preprocessor on training data...")
+    X_train = preprocessor.fit_transform(X_train_raw)
+    
+    print("Transforming test data (no fitting!)...")
+    X_test = preprocessor.transform(X_test_raw)
     
     print("Saving preprocessor object...")
     joblib.dump(preprocessor, 'models/preprocessor.pkl')
-
 
     feature_names = numerical_cols.copy()
     cat_features = preprocessor.named_transformers_['cat']['onehot'].get_feature_names_out(categorical_cols)
     feature_names.extend(cat_features)
     feature_names.extend(passthrough_cols)
-
-    print(f"Splitting data: {100*(1-test_size)}% Train, {100*test_size}% Test")
-    X_train, X_test, y_train, y_test = train_test_split(X_processed, y, test_size=test_size, random_state=42)
     
     return X_train, X_test, y_train, y_test, feature_names
 
