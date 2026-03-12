@@ -10,9 +10,7 @@ from typing import List, Optional
 import config
 from model_loader import get_llm
 
-# ---------------------------------------------------------
 # LOGGING SETUP
-# ---------------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | [%(levelname)s] | RequestID: %(message)s"
@@ -22,9 +20,7 @@ logger = logging.getLogger(__name__)
 # Initialize FastAPI
 app = FastAPI(title="Local LLM API", description="Day 5 Capstone: GGUF Microservice")
 
-# ---------------------------------------------------------
 # PYDANTIC SCHEMAS (Data Validation & Controls)
-# ---------------------------------------------------------
 class GenerateRequest(BaseModel):
     prompt: str
     max_tokens: int = Field(default=config.MAX_TOKENS)
@@ -45,9 +41,7 @@ class ChatRequest(BaseModel):
     top_k: int = Field(default=config.DEFAULT_TOP_K)
     stream: bool = Field(default=False)
 
-# ---------------------------------------------------------
 # ENDPOINT 1: POST /generate (Raw Text Completion)
-# ---------------------------------------------------------
 @app.post("/generate")
 async def generate_text(req: GenerateRequest):
     req_id = str(uuid.uuid4())[:8] # Generate a unique ID for this request
@@ -84,9 +78,7 @@ async def generate_text(req: GenerateRequest):
         "response": response_text
     }
 
-# ---------------------------------------------------------
 # ENDPOINT 2: POST /chat (Infinite Chat & RAG Ready)
-# ---------------------------------------------------------
 @app.post("/chat")
 async def chat_text(req: ChatRequest):
     req_id = str(uuid.uuid4())[:8]
@@ -178,6 +170,12 @@ if __name__ == "__main__":
             
             # 5. Save the AI's response to memory for the next follow-up question
             chat_history.append({"role": "assistant", "content": assistant_reply})
+            
+            # 6. MEMORY MANAGEMENT: The Sliding Window
+            # We want to keep a max of 11 items: The System Prompt (1) + The last 10 messages
+            if len(chat_history) > 11:
+                # Keep index 0 (System Prompt), and slice the last 10 messages
+                chat_history = [chat_history[0]] + chat_history[-10:]
             
         except KeyboardInterrupt:
             print("\n Exiting...")
