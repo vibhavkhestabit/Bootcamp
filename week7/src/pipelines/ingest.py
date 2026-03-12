@@ -4,6 +4,7 @@ import glob
 import json
 from datetime import datetime
 from dotenv import load_dotenv
+import tiktoken
 
 # --- PATH SETUP ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -92,25 +93,29 @@ def ingest():
     print(f" Loaded {len(raw_docs)} document pages.")
 
     # 2. Chunking
-    chunk_size = int(os.getenv("CHUNK_SIZE", 500))
+    chunk_size = int(os.getenv("CHUNK_SIZE", 500)) 
     chunk_overlap = int(os.getenv("CHUNK_OVERLAP", 50))
-    
-    print(f"Splitting text (Size: {chunk_size}, Overlap: {chunk_overlap})...")
-    
-    text_splitter = RecursiveCharacterTextSplitter(
+
+    print(f"Splitting text by TOKENS (Size: {chunk_size}, Overlap: {chunk_overlap})...")
+
+    text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
         separators=["\n\n", "\n", " ", ""]
     )
     chunks = text_splitter.split_documents(raw_docs)
 
-    # 3. Metadata Tagging (Day 1 Requirement)
+    encoder = tiktoken.get_encoding("cl100k_base")
+    
+    # 3. Metadata Tagging 
     for chunk in chunks:
         chunk.metadata["category"] = "Enterprise Knowledge"
         chunk.metadata["ingestion_timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         # Ensure source path is clean
         if "source" in chunk.metadata:
             chunk.metadata["filename"] = os.path.basename(chunk.metadata["source"])
+        chunk.metadata["character_count"] = len(chunk.page_content)
+        chunk.metadata["token_count"] = len(encoder.encode(chunk.page_content))
 
     print(f" Split into {len(chunks)} chunks with metadata tags.")
 

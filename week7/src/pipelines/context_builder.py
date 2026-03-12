@@ -68,7 +68,6 @@ if __name__ == "__main__":
     # You pass the dictionary INTO the function here
     raw_results = hybrid_retriever.retrieve(query, metadata_filters=my_filters)
     
-    raw_results = hybrid_retriever.retrieve(query)
     print(f" Step 1: Retrieved {len(raw_results)} initial chunks via Hybrid Search.")
 
     unique_results = cb.deduplicate(raw_results)

@@ -7,4 +7,3 @@ autogen-ext[openai]~=0.4.0
 fastapi
 uvicorn
 faiss-cpu
-sqlite3 # Built into Python, but good to note for your stack
