@@ -1,7 +1,7 @@
 # AutoGen Core and Extensions (Official 0.4+ modular packages)
-autogen-agentchat~=0.4.0
-autogen-core~=0.4.0
-autogen-ext[openai]~=0.4.0
+autogen-agentchat~=0.7.5
+autogen-core~=0.7.5
+autogen-ext[openai]~=0.7.5
 
 # Week 9 Fixed Tech Stack
 fastapi

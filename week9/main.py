@@ -22,7 +22,7 @@ async def main():
         }
     )
 
-    # Instantiate the 3 distinct agents
+    # Instantiate the 3 distinct agents outside the loop so they retain memory
     researcher = get_research_agent(model_client)
     summarizer = get_summarizer_agent(model_client)
     answerer = get_answer_agent(model_client)
@@ -33,11 +33,19 @@ async def main():
         max_turns=3 
     )
 
-   # task = "Find out how the ReAct pattern works in AI agents, summarize it, and explain it to me."
-    task = "Suggest me the best smartphone available currently"
-    print("Initiating Day 1 Agent Pipeline...\n")
-    # The Console UI will stream the handoffs in the terminal
-    await Console(pipeline_team.run_stream(task=task))
+    print("Initiating Day 1 Agent Pipeline (Type 'exit' to quit)...\n")
+    
+    # Interactive CLI Loop
+    while True:
+        user_input = input("\nUser: ")
+        
+        if user_input.lower() in ['exit', 'quit']:
+            print("Shutting down pipeline...")
+            break
+            
+        if not user_input.strip():
+            continue
+        await Console(pipeline_team.run_stream(task=user_input))
 
 if __name__ == "__main__":
     asyncio.run(main())

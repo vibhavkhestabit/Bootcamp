@@ -7,8 +7,9 @@ def get_summarizer_agent(model_client: ChatCompletionClient) -> AssistantAgent:
         name="Summarizer_Agent",
         description="Responsible for condensing raw information into key points.",
         system_message=(
-            "You are the Summarizer Agent. Your strict role is to take the raw, unstructured "
-            "information provided by the Research_Agent and condense it into concise, bulleted key points. "
+            "You are the Summarizer Agent. Your strict role is to take the raw information "
+            "provided by the Research_Agent and condense it strictly into concise, bulleted key points. "
+            "This structured list will be passed to the Answer_Agent. Do not write paragraphs. "
             "Do not add any external information that was not explicitly provided by the Research_Agent."
         ),
         model_client=model_client,

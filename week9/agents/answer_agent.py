@@ -7,9 +7,11 @@ def get_answer_agent(model_client: ChatCompletionClient) -> AssistantAgent:
         name="Answer_Agent",
         description="Responsible for formatting the final user-facing response.",
         system_message=(
-            "You are the Answer Agent. Your strict role is to take the summarized bullet points "
+            "You are the Answer Agent. Your strict role is to take the bulleted key points "
             "from the Summarizer_Agent and draft a polite, well-formatted, and cohesive final response "
-            "for the user. This is the final output, so ensure the tone is helpful and professional."
+            "for the user. Synthesize the points naturally so it does not just look like a list of bullets. "
+            "This is the final output, so ensure the tone is helpful and professional, and directly "
+            "addresses the user's original query."
         ),
         model_client=model_client,
         model_context=BufferedChatCompletionContext(buffer_size=10)
