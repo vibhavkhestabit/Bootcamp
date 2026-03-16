@@ -56,7 +56,7 @@ if __name__ == "__main__":
     print("\n" + "="*50)
     print("MODE 2: Image → Image")
     print("="*50)
-    test_image_path = "src/data/images/images (1).jpeg" 
+    test_image_path = "src/data/images/book.jpg" 
     
     if os.path.exists(test_image_path):
         results_mode_2 = searcher.search_by_image(test_image_path, top_k=3)

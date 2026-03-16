@@ -64,7 +64,7 @@ class ImageIngestor:
             "filename": filename,
             "filepath": filepath,
             "caption": caption,
-            "ocr_text": ocr_text[:200] + "..." if len(ocr_text) > 200 else ocr_text
+            "ocr_text": ocr_text
         })
 
     def process_directory(self):

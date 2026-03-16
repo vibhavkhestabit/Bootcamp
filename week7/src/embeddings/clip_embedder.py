@@ -11,7 +11,13 @@ class CLIPEmbedder:
 
     def embed_text(self, text):
         """Converts text into a CLIP vector."""
-        inputs = self.processor(text=text, return_tensors="pt", padding=True).to(self.device)
+        inputs = self.processor(
+            text=[text], 
+            return_tensors="pt", 
+            padding=True, 
+            truncation=True, 
+            max_length=77
+        ).to(self.device)
         with torch.no_grad():
             embeddings = self.model.get_text_features(**inputs)
         return embeddings.cpu().numpy().tolist()[0]
