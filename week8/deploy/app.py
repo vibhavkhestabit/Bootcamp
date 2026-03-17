@@ -1,158 +1,101 @@
-import uuid
-import logging
-import sys
-from fastapi import FastAPI, Request
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel, Field
-from typing import List, Optional
+import streamlit as st
+from router import LocalLLMRouter
 
-# Import our custom files
-import config
-from model_loader import get_llm
+st.set_page_config(page_title="Local LLM Interface", layout="wide")
 
-# LOGGING SETUP
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | [%(levelname)s] | RequestID: %(message)s"
-)
-logger = logging.getLogger(__name__)
+# 1. Cache the Router so the GGUF model stays in RAM between button clicks!
+@st.cache_resource
+def load_backend():
+    return LocalLLMRouter()
 
-# Initialize FastAPI
-app = FastAPI(title="Local LLM API", description="Day 5 Capstone: GGUF Microservice")
+router = load_backend()
 
-# --- GLOBAL MEMORY BUFFER (Single-Player Mode) ---
-global_chat_history = [
-    {"role": "system", "content": "You are a helpful and smart AI coding assistant."}
-]
+st.title("⚡ Local Open-Source LLM UI")
 
-# PYDANTIC SCHEMAS (Data Validation & Controls)
-class GenerateRequest(BaseModel):
-    prompt: str
-    max_tokens: int = Field(default=config.MAX_TOKENS)
-    temperature: float = Field(default=config.DEFAULT_TEMP)
-    top_p: float = Field(default=config.DEFAULT_TOP_P)
-    top_k: int = Field(default=config.DEFAULT_TOP_K)
-    stream: bool = Field(default=False)
+# --- Sidebar: Generation Parameters ---
+with st.sidebar:
+    st.header(" Model Parameters")
+    temperature = st.slider("Temperature", 0.0, 1.0, 0.7, 0.1)
+    max_tokens = st.number_input("Max Tokens", min_value=10, max_value=2048, value=512)
+    top_p = st.slider("Top P", 0.1, 1.0, 0.95, 0.05)
+    top_k = st.number_input("Top K", min_value=1, max_value=100, value=40)
+    stream = st.toggle("Enable Streaming", value=True)
 
-# Updated schema: Now it just takes your single question!
-class ChatRequest(BaseModel):
-    message: str 
-    max_tokens: int = Field(default=config.MAX_TOKENS)
-    temperature: float = Field(default=config.DEFAULT_TEMP)
-    top_p: float = Field(default=config.DEFAULT_TOP_P)
-    top_k: int = Field(default=config.DEFAULT_TOP_K)
-    stream: bool = Field(default=False)
+# --- Setup Tabs ---
+tab1, tab2 = st.tabs([" Chat Mode", " Instruct Generate"])
 
-
-# ENDPOINT 1: POST /generate (Raw Text Completion)
-@app.post("/generate")
-async def generate_text(req: GenerateRequest):
-    req_id = str(uuid.uuid4())[:8] # Generate a unique ID for this request
-    logger.info(f"{req_id} | POST /generate | Prompt: '{req.prompt[:30]}...'")
+# TAB 1: CHAT INTERFACE
+with tab1:
+    st.markdown("### Conversational AI")
     
-    llm = get_llm()
+    # Initialize UI chat history
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-    # Streaming logic
-    if req.stream:
-        logger.info(f"{req_id} | Starting Streamed Generation")
+    # Display existing chat history
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+
+    # Chat Input
+    if prompt := st.chat_input("Message the local AI..."):
+        st.session_state.messages.append({"role": "user", "content": prompt})
         
-        def stream_generator():
-            stream = llm.create_completion(
-                prompt=req.prompt, max_tokens=req.max_tokens,
-                temperature=req.temperature, top_p=req.top_p, top_k=req.top_k, stream=True
-            )
-            for chunk in stream:
-                yield chunk["choices"][0]["text"]
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant"):
+            try:
+                # Call the router directly (no API requests needed!)
+                response_data = router.chat(
+                    ui_messages=st.session_state.messages,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                    top_p=top_p,
+                    top_k=top_k,
+                    stream=stream
+                )
                 
-        return StreamingResponse(stream_generator(), media_type="text/plain")
-
-    # Standard (Non-Streaming) logic
-    logger.info(f"{req_id} | Starting Standard Generation")
-    output = llm.create_completion(
-        prompt=req.prompt, max_tokens=req.max_tokens,
-        temperature=req.temperature, top_p=req.top_p, top_k=req.top_k
-    )
-    
-    response_text = output["choices"][0]["text"].strip()
-    logger.info(f"{req_id} | Generation Complete")
-    
-    return {
-        "request_id": req_id,
-        "response": response_text
-    }
-
-
-# ENDPOINT 2: POST /chat (Stateful Global Chat)
-@app.post("/chat")
-async def chat_text(req: ChatRequest):
-    global global_chat_history
-    req_id = str(uuid.uuid4())[:8]
-    logger.info(f"{req_id} | POST /chat | Message: '{req.message[:30]}...'")
-    
-    llm = get_llm()
-    
-    # 1. Append the new user message to the global history
-    global_chat_history.append({"role": "user", "content": req.message})
-
-    # Streaming logic
-    if req.stream:
-        logger.info(f"{req_id} | Starting Streamed Chat")
-        
-        def chat_stream_generator():
-            global global_chat_history
-            stream = llm.create_chat_completion(
-                messages=global_chat_history, 
-                max_tokens=req.max_tokens,
-                temperature=req.temperature, 
-                top_p=req.top_p, 
-                top_k=req.top_k, 
-                stream=True
-            )
-            
-            assistant_reply = ""
-            for chunk in stream:
-                if "content" in chunk["choices"][0]["delta"]:
-                    text_chunk = chunk["choices"][0]["delta"]["content"]
-                    assistant_reply += text_chunk
-                    yield text_chunk # Yield to the API client
-            
-            # 2. Save response and slide window AFTER stream finishes
-            global_chat_history.append({"role": "assistant", "content": assistant_reply})
-            if len(global_chat_history) > 11:
-                global_chat_history = [global_chat_history[0]] + global_chat_history[-10:]
+                if stream:
+                    # Streamlit magically handles the generator!
+                    full_response = st.write_stream(response_data)
+                else:
+                    st.markdown(response_data)
+                    full_response = response_data
                 
-        return StreamingResponse(chat_stream_generator(), media_type="text/plain")
+                # Save the AI's response to the session state
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
+                
+            except Exception as e:
+                st.error(f"Inference Error: {str(e)}")
 
-    # Standard (Non-Streaming) logic
-    logger.info(f"{req_id} | Starting Standard Chat")
-    output = llm.create_chat_completion(
-        messages=global_chat_history, 
-        max_tokens=req.max_tokens,
-        temperature=req.temperature, 
-        top_p=req.top_p, 
-        top_k=req.top_k
-    )
-    
-    response_text = output["choices"][0]["message"]["content"].strip()
-    
-    # 3. Save the AI's response to the global history
-    global_chat_history.append({"role": "assistant", "content": response_text})
-    
-    # 4. MEMORY MANAGEMENT: The Sliding Window
-    if len(global_chat_history) > 11:
-        global_chat_history = [global_chat_history[0]] + global_chat_history[-10:]
-        
-    logger.info(f"{req_id} | Chat Complete")
-    
-    return {
-        "request_id": req_id,
-        "response": response_text
-    }
 
-if __name__ == "__main__":
-    import uvicorn
-    # If you run `python app.py` it will start the server automatically
-    print("\n" + "="*50)
-    print(" LAUNCHING LOCAL LLM API SERVER")
-    print("="*50)
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+# TAB 2: RAW GENERATION
+with tab2:
+    st.markdown("### Raw Prompt Completion")
+    
+    raw_prompt = st.text_area("Enter your prompt:", height=150, placeholder="Write a Python script to...")
+    
+    if st.button("Generate Text", type="primary"):
+        if not raw_prompt.strip():
+            st.warning("Please enter a prompt.")
+        else:
+            st.markdown("**Output:**")
+            try:
+                # Call the router directly
+                response_data = router.generate(
+                    prompt=raw_prompt,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                    top_p=top_p,
+                    top_k=top_k,
+                    stream=stream
+                )
+                
+                if stream:
+                    st.write_stream(response_data)
+                else:
+                    st.info(response_data)
+                    
+            except Exception as e:
+                st.error(f"Inference Error: {str(e)}")
