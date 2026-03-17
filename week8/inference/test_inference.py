@@ -14,9 +14,7 @@ from llama_cpp import Llama
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# ---------------------------------------------------------
 # CONFIGURATION
-# ---------------------------------------------------------
 BASE_MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 ADAPTER_PATH = "./adapters"           
 GGUF_MODEL = "./quantized/model-q4_0.gguf" 
@@ -26,9 +24,7 @@ NUM_TEST_SAMPLES = 3
 
 benchmark_results = []
 
-# =========================================================
 # PART 1: QUANTITATIVE METRICS PIPELINE
-# =========================================================
 
 def load_eval_prompts(filepath, n=3):
     """Loads and formats Alpaca prompts from val.jsonl"""
@@ -62,7 +58,6 @@ def get_vram_mb():
     return 0.0 
 
 def get_ram_mb():
-    """✅ NEW: Measures System RAM Usage for this specific Python process"""
     process = psutil.Process(os.getpid())
     return round(process.memory_info().rss / (1024 ** 2), 2)
 
@@ -82,7 +77,7 @@ def calculate_cosine_similarity(prediction, reference):
 def run_hf_metrics(model_name, model, tokenizer, samples):
     print(f"\n{'='*50}\n[Benchmarking {model_name}...]\n{'='*50}")
     total_tokens, total_time, f1_scores = 0, 0, []
-    cosine_scores = [] # NEW: Tracking cosine scores
+    cosine_scores = [] 
     
     for i, s in enumerate(samples):
         inputs = tokenizer(s["prompt"], return_tensors="pt").to("cuda" if torch.cuda.is_available() else "cpu")
@@ -111,14 +106,13 @@ def run_hf_metrics(model_name, model, tokenizer, samples):
     vram = get_vram_mb()
     ram = get_ram_mb() 
     
-    # Updated to include Cosine Similarity in the dictionary
     benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Cosine Similarity (%)": avg_cosine})
-    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Cosine Sim: {avg_cosine}%")
+    print(f"\n FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Cosine Sim: {avg_cosine}%")
 
 def run_gguf_metrics(model_name, llm, samples):
     print(f"\n{'='*50}\n[Benchmarking {model_name}...]\n{'='*50}")
     total_tokens, total_time, f1_scores = 0, 0, []
-    cosine_scores = [] # NEW: Tracking cosine scores
+    cosine_scores = []
     
     for i, s in enumerate(samples):
         start = time.time()
@@ -145,14 +139,10 @@ def run_gguf_metrics(model_name, llm, samples):
     vram = get_vram_mb() 
     ram = get_ram_mb() 
     
-    # Updated to include Cosine Similarity in the dictionary
     benchmark_results.append({"Model": model_name, "Tokens/sec": speed, "Latency (s)": avg_latency, "VRAM (MB)": vram, "RAM (MB)": ram, "Cosine Similarity (%)": avg_cosine})
-    print(f"\n✅ FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Cosine Sim: {avg_cosine}%")
+    print(f"\n FINAL {model_name} -> Speed: {speed} T/s | Latency: {avg_latency}s | VRAM: {vram} MB | RAM: {ram} MB | Cosine Sim: {avg_cosine}%")
 
-
-# =========================================================
 # PART 2: QUALITATIVE GGUF DEMOS
-# =========================================================
 
 def streaming_output(llm):
     print("\n===== 1. Streaming Output Mode =====")
@@ -197,10 +187,7 @@ def multi_prompt_test(llm):
     end = time.time()
     print(f"\nTotal Time: {end - start:.2f} seconds")
 
-
-# =========================================================
 # MAIN EXECUTION
-# =========================================================
 if __name__ == "__main__":
     print("Loading Validation Data...")
     samples = load_eval_prompts(VAL_FILE, NUM_TEST_SAMPLES)
@@ -226,11 +213,10 @@ if __name__ == "__main__":
     # --- 4. Save CSV ---
     os.makedirs(os.path.dirname(CSV_PATH), exist_ok=True)
     with open(CSV_PATH, mode='w', newline='') as file:
-        # UPDATED: Added Cosine Similarity (%) to the CSV headers
         writer = csv.DictWriter(file, fieldnames=["Model", "Tokens/sec", "Latency (s)", "VRAM (MB)", "RAM (MB)", "Cosine Similarity (%)"])
         writer.writeheader()
         writer.writerows(benchmark_results)
-    print(f"\n✅ Benchmarks complete. Results saved strictly to {CSV_PATH}")
+    print(f"\n Benchmarks complete. Results saved strictly to {CSV_PATH}")
     
     # --- 5. Run User Demos ---
     print("\n" + "="*50 + "\n LAUNCHING GGUF VISUAL DEMOS\n" + "="*50)
