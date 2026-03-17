@@ -103,7 +103,12 @@ def ingest():
         chunk_overlap=chunk_overlap,
         separators=["\n\n", "\n", " ", ""]
     )
-    chunks = text_splitter.split_documents(raw_docs)
+    
+    text_docs = [doc for doc in raw_docs if not doc.metadata.get("source", "").lower().endswith(".csv")]
+    csv_docs = [doc for doc in raw_docs if doc.metadata.get("source", "").lower().endswith(".csv")]
+    
+    text_chunks = text_splitter.split_documents(text_docs)
+    chunks = text_chunks + csv_docs
 
     encoder = tiktoken.get_encoding("cl100k_base")
     
