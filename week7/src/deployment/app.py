@@ -94,7 +94,20 @@ class CapstoneRouter:
                 final_context = self.context_builder.format_context(reranked_results)
                 print(" Passing refined context and chat history to the LLM...")
                 
-                full_prompt = f"Context Documents:\n{final_context}\n\nConversation History:\n{chat_history}\n\nAnswer this new query: {query}"
+                full_prompt = f"""You are a precise and helpful AI assistant. 
+                    Your primary directive is to answer the user's query based ONLY on the provided Context Documents and Conversation History. 
+
+                    IMPORTANT: If the answer cannot be found within the provided Context Documents, you must state exactly: "I am sorry, but I do not have enough information in the provided documents to answer that question." 
+                    Do NOT use your own external knowledge to fill in the blanks.
+
+                    Context Documents:
+                    {final_context}
+
+                    Conversation History:
+                    {chat_history}
+
+                    User Query: {query}
+                    Answer:"""
                 draft_answer = self.general_llm.invoke(full_prompt).content
                 context_used = final_context
             except Exception as e:

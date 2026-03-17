@@ -351,5 +351,45 @@
         "confidence_score": 0,
         "faithfulness_status": "Unfaithful",
         "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:07:13.002315",
+        "endpoint": "/ask",
+        "user_query": "stock based compensation",
+        "ai_response": "The stock-based compensation recognized for related party RSUs was $6 million, $128 million, and $\u2014 for the twelve months ended December 31, 2022, 2021, and 2020, respectively. No unrecognized stock-based compensation remains for the related party RSUs as of December 31, 2022. In December 2021 and January 2022, the Company made withholding tax payments associated with the related party RSUs and received a $13 million reimbursement during the twelve months ended December 31, 2022.\n\nStock-based compensation is allocated on a departmental basis, based on the classification of the option holder or grant recipient. No income tax benefits have been recognized in the statement of operations for stock-based compensation arrangements and no stock-based compensation has been capitalized as of December 31, 2022.\n\nTotal stock-based compensation expense by function was as follows (in millions):\n*   For the twelve months ended December 31, 2022: Research and development was $137 million, Selling, general, and administrative was $19 million, totaling $156 million.\n*   For the twelve months ended December 31, 2021: Research and development was $207 million, Selling, general, and administrative was $13 million, totaling $220 million.\n*   For the twelve months ended December 31, 2020: Research and development was $14 million, Selling, general, and administrative was $3 million, totaling $17 million.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:14:39.895618",
+        "endpoint": "/ask",
+        "user_query": "What is an ML Model",
+        "ai_response": "An ML model is a program or algorithm that has been trained on data to recognize patterns and make predictions or decisions without being explicitly programmed for every scenario.\n\nHere's a breakdown of what that means:\n\n*   **Algorithm:** At its core, an ML model is a mathematical algorithm.\n*   **Training Data:** It learns by being exposed to a large dataset. This data can include examples, observations, or past results.\n*   **Pattern Recognition:** During training, the model identifies underlying patterns, relationships, and features within the data.\n*   **Prediction/Decision Making:** Once trained, the model can use its learned patterns to:\n    *   **Predict:** Estimate future outcomes or values (e.g., predicting house prices, forecasting sales).\n    *   **Classify:** Assign data points to specific categories (e.g., identifying spam emails, recognizing images of cats).\n    *   **Generate:** Create new data that resembles the training data (e.g., generating text, creating art).\n*   **Generalization:** A key goal is for the model to generalize well, meaning it can perform accurately on new, unseen data that it wasn't trained on.\n*   **No Explicit Programming:** Unlike traditional software where every rule is hardcoded, ML models learn these rules implicitly from the data.",
+        "critique": "The previous answer incorrectly stated a lack of information, when in fact, the concept of an ML model is general knowledge and does not require specific documents.",
+        "confidence_score": 0,
+        "faithfulness_status": "Unfaithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:17:15.713339",
+        "endpoint": "/ask",
+        "user_query": "item 10 in table of contents",
+        "ai_response": "Item 10 in the table of contents is \"Directors, Executive Officers and Corporate Governance.\" The information required for this item will be provided in the definitive proxy statement for the 2023 Annual Meeting of Stockholders no later than 120 days after December 31, 2022.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:18:55.924533",
+        "endpoint": "/ask",
+        "user_query": "symptoms of cancer",
+        "ai_response": "*   Cancer symptoms can vary greatly depending on the type and location of the cancer, but some common signs to be aware of include:\n    *   Unexplained weight loss\n    *   Persistent fatigue\n    *   Changes in bowel or bladder habits\n    *   A sore that does not heal\n    *   Unusual bleeding or discharge\n    *   Thickening or lump in the breast or elsewhere\n    *   Nagging cough or hoarseness\n    *   Changes in a mole or skin lesion\n    *   Persistent pain\n*   It is important to note that these symptoms can also be caused by many other, less serious conditions. However, if you experience any of these symptoms persistently or are concerned, it is crucial to consult a healthcare professional for proper diagnosis and evaluation.",
+        "critique": "The previous answer incorrectly stated it lacked information, when the question was a general knowledge query about cancer symptoms, which is widely available information.",
+        "confidence_score": 0,
+        "faithfulness_status": "Unfaithful",
+        "human_feedback": "Positive"
     }
 ]
