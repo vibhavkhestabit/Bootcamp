@@ -391,5 +391,35 @@
         "confidence_score": 0,
         "faithfulness_status": "Unfaithful",
         "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:37:10.116835",
+        "endpoint": "/ask",
+        "user_query": "economic risk factors",
+        "ai_response": "Economic risk factors include changes in interest rates, inflation, and the availability of funding sources. The company does not believe that a 100-basis point increase or decrease in interest rates would materially affect its business, financial condition, or results of operations. While the company does not believe inflation has had a material effect on its business, financial condition, or results of operations beyond its impact on the general economy, it acknowledges that if its costs become subject to inflationary pressures, it may not be able to fully offset these higher costs through price increases, which could harm its business, financial condition, and results of operations.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 95,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:46:03.915588",
+        "endpoint": "/ask",
+        "user_query": "DevOps Importance",
+        "ai_response": "DevOps is crucial for modern software development and IT operations for several key reasons:\n\n*   **Faster Time to Market:** By automating and streamlining the development and deployment pipeline, DevOps enables organizations to release new features and updates to customers more quickly and frequently.\n*   **Improved Collaboration and Communication:** It breaks down silos between development (Dev) and operations (Ops) teams, fostering a culture of shared responsibility and better communication, leading to more efficient problem-solving.\n*   **Increased Efficiency and Productivity:** Automation of repetitive tasks, such as testing, building, and deployment, frees up teams to focus on more strategic and value-adding activities.\n*   **Enhanced Quality and Reliability:** Continuous integration and continuous delivery (CI/CD) practices, central to DevOps, allow for early detection and resolution of bugs, leading to more stable and reliable software.\n*   **Better Customer Satisfaction:** Faster delivery of high-quality software that meets user needs directly contributes to improved customer satisfaction and loyalty.\n*   **Reduced Costs:** Streamlined processes, fewer errors, and increased efficiency can lead to significant cost savings in development, operations, and incident management.\n*   **Greater Innovation:** By reducing the time and effort required for deployment and maintenance, DevOps allows organizations to experiment more freely and innovate faster.",
+        "critique": "The original answer incorrectly states a lack of information, when the question is a general knowledge query about DevOps importance, not tied to specific documents.",
+        "confidence_score": 0,
+        "faithfulness_status": "Unfaithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:50:32.924869",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "**AI Vision Summary:**\nYou searched for 'moon', and I found a few images for you!\n\nFirst, there's `moon.jpeg`, which quite simply shows **the moon**.\n\nNext, we have `just_image_image29(1).jpeg.jpg`. This image offers a broader view, featuring **both the moon and the Earth**.\n\nFinally, there's `just_image_26171394-0-image-a-49_1584634275032.jpg.jpg`. This one also depicts **the moon**, but its summary specifies it was \"taken from the sky.\" Interestingly, this image also has some text on it, indicating it's a stock image from \"Getty Images/EyeEm.\"\n\n**Source Files:**\n1. File: moon.jpeg\n   - Caption: the moon is seen in this image\n   - OCR: \n\n2. File: just_image_image29(1).jpeg.jpg\n   - Caption: the moon and the earth\n   - OCR: \n\n3. File: just_image_26171394-0-image-a-49_1584634275032.jpg.jpg\n   - Caption: the moon is seen in this image taken from the sky\n   - OCR: s/EyeEm\n\u00a9 Getty Images/Eye\n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
     }
 ]

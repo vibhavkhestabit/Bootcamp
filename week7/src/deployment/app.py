@@ -1,206 +1,104 @@
-import sys
-import os
-import yaml
+import streamlit as st
+from router import CapstoneRouter 
 
-sys.path.append(os.path.abspath("src"))
-from memory.memory_store import MemoryStore
-from evaluation.rag_eval import Evaluator
-from langchain_google_genai import ChatGoogleGenerativeAI
-from dotenv import load_dotenv
+# 1. Page Configuration
+st.set_page_config(page_title="Enterprise AI Capstone", layout="wide")
 
-# --- DAY 4: SQL PIPELINE ---
-from pipelines.sql_pipeline import SQLPipeline
+# 2. Cache the Router so models don't reload on every button click!
+@st.cache_resource
+def load_backend():
+    with st.spinner("Spinning up AI Pipelines... Please wait."):
+        return CapstoneRouter()
 
-# --- DAY 3: VISION PIPELINE ---
-from retriever.image_search import ImageSearch
+router = load_backend()
 
-# --- DAYS 1 & 2: TEXT PIPELINE COMPONENTS ---
-from embeddings.embedder import Embedder
-from langchain_community.vectorstores import FAISS
-from retriever.hybrid_retriever import HybridRetriever
-from retriever.reranker import DocumentReranker
-from pipelines.context_builder import ContextBuilder
-
-load_dotenv()
-
-class CapstoneRouter:
-    def __init__(self):
-        self.memory = MemoryStore()
-        self.evaluator = Evaluator()
+# 3. Sidebar for Memory / History
+# 3. Sidebar for Memory / History
+with st.sidebar:
+    st.header(" Conversation History")
+    if st.button("Refresh History"):
+        history = router.memory.get_last_n_messages(n=5)
         
-        # 1. Point directly to your config folder
-        config_path = "src/config/model.yaml"
-        
-        with open(config_path, "r") as file:
-            config = yaml.safe_load(file)
+        if history:
+            # If it is a single giant string block
+            if isinstance(history, str):
+                st.text(history)
             
-        model_name = config.get("model_name", "gemini-2.5-flash-lite")
-        
-        # 2. Initialize our foundational Writer LLM
-        self.general_llm = ChatGoogleGenerativeAI(model=model_name, temperature=0.7)
-        
-        print("\n[System] Spinning up Data Pipelines...")
-        
-        # 3. Initialize SQL System (Day 4)
-        print(" -> Loading SQL Pipeline...")
-        self.sql_pipeline = SQLPipeline(data_file_path="src/data/sql/customers-100.csv")
-        
-        # 4. Initialize Vision System (Day 3)
-        print(" -> Loading Vision Pipeline...")
-        self.vision_searcher = ImageSearch()
-        
-        # 5. Initialize Text RAG System (Days 1 & 2)
-        print(" -> Loading Text Vector DB & Retrievers...")
-        self.embedder = Embedder()
-        self.vectorstore = FAISS.load_local(
-            "src/vectorstore/db_faiss", 
-            self.embedder.get_embeddings(), 
-            allow_dangerous_deserialization=True
-        )
-        self.all_documents = list(self.vectorstore.docstore._dict.values())
-        self.hybrid_retriever = HybridRetriever(self.vectorstore, self.all_documents)
-        self.reranker = DocumentReranker()
-        self.context_builder = ContextBuilder()
-        
-        print("[System] All systems GO.\n")
-
-    def route_request(self, user_input):
-        """API Endpoint Router."""
-        
-        parts = user_input.split(" ", 1)
-        endpoint = parts[0].strip()
-        query = parts[1].strip() if len(parts) > 1 else ""
-
-        chat_history = self.memory.get_last_n_messages(n=5)
-        
-        draft_answer = ""
-        context_used = ""
-
-        print("\n Processing Request...")
-        
-        # ROUTE 1: TEXT RAG (/ask)
-        if endpoint == "/ask":
-            try:
-                print(f" Running Hybrid Retrieval for query: '{query}'...")
-                raw_results = self.hybrid_retriever.retrieve(query)
-                print(f"   ↳ Retrieved {len(raw_results)} raw chunks.")
-                
-                unique_results = self.context_builder.deduplicate(raw_results)
-                print(f" Deduplication complete: Filtered down to {len(unique_results)} unique chunks.")
-                
-                reranked_results = self.reranker.rerank(query, unique_results, top_k=3)
-                print(f" Reranking complete: Sorted and selected the Top 3 chunks.")
-                
-                final_context = self.context_builder.format_context(reranked_results)
-                print(" Passing refined context and chat history to the LLM...")
-                
-                full_prompt = f"""You are a precise and helpful AI assistant. 
-                    Your primary directive is to answer the user's query based ONLY on the provided Context Documents and Conversation History. 
-
-                    IMPORTANT: If the answer cannot be found within the provided Context Documents, you must state exactly: "I am sorry, but I do not have enough information in the provided documents to answer that question." 
-                    Do NOT use your own external knowledge to fill in the blanks.
-
-                    Context Documents:
-                    {final_context}
-
-                    Conversation History:
-                    {chat_history}
-
-                    User Query: {query}
-                    Answer:"""
-                draft_answer = self.general_llm.invoke(full_prompt).content
-                context_used = final_context
-            except Exception as e:
-                draft_answer = f"Text RAG Execution Failed: {str(e)}"
+            # If it is a list of strings
+            elif isinstance(history, list):
+                for i, msg in enumerate(history):
+                    st.markdown(f"**Message {i+1}:**")
+                    st.text(msg)
+                    st.divider()
             
-        # ROUTE 2: SQL DB (/ask-sql)
-        elif endpoint == "/ask-sql":
-            try:
-                schema, conn = self.sql_pipeline.schema_loader.load_and_get_schema()
-                sql = self.sql_pipeline.generator.generate_sql(query, schema)
-                cursor = conn.cursor()
-                cursor.execute(sql)
-                raw_results = cursor.fetchall()
-                draft_answer = self.sql_pipeline.generator.summarize_results(query, sql, raw_results)
-                context_used = str(raw_results)
-            except Exception as e:
-                draft_answer = f"SQL Execution Failed: {str(e)}"
-
-        # ROUTE 3: VISION RAG (/ask-image)
-        elif endpoint == "/ask-image":
-            import os
-            try:
-                # 1. SMART ROUTING: Check if the user typed a valid file path
-                if os.path.isfile(query):
-                    print(" Image file detected! Running Image-to-Image search...")
-                    search_results = self.vision_searcher.search_by_image(query, top_k=3)
-                else:
-                    print(" Text query detected! Running Text-to-Image search...")
-                    search_results = self.vision_searcher.search_by_text(query, top_k=3)
-                
-                # 2. FORMAT THE OUTPUT
-                if search_results:
-                    context_used = ""
-                    detailed_list = ""
-                    for i, res in enumerate(search_results):
-                        context_used += f"File: {res['filename']} | Summary: {res['caption']} | OCR: {res['ocr_text']}\n"
-                        detailed_list += f"{i+1}. File: {res['filename']}\n   - Caption: {res['caption']}\n   - OCR: {res['ocr_text']}\n\n"
-                    
-                    prompt = f"""Here is data extracted from {len(search_results)} images: 
-                    {context_used}
-
-                    The user searched for: '{query}'. 
-                    Write a conversational summary that explicitly mentions and describes EVERY SINGLE image provided in the data above. Explain what each image shows, even if it doesn't perfectly match the user's exact search."""
-                    
-                    ai_summary = self.general_llm.invoke(prompt).content
-                    draft_answer = f" AI Vision Summary:\n{ai_summary}\n\n Source Files:\n{detailed_list}"
-                else:
-                    draft_answer = "No matching images found in the database."
-                    context_used = "None"
-            except Exception as e:
-                draft_answer = f"Vision Search Failed: {str(e)}"
-
-            
-        elif endpoint == "/history":
-            print("\n --- Current Memory Stack ---")
-            raw_history = self.memory.get_last_n_messages(n=5)
-            if raw_history:
-                print(raw_history)
+            # Fallback just in case
             else:
-                print("Memory stack is currently empty.")
-            print("------------------------------\n")
-            return
-            
+                st.write(history)
         else:
-            print(" Invalid Endpoint. Use /ask, /ask-sql, /ask-image or /history")
-            return
+            st.info("Memory stack is currently empty.")
 
-        # AGENTIC EVALUATION & LOGGING
+# 4. Main UI Layout
+st.title(" Enterprise Multimodal AI")
+st.markdown("Query structured SQL data, unstructured PDFs, or Image vectors using the endpoints below.")
 
-        print(" Running Agentic Evaluation & Hallucination Check...")
-        final_answer, confidence_score, critique_text = self.evaluator.grade_and_refine(query, draft_answer, context_used)
+# User Inputs
+col1, col2 = st.columns([1, 4])
+with col1:
+    endpoint = st.selectbox("Select Endpoint", ["/ask", "/ask-sql", "/ask-image"])
+with col2:
+    query = st.text_input("Enter your query:", placeholder="e.g., Show me the top 5 customers")
 
-        print("\n" + "="*50)
-        print(f" Confidence Score: {confidence_score}/100")
-        if critique_text != "None (Score was 80+, no refinement needed)" and critique_text != "Skipped":
-            print(f" AI Critique: {critique_text}")
-        print(f" Final AI Answer:\n{final_answer}")
-        print("="*50 + "\n")
+# Initialize session state to hold our results so buttons don't clear the screen
+if "current_result" not in st.session_state:
+    st.session_state.current_result = None
 
+# 5. Process the Request
+if st.button("Submit Query", type="primary"):
+    if query:
+        with st.spinner("Processing request and running agentic evaluation..."):
+            result = router.process_query(endpoint, query)
+            st.session_state.current_result = result
+    else:
+        st.warning("Please enter a query.")
 
-        user_feedback = input(" Was this answer helpful? (y/n): ").strip().lower()
-        feedback_label = "Positive" if user_feedback == 'y' else "Negative"
-
-        self.memory.append_message(endpoint, query, final_answer, confidence_score, critique=critique_text, feedback=feedback_label)
-
-
-if __name__ == "__main__":
-    app = CapstoneRouter()
-    print(" Day 5 Capstone API Router Online. Type 'exit' to quit.")
-    print("Endpoints: /ask [query], /ask-sql [query], /ask-image [query], /history")
+# 6. Display Results & Gather Feedback
+if st.session_state.current_result:
+    res = st.session_state.current_result
     
-    while True:
-        user_input = input("\nEnter Command: ")
-        if user_input.lower() == 'exit':
-            break
-        app.route_request(user_input)
+    st.subheader("Final Answer")
+    st.info(res["final_answer"])
+    
+    # Expandable section for Evaluation metrics
+    with st.expander(" View Agentic Evaluation Details"):
+        st.metric(label="Confidence Score", value=f"{res['confidence_score']}/100")
+        st.markdown("**AI Critique:**")
+        st.write(res["critique_text"])
+        st.markdown("**Context Used:**")
+        st.write(res["context_used"])
+        st.markdown("**Original Draft Answer (Pre-Refinement):**")
+        st.write(res["draft_answer"])
+        
+    st.write("---")
+    st.write("**Was this answer helpful?**")
+    
+    # Feedback Buttons
+    fb_col1, fb_col2, _ = st.columns([1, 1, 8])
+    with fb_col1:
+        if st.button(" Yes"):
+            router.save_feedback(
+                res["endpoint"], res["query"], res["final_answer"], 
+                res["confidence_score"], res["critique_text"], "Positive"
+            )
+            st.success("Feedback saved to memory!")
+            st.session_state.current_result = None # Reset for next query
+            st.rerun()
+            
+    with fb_col2:
+        if st.button(" No"):
+            router.save_feedback(
+                res["endpoint"], res["query"], res["final_answer"], 
+                res["confidence_score"], res["critique_text"], "Negative"
+            )
+            st.error("Feedback saved. We will improve!")
+            st.session_state.current_result = None # Reset for next query
+            st.rerun()
