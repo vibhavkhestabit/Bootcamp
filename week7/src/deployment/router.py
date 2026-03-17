@@ -27,7 +27,7 @@ class CapstoneRouter:
         with open(config_path, "r") as file:
             config = yaml.safe_load(file)
             
-        model_name = config.get("model_name", "gemini-2.5-flash-lite")
+        model_name = config.get("model_name", "gemini-2.5-flash")
         self.general_llm = ChatGoogleGenerativeAI(model=model_name, temperature=0.7)
         
         self.sql_pipeline = SQLPipeline(data_file_path="src/data/sql/customers-100.csv")
@@ -49,6 +49,7 @@ class CapstoneRouter:
         chat_history = self.memory.get_last_n_messages(n=5)
         draft_answer = ""
         context_used = ""
+        image_paths = [] # NEW: We will store the actual image paths here!
 
         # ROUTE 1: TEXT RAG (/ask)
         if endpoint == "/ask":
@@ -104,6 +105,9 @@ class CapstoneRouter:
                     for i, res in enumerate(search_results):
                         context_used += f"File: {res['filename']} | Summary: {res['caption']} | OCR: {res['ocr_text']}\n"
                         detailed_list += f"{i+1}. File: {res['filename']}\n   - Caption: {res['caption']}\n   - OCR: {res['ocr_text']}\n\n"
+                        
+                        # NEW: Add the path so Streamlit can render it
+                        image_paths.append(res['filepath'])
                     
                     prompt = f"""Here is data extracted from {len(search_results)} images: 
                     {context_used}\n\nThe user searched for: '{query}'. 
@@ -128,7 +132,8 @@ class CapstoneRouter:
             "context_used": context_used,
             "final_answer": final_answer,
             "confidence_score": confidence_score,
-            "critique_text": critique_text
+            "critique_text": critique_text,
+            "image_paths": image_paths # NEW: Passing the paths to the UI
         }
 
     def save_feedback(self, endpoint, query, final_answer, confidence_score, critique_text, feedback_label):

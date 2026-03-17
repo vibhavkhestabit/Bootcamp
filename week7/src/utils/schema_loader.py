@@ -6,7 +6,7 @@ class SchemaLoader:
     def __init__(self, file_path):
         self.file_path = file_path
         # The invisible RAM database
-        self.conn = sqlite3.connect(":memory:") 
+        self.conn = sqlite3.connect(":memory:", check_same_thread=False) 
         self.table_name = "dataset"
 
     def load_and_get_schema(self):

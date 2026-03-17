@@ -1,4 +1,5 @@
 import streamlit as st
+import os # Added for path parsing
 from router import CapstoneRouter 
 
 # 1. Page Configuration
@@ -12,7 +13,6 @@ def load_backend():
 
 router = load_backend()
 
-# 3. Sidebar for Memory / History
 # 3. Sidebar for Memory / History
 with st.sidebar:
     st.header(" Conversation History")
@@ -38,7 +38,7 @@ with st.sidebar:
             st.info("Memory stack is currently empty.")
 
 # 4. Main UI Layout
-st.title(" Enterprise Multimodal AI")
+st.title(" ADVANCED RAG + MEMORY + EVALUATION")
 st.markdown("Query structured SQL data, unstructured PDFs, or Image vectors using the endpoints below.")
 
 # User Inputs
@@ -67,6 +67,22 @@ if st.session_state.current_result:
     
     st.subheader("Final Answer")
     st.info(res["final_answer"])
+    
+    # --- NEW ADDITION: Render the Images! ---
+    if res.get("image_paths"):
+        st.subheader(" Retrieved Images")
+        
+        # Create columns based on how many images we found
+        cols = st.columns(len(res["image_paths"]))
+        
+        for idx, img_path in enumerate(res["image_paths"]):
+            with cols[idx]:
+                try:
+                    # Render the image file directly from your hard drive
+                    st.image(img_path, caption=os.path.basename(img_path), use_container_width=True)
+                except Exception as e:
+                    st.error(f"Image not found at path: {img_path}")
+    # ----------------------------------------
     
     # Expandable section for Evaluation metrics
     with st.expander(" View Agentic Evaluation Details"):

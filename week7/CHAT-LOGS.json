@@ -421,5 +421,25 @@
         "confidence_score": 100,
         "faithfulness_status": "Faithful",
         "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T17:11:22.648823",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "**AI Vision Summary:**\nYou searched for 'moon', and I've found a few images that match!\n\nFirst, there's an image simply named **moon.jpeg**. Its summary clearly states that the moon is seen in this image.\n\nNext up, we have **just_image_image29(1).jpeg.jpg**. This one is quite interesting as its summary indicates it features both the moon and the Earth.\n\nFinally, there's **just_image_26171394-0-image-a-49_1584634275032.jpg.jpg**. This image also shows the moon, and its summary specifically mentions it was taken from the sky. What's more, this particular file has some OCR data, showing \"s/EyeEm \u00a9 Getty Images/Eye\", suggesting it might be sourced from platforms like EyeEm or Getty Images.\n\n**Source Files:**\n1. File: moon.jpeg\n   - Caption: the moon is seen in this image\n   - OCR: \n\n2. File: just_image_image29(1).jpeg.jpg\n   - Caption: the moon and the earth\n   - OCR: \n\n3. File: just_image_26171394-0-image-a-49_1584634275032.jpg.jpg\n   - Caption: the moon is seen in this image taken from the sky\n   - OCR: s/EyeEm\n\u00a9 Getty Images/Eye\n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T17:14:48.527955",
+        "endpoint": "/ask-sql",
+        "user_query": "How many customers are there in total",
+        "ai_response": "There are 100 customers in total.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
     }
 ]
