@@ -82,11 +82,19 @@ class CapstoneRouter:
         elif endpoint == "/ask-sql":
             try:
                 schema, conn = self.sql_pipeline.schema_loader.load_and_get_schema()
+                
+                # 1. Generate the SQL normally
                 sql = self.sql_pipeline.generator.generate_sql(query, schema)
+                
+                # 2. Execute it against the database
                 cursor = conn.cursor()
                 cursor.execute(sql)
                 raw_results = cursor.fetchall()
-                draft_answer = self.sql_pipeline.generator.summarize_results(query, sql, raw_results)
+                
+                # 3. Get the natural language summary from the AI
+                summary = self.sql_pipeline.generator.summarize_results(query, sql, raw_results)
+                draft_answer = f"{summary}\n\n**Executed SQL Query:**\n```sql\n{sql}\n```"
+                
                 context_used = str(raw_results)
             except Exception as e:
                 draft_answer = f"SQL Execution Failed: {str(e)}"

@@ -441,5 +441,15 @@
         "confidence_score": 100,
         "faithfulness_status": "Faithful",
         "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-18T11:27:03.079884",
+        "endpoint": "/ask-sql",
+        "user_query": "Give me the names of customers starting with A or V",
+        "ai_response": "The customers whose first names start with 'A' or 'V' are Aimee Downs, Virginia Dudley, Alexandria Buck, Anita Benson, Alejandro Blair, Alison Vargas, and Vernon Kane.\n\n**Executed SQL Query:**\n```sql\nSELECT \"First Name\", \"Last Name\"\nFROM dataset\nWHERE \"First Name\" LIKE 'A%' OR \"First Name\" LIKE 'V%';\n```",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
     }
 ]
