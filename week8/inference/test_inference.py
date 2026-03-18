@@ -9,8 +9,6 @@ import psutil
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 from llama_cpp import Llama
-
-# --- NEW: Added imports for Cosine Similarity ---
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
