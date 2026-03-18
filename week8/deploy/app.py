@@ -10,7 +10,7 @@ def load_backend():
 
 router = load_backend()
 
-st.title("⚡ Local Open-Source LLM UI")
+st.title("Local Open-Source LLM ")
 
 # --- Sidebar: Generation Parameters ---
 with st.sidebar:
