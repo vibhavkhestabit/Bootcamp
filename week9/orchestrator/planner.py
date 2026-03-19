@@ -13,10 +13,13 @@ class DAGOrchestrator:
         self.planner_agent = AssistantAgent(
             name="Planner_Agent",
             system_message=(
-                "You are the Orchestrator Planner. Break the user query into exactly 2 distinct "
-                "subtasks that can be executed in parallel by different workers. "
-                "CRITICAL: Return them as a pipe-separated string (e.g., Subtask 1|Subtask 2). "
-                "Do not add any other text, introductions, or formatting."
+                "You are the Orchestrator Planner. Your strict job is to break the user's query into highly specific, actionable research tasks for your workers. "
+                "CRITICAL RULES: "
+                "1. You MUST break the query into EXACTLY 3 distinct subtasks. "
+                "2. The subtasks must be hyper-specific and include all constraints (dates, numbers, locations) from the user's prompt. "
+                "3. Use this format: [Specific Action] for [Topic] ensuring [Constraints]. "
+                "4. You MUST return them as a pipe-separated string (e.g., Research specific 5-star hotels for 4 people in Paris|Create a detailed day-by-day itinerary for 3 days in Paris). "
+                "5. Do NOT output any other text, introductions, or formatting. Only the pipe-separated string."
             ),
             model_client=model_client
         )
@@ -57,8 +60,14 @@ class DAGOrchestrator:
         reflection_response = await self.reflection_agent.on_messages([reflect_msg], cancellation_token=None)
         
         # 4. Validator Phase (Sequential)
-        print(" ├── Validator Agent checking for errors...")
-        valid_msg = TextMessage(content=reflection_response.chat_message.content, source="reflection")
+        print(" ├── Validator Agent checking constraints against original query...")
+        
+        validation_payload = (
+            f"Original Query: {query}\n\n"
+            f"Draft Response:\n{reflection_response.chat_message.content}"
+        )
+        
+        valid_msg = TextMessage(content=validation_payload, source="reflection")
         validator_response = await self.validator_agent.on_messages([valid_msg], cancellation_token=None)
         
         print(" └── Final Answer Delivered.\n")
