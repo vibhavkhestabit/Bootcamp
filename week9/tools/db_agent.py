@@ -1,56 +1,180 @@
+"""
+tools/db_agent.py
+─────────────────────────────────────────────────────────────────
+Database Agent.
+
+Tools:
+    inspect_schema(db_path)           → shows tables + columns + sample rows
+    execute_sql(query, db_path)       → runs any SQL, returns formatted rows
+─────────────────────────────────────────────────────────────────
+"""
+
 import sqlite3
+import re as _re
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
-def execute_sql(query: str, db_path: str = "database.db") -> str:
-    """Executes SQL query and returns formatted results."""
+
+# ─────────────────────────────────────────────────────────────────
+#  Tool functions
+# ─────────────────────────────────────────────────────────────────
+
+def inspect_schema(db_path: str = "database.db") -> str:
+    """
+    Return full schema of all user tables: columns, types, and sample rows.
+    Always call this before writing SQL so you know the exact column names.
+    Skips internal sqlite_* tables.
+    """
     try:
         with sqlite3.connect(db_path) as conn:
-            cursor = conn.cursor()
+            conn.row_factory = sqlite3.Row
+            cur = conn.cursor()
 
-            # Multi-statement support
-            if ";" in query and not query.strip().upper().startswith("SELECT"):
-                cursor.executescript(query)
-                return "Script executed successfully."
+            cur.execute(
+                "SELECT name FROM sqlite_master "
+                "WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+            )
+            tables = [r["name"] for r in cur.fetchall()]
 
-            cursor.execute(query)
+            if not tables:
+                return f"[inspect_schema] '{db_path}' has no user tables."
 
-            # Write operations
-            if query.strip().upper().startswith(("INSERT", "UPDATE", "DELETE", "CREATE", "DROP")):
-                return f"Query executed successfully. Rows affected: {cursor.rowcount}"
+            lines = [f"DATABASE SCHEMA: {db_path}", "=" * 40]
+            for table in tables:
+                # Quote table name to handle spaces/special chars safely
+                cur.execute(f'PRAGMA table_info("{table}")')
+                cols = cur.fetchall()
 
-            rows = cursor.fetchall()
+                cur.execute(f'SELECT COUNT(*) as n FROM "{table}"')
+                n_rows = cur.fetchone()["n"]
 
-            if not rows:
-                return "No results found."
+                lines.append(f"\nTable: {table}  ({n_rows} rows)")
+                lines.append("Columns:")
+                for c in cols:
+                    pk = " PRIMARY KEY" if c["pk"] else ""
+                    lines.append(f"  {c['name']}  {c['type']}{pk}")
 
-            # ✅ Get column names
-            columns = [desc[0] for desc in cursor.description]
+                cur.execute(f'SELECT * FROM "{table}" LIMIT 3')
+                samples = [dict(r) for r in cur.fetchall()]
+                if samples:
+                    lines.append("Sample rows:")
+                    for r in samples:
+                        lines.append("  " + ", ".join(f"{k}={v}" for k, v in r.items()))
 
-            # ✅ Format output
-            header = " | ".join(columns)
-            separator = "-" * len(header)
-            data_rows = "\n".join([" | ".join(map(str, row)) for row in rows])
-
-            return f"{header}\n{separator}\n{data_rows}"
+            lines.append("\n" + "=" * 40)
+            return "\n".join(lines)
 
     except Exception as e:
-        return f"Database error: {e}"
+        return f"[inspect_schema ERROR] {e}"
+
+
+def execute_sql(query: str, db_path: str = "database.db") -> str:
+    """
+    Execute a SQL query and return formatted results.
+    Always call inspect_schema() first to know column names.
+    """
+    try:
+        with sqlite3.connect(db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cur = conn.cursor()
+
+            # Multi-statement scripts (not SELECT)
+            if ";" in query and not query.strip().upper().startswith("SELECT"):
+                cur.executescript(query)
+                conn.commit()
+                # Verify actual row counts after INSERT
+                tables = _re.findall(r"INSERT\s+INTO\s+(\w+)", query, _re.IGNORECASE)
+                if tables:
+                    counts = []
+                    for t in set(tables):
+                        try:
+                            cur.execute(f'SELECT COUNT(*) FROM "{t}"')
+                            n = cur.fetchone()[0]
+                            counts.append(f"{t}: {n} rows")
+                        except Exception:
+                            pass
+                    if counts:
+                        return f"[execute_sql OK] Script executed. Row counts — {', '.join(counts)}"
+                return "[execute_sql OK] Script executed successfully."
+
+            cur.execute(query)
+
+            if query.strip().upper().startswith(("INSERT", "UPDATE", "DELETE",
+                                                   "CREATE", "DROP", "ALTER")):
+                conn.commit()
+                return f"[execute_sql OK] Rows affected: {cur.rowcount}"
+
+            rows = [dict(r) for r in cur.fetchall()]
+            if not rows:
+                return "[execute_sql] Query returned no rows."
+
+            header   = " | ".join(rows[0].keys())
+            sep      = "─" * len(header)
+            rows_str = "\n".join(
+                " | ".join(str(v) for v in r.values()) for r in rows
+            )
+            return f"{header}\n{sep}\n{rows_str}"
+
+    except Exception as e:
+        return f"[execute_sql ERROR] {e}"
+
+
+# ─────────────────────────────────────────────────────────────────
+#  Agent builder
+# ─────────────────────────────────────────────────────────────────
 
 def get_db_agent(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
         name="DB_Agent",
-        description="An agent that writes and executes SQL queries.",
-        system_message=(
-            "You are the Database Agent.\n\n"
+        description="Inspects and queries SQLite databases.",
+        system_message="""\
+You are the Database Agent. You work with SQLite databases.
 
-            "CRITICAL RULES:\n"
-            "1. You are using SQLite.\n"
-            "2. SQLite does NOT support CREATE DATABASE.\n"
-            "3. If user asks to create a database, create a table instead.\n"
-            "4. ALWAYS use execute_sql tool.\n"
-            "5. DO NOT explain anything.\n"
-        ),
+YOUR TOOLS:
+  inspect_schema(db_path)           → shows all tables, columns, and sample rows
+  execute_sql(query, db_path)       → runs SQL and returns results
+
+RULES:
+  1. Call inspect_schema() first to check existing tables.
+     If the schema shows no tables — that is EXPECTED for a new database.
+     Proceed immediately to CREATE the table and INSERT data.
+     NEVER stop or give up just because a database is empty.
+  2. When task says INSERT data — always do TWO things in order:
+     a. CREATE TABLE IF NOT EXISTS with correct columns
+     b. INSERT all rows
+     Combine both into one execute_sql() call as a script.
+  3. Write SQL using only the column names from the provided data.
+  4. SQLite does NOT support CREATE DATABASE — create a table instead.
+  5. After inserting rows, ALWAYS verify row count.
+     If row count is 0, the insert failed — retry with corrected SQL.
+  6. If a query fails, fix the SQL and retry immediately.
+
+EMPTY DATABASE RULE — CRITICAL:
+  If inspect_schema() returns "has no user tables" — this is NOT an error.
+  It means the database is new. Your job is to CREATE the table yourself.
+  WRONG behaviour: stopping and reporting the database is empty.
+  CORRECT behaviour: create the table, insert the data, verify row count.
+
+  Example flow for "insert data into NewDB.db table Sales":
+    Step 1: inspect_schema("NewDB.db")       → "has no user tables" (expected)
+    Step 2: execute_sql("CREATE TABLE IF NOT EXISTS Sales (...); INSERT INTO Sales VALUES (...);", "NewDB.db")
+    Step 3: execute_sql("SELECT COUNT(*) FROM Sales", "NewDB.db")  → verify rows
+
+DB_PATH RULE — CRITICAL:
+  ALWAYS pass db_path explicitly in EVERY tool call — never rely on the default.
+  If the task mentions a specific database file (e.g. "Vibhav.db", "Test.db"),
+  use that exact filename in ALL tool calls for that task.
+
+  CORRECT:
+    inspect_schema("Test.db")
+    execute_sql("CREATE TABLE IF NOT EXISTS RevenueByProduct ...", "Test.db")
+
+  WRONG:
+    inspect_schema()                    <- defaults to database.db
+    execute_sql("SELECT * FROM Sales")  <- wrong db
+
+  Every single tool call must have the db_path argument. No exceptions.\
+""",
         model_client=model_client,
-        tools=[execute_sql]
+        tools=[inspect_schema, execute_sql],
     )

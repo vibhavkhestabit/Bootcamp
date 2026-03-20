@@ -1,155 +1,296 @@
+"""
+main.py  —  Day 3: Autonomous Tool-Calling Pipeline
+─────────────────────────────────────────────────────────────────
+Architecture:
+    User query
+        ↓
+    Planner Agent  — outputs a JSON plan: ordered list of steps
+        ↓
+    Specialist Agents run in sequence, each receiving full context
+        ↓
+    User sees final output
+
+Model switching:
+    Set ACTIVE_PROVIDER at the top of this file:
+        "ollama"  → local Qwen/Mistral via Ollama (CPU-safe)
+        "gemini"  → Google Gemini API
+─────────────────────────────────────────────────────────────────
+"""
+
 import asyncio
-import sqlite3
 import json
+import os
 import re
-from autogen_ext.models.openai import OpenAIChatCompletionClient
+import sqlite3
+
+from dotenv import load_dotenv
+load_dotenv()  # loads variables from .env into environment
+
 from autogen_agentchat.messages import TextMessage
 from autogen_agentchat.agents import AssistantAgent
 
-from tools.file_agent import get_file_agent, read_file, write_file
-from tools.db_agent import get_db_agent, execute_sql
-from tools.code_executor import get_code_agent, execute_python_script
+from tools.file_agent    import get_file_agent
+from tools.db_agent      import get_db_agent
+from tools.code_executor import get_code_agent
 
+
+# ─────────────────────────────────────────────────────────────────
+#  MODEL CONFIGURATION
+# ─────────────────────────────────────────────────────────────────
+
+ACTIVE_PROVIDER = "gemini"   # "ollama" | "gemini"
+
+OLLAMA_MODEL    = "qwen2.5"
+OLLAMA_BASE_URL = "http://localhost:11434"
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")   # loaded from .env
+GEMINI_MODEL   = "gemini-3.1-flash-lite-preview"
+
+
+def get_model_client():
+    if ACTIVE_PROVIDER == "ollama":
+        from autogen_ext.models.openai import OpenAIChatCompletionClient
+        print(f"[Model] LOCAL Ollama → {OLLAMA_MODEL}")
+        return OpenAIChatCompletionClient(
+            model=OLLAMA_MODEL,
+            base_url="http://localhost:11434/v1",
+            api_key="NotRequired",
+            model_info={
+                "vision": False,
+                "function_calling": True,
+                "json_output": False,
+                "family": "unknown",
+                "structured_output": True,
+            }
+        )
+
+    elif ACTIVE_PROVIDER == "gemini":
+        from autogen_ext.models.openai import OpenAIChatCompletionClient
+        if not GEMINI_API_KEY:
+            raise ValueError("GEMINI_API_KEY not found. Add it to your .env file.")
+        print(f"[Model] Gemini API → {GEMINI_MODEL}")
+        return OpenAIChatCompletionClient(
+            model=GEMINI_MODEL,
+            api_key=GEMINI_API_KEY,
+            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+            model_capabilities={
+                "vision": False,
+                "function_calling": True,
+                "json_output": True,
+            },
+        )
+
+    else:
+        raise ValueError(f"Unknown provider '{ACTIVE_PROVIDER}'. Use 'ollama' or 'gemini'.")
+
+
+# ─────────────────────────────────────────────────────────────────
+#  Demo data setup
+#  Only creates files/tables if they don't already exist —
+#  prevents overwriting real data on every startup.
+# ─────────────────────────────────────────────────────────────────
 
 def setup_dummy_data():
-    with open("sales.csv", "w", encoding="utf-8") as f:
-        f.write("id,product,revenue\n1,Widget A,100\n2,Widget B,550\n3,Widget C,300")
-    
+    # Only create sales.csv if it doesn't exist
+    if not os.path.exists("sales.csv"):
+        with open("sales.csv", "w", encoding="utf-8") as f:
+            f.write("id,product,revenue\n1,Widget A,100\n2,Widget B,550\n3,Widget C,300")
+        print("[System] Created sales.csv")
+
+    # Only create database.db users table if it doesn't exist
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
     c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, role TEXT)")
-    c.execute("DELETE FROM users") 
-    c.execute("INSERT INTO users (name, role) VALUES ('Alice', 'Admin'), ('Bob', 'User')")
+    # Only insert if table is empty
+    c.execute("SELECT COUNT(*) FROM users")
+    if c.fetchone()[0] == 0:
+        c.execute("INSERT INTO users (name, role) VALUES ('Alice', 'Admin'), ('Bob', 'User')")
+        print("[System] Created users table.")
     conn.commit()
     conn.close()
-    print("[System] Dummy data ready.")
+    print("[System] Demo data ready.")
 
+
+# ─────────────────────────────────────────────────────────────────
+#  Planner
+#  Breaks a user query into an ordered list of agent steps.
+#  Each step has:
+#    agent  : FILE | DB | CODE
+#    task   : precise instruction for that agent
+# ─────────────────────────────────────────────────────────────────
+
+PLANNER_SYSTEM = """\
+You are a task planner for a multi-agent system. Given a user request, break it
+into an ordered list of steps. Each step must be handled by exactly one agent.
+
+AGENTS AND THEIR JOBS:
+  FILE  → read files, write files, create .csv/.txt/.md, list files
+  DB    → query SQLite databases, run SQL, insert/read table rows
+  CODE  → run Python code, do calculations, analyse data, generate insights
+
+RULES:
+  - If a task needs multiple agents (e.g. read a file THEN analyse it THEN write
+    a report), output multiple steps in the correct order.
+  - Each step's "task" must be a COMPLETE, SELF-CONTAINED instruction that also
+    references any relevant output from previous steps (e.g. "Using the CSV data
+    provided, analyse it and return top 5 insights").
+  - The last step should always produce what the user ultimately asked for.
+  - Output ONLY valid JSON — no explanation, no markdown fences.
+
+FILE SAVING RULE — CRITICAL:
+  Only add a FILE step to save code if the user EXPLICITLY asked to save or
+  create a file. Trigger words: "save", "store", "create a file", "write to a
+  file", "put it in a file", "export".
+
+  CORRECT — user said "save it":
+    "generate fibonacci code and save it as fibonacci.py"
+    → Step 1: CODE, Step 2: FILE
+
+  WRONG — user only asked to see the code:
+    "generate fibonacci code"        → Step 1: CODE only  (no FILE step)
+    "give me the binary search code" → Step 1: CODE only  (no FILE step)
+    "show me a sorting algorithm"    → Step 1: CODE only  (no FILE step)
+
+DB EXPORT RULE — CRITICAL:
+  When a DB query step is followed by a FILE step that exports data,
+  the DB step task MUST explicitly say "return ALL rows as a formatted table".
+  The FILE agent needs actual data rows — NOT a confirmation like "[execute_sql OK]".
+
+  CORRECT:
+    DB step task:   "Query ALL rows from RevenueByProduct in Test.db and
+                     return the complete results as a formatted data table."
+    FILE step task: "Write the query results provided into revenue.csv"
+
+  WRONG:
+    DB step task:   "Query the RevenueByProduct table"
+    FILE step task: "Export the table as revenue.csv"  ← FILE gets no data
+
+OUTPUT FORMAT (strict JSON array):
+[
+  {"step": 1, "agent": "FILE", "task": "Read the file sales.csv and return its full content."},
+  {"step": 2, "agent": "CODE", "task": "Using the CSV data provided, calculate total revenue per product and identify the top 3."},
+  {"step": 3, "agent": "FILE", "task": "Write a file called report.txt containing the analysis results provided."}
+]
+"""
+
+
+def parse_plan(raw: str) -> list:
+    """Extract JSON array from planner output robustly."""
+    raw = re.sub(r"```(?:json)?", "", raw).strip().rstrip("`").strip()
+    try:
+        plan = json.loads(raw)
+        if isinstance(plan, list):
+            return plan
+    except json.JSONDecodeError:
+        pass
+
+    match = re.search(r'\[.*\]', raw, re.DOTALL)
+    if match:
+        try:
+            return json.loads(match.group())
+        except Exception:
+            pass
+
+    print("[Planner] Could not parse plan — defaulting to single CODE step.")
+    return [{"step": 1, "agent": "CODE", "task": raw}]
+
+
+# ─────────────────────────────────────────────────────────────────
+#  Main loop
+# ─────────────────────────────────────────────────────────────────
 
 async def main():
     setup_dummy_data()
+    model_client = get_model_client()
 
-    model_client = OpenAIChatCompletionClient(
-        model="mistral",
-        base_url="http://localhost:11434/v1",
-        api_key="NotRequired",
-        model_info={"vision": False, "function_calling": True, "json_output": False, "family": "unknown"}
+    planner = AssistantAgent(
+        name="Planner_Agent",
+        description="Breaks user requests into ordered multi-agent steps.",
+        system_message=PLANNER_SYSTEM,
+        model_client=model_client,
     )
 
     agents = {
         "FILE": get_file_agent(model_client),
-        "DB": get_db_agent(model_client),
-        "CODE": get_code_agent(model_client)
+        "DB":   get_db_agent(model_client),
+        "CODE": get_code_agent(model_client),
     }
 
-    router_agent = AssistantAgent(
-        name="Router_Agent",
-        description="Routes user queries to the correct specialized agent.",
-        system_message=(
-            "You are a STRICT router.\n"
-            "Your job is to classify the user's request into ONE of three categories:\n\n"
-
-            "CODE → if the user asks for programming, logic, algorithms, or calculations\n"
-            "FILE → if the user asks to read or write files\n"
-            "DB → if the user asks about databases, tables, or stored data\n\n"
-
-            "Rules:\n"
-            "- Output ONLY one word: CODE, FILE, or DB\n"
-            "- No explanation, no formatting\n"
-            "- If the request involves multiple steps, choose the PRIMARY intent\n"
-            "- If unsure, choose CODE\n"
-        ),
-        model_client=model_client
-    )
-
-    print("\n=== Day 3: Fully Autonomous Tool-Calling ===")
-    print("Type your request. Type 'exit' to quit.\n")
+    print("\n=== Day 3: Autonomous Tool-Calling Pipeline ===")
+    print(f"    Provider : {ACTIVE_PROVIDER.upper()}")
+    print("    Agents   : FILE · DB · CODE")
+    print("    Planning : Multi-step chaining enabled")
+    print("    Type 'exit' to quit.\n")
 
     while True:
-        user_input = input("\nUser: ").strip()
-        
-        if user_input.lower() in ['exit', 'quit']:
-            print("Shutting down...")
+        try:
+            user_input = input("\nUser: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\n[Shutting down]")
             break
+
         if not user_input:
             continue
+        if user_input.lower() in ("exit", "quit", "q"):
+            print("[Shutting down]")
+            break
 
-        print("\n[ROUTER IS ANALYZING...]")
-        
-        router_response = await router_agent.on_messages(
-            [TextMessage(content=user_input, source="user")], 
-            cancellation_token=None
+        # ── Plan ──────────────────────────────────────────────────
+        print("\n[Planner thinking...]")
+        planner_resp = await planner.on_messages(
+            [TextMessage(content=user_input, source="user")],
+            cancellation_token=None,
         )
+        raw_plan = planner_resp.chat_message.content
+        plan = parse_plan(raw_plan)
 
-        raw_output = router_response.chat_message.content.strip().upper()
+        print(f"[Planner] {len(plan)}-step plan:")
+        for step in plan:
+            print(f"  Step {step['step']} → [{step['agent']}] {step['task'][:80]}...")
 
-        if "CODE" in raw_output:
-            target = "CODE"
-        elif "FILE" in raw_output:
-            target = "FILE"
-        elif "DB" in raw_output:
-            target = "DB"
-        else:
-            print(f"[System] Router confused ('{raw_output}'). Defaulting to CODE.")
-            target = "CODE"
+        # ── Execute steps in sequence ─────────────────────────────
+        # all_outputs accumulates every step's result so later agents
+        # always have full context — not just the last step's output.
+        all_outputs = []
 
-        print(f"[ROUTER DECISION]: {target}")
-        print(f"[{target} AGENT RUNNING...]")
+        for step in plan:
+            agent_key = step["agent"].upper()
+            task      = step["task"]
 
-        active_agent = agents[target]
-        
-        try:
-            response = await active_agent.on_messages(
-                [TextMessage(content=user_input, source="user")], 
-                cancellation_token=None
-            )
-            
-            output_text = response.chat_message.content
-            print(f"\n[{target} OUTPUT]\n{output_text}\n")
-            
-            matches = re.findall(r'\[\s*\{\s*"name"\s*:.*?\}\s*\]', output_text)
-            
-            if matches:
-                print("[SYSTEM] Executing tool calls...")
-                for match in matches:
-                    try:
-                        tool_calls = json.loads(match)
-                        
-                        for call in tool_calls:
-                            func_name = call.get("name")
-                            args = call.get("arguments", {})
-                            
-                            print(f"\n[EXECUTING]: {func_name}")
-                            
-                            if func_name == "write_file":
-                                result = write_file(args.get("content"), args.get("file_path"))
+            if all_outputs:
+                history = "\n\n".join(all_outputs)
+                enriched_task = (
+                    f"{task}\n\n"
+                    f"--- Outputs from all previous steps ---\n{history}"
+                )
+            else:
+                enriched_task = task
 
-                            elif func_name == "read_file":
-                                result = read_file(args.get("file_path"))
+            print(f"\n[Step {step['step']}] Running {agent_key} Agent...")
+            print(f"  Task: {task[:100]}{'...' if len(task) > 100 else ''}")
 
-                            elif func_name == "execute_sql":
-                                result = execute_sql(
-                                args.get("query"),
-                                args.get("db_path", "database.db")
-                            )
+            if agent_key not in agents:
+                print(f"  [WARNING] Unknown agent '{agent_key}' — skipping.")
+                continue
 
-                            elif func_name == "execute_python_script":
-                                code = args.get("code")
-                                print(f"\n[CODE]:\n{code}\n")
-                                result = execute_python_script(code)
+            try:
+                resp = await agents[agent_key].on_messages(
+                    [TextMessage(content=enriched_task, source="user")],
+                    cancellation_token=None,
+                )
+                result = resp.chat_message.content
+                all_outputs.append(
+                    f"[Step {step['step']} — {agent_key} Agent]\n{result}"
+                )
+                print(f"\n[{agent_key} Agent Result]\n{result}\n")
+            except Exception as e:
+                err = f"[ERROR] {e}"
+                all_outputs.append(f"[Step {step['step']} — {agent_key} Agent]\n{err}")
+                print(f"  [ERROR in {agent_key} Agent] {e}")
 
-                            else:
-                                result = f"Unknown tool: {func_name}"
-                                
-                            print(f"[RESULT]:\n{result}")
-                            
-                    except json.JSONDecodeError:
-                        print(f"[WARNING] Bad JSON: {match}")
-                        continue
-
-        except Exception as e:
-            print(f"[ERROR]: {e}")
-        
-        print("-" * 50)
+        print("─" * 50)
+        print("\n[Pipeline complete]")
+        print("─" * 50)
 
 
 if __name__ == "__main__":
