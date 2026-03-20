@@ -128,3 +128,6 @@ The system operates in a strict, four-phase chronological loop, utilizing both s
    * The Orchestrator packages the original query alongside the draft.
    * The Validator performs a strict compliance check, applies any necessary patches, and returns the final output.
 
+
+![ss](screenshots/day2_1.png)
+![ss](screenshots/day2_2.png)
