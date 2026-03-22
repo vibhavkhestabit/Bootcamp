@@ -9,7 +9,7 @@ from agents.summarizer_agent import get_summarizer_agent
 from agents.answer_agent import get_answer_agent
 
 async def main():
-    # Define the local model client (Ollama running Mistral)
+    # Define the local model client
     model_client = OpenAIChatCompletionClient(
         model="mistral",
         base_url="http://localhost:11434/v1",
