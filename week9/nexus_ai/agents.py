@@ -42,24 +42,46 @@ AVAILABLE AGENTS:
   OPTIMIZER  → improve output based on Critic feedback
   VALIDATOR  → verify correctness, completeness, accuracy
   REPORTER   → format everything into a polished final report
-  FILE       → read/write files (.txt, .csv, .md)
+  FILE       → read/write files (.txt, .csv, .md, .py, any file)
   DB         → SQLite database operations
 
 ROUTING RULES:
-  - Simple question → RESEARCHER → REPORTER
-  - Code task → PLANNER → CODER → VALIDATOR → REPORTER
-  - Data analysis → FILE → ANALYST → CRITIC → OPTIMIZER → REPORTER
+  - Simple question       → RESEARCHER → REPORTER
+  - Code task             → PLANNER → CODER → VALIDATOR → REPORTER
+  - Data analysis         → FILE → ANALYST → CRITIC → OPTIMIZER → REPORTER
   - Architecture/strategy → PLANNER → RESEARCHER → ANALYST → REPORTER
-  - CSV analysis → FILE → CODER → ANALYST → CRITIC → REPORTER
+  - CSV analysis          → FILE → CODER → ANALYST → CRITIC → REPORTER
   - Always end with REPORTER for final output
   - Always include CRITIC + OPTIMIZER for tasks needing quality output
   - VALIDATOR runs before REPORTER for code/technical tasks
 
+FILE ANALYSIS RULE — CRITICAL:
+  If the task asks to "analyse", "explain", "review", or "document"
+  specific files or a folder, the FILE Agent MUST read the actual
+  file contents FIRST — not just list the filenames.
+
+  CORRECT — reads real content:
+    Step 1: FILE  → "Read the full contents of each file using read_file():
+                     read_file('nexus_ai/main.py'),
+                     read_file('nexus_ai/agents.py'),
+                     read_file('nexus_ai/config.py'),
+                     read_file('nexus_ai/logger.py').
+                     Return ALL file contents."
+    Step 2: RESEARCHER → "Using the actual file contents provided,
+                          analyse the architecture..."
+
+  WRONG — only lists names, Researcher guesses:
+    Step 1: FILE → "Scan the nexus_ai directory"   ← returns only filenames
+    Step 2: RESEARCHER → guesses from filenames     ← hallucination risk
+
+  The FILE step task must explicitly say read_file() for EACH file,
+  not just list_files(). list_files() only returns names, not content.
+
 OUTPUT FORMAT — strict JSON array only, no explanation:
 [
-  {"step": 1, "agent": "RESEARCHER", "task": "Research AI healthcare startup landscape..."},
-  {"step": 2, "agent": "ANALYST",    "task": "Using research provided, identify top 3 opportunities..."},
-  {"step": 3, "agent": "REPORTER",   "task": "Write a structured startup plan using all analysis..."}
+  {"step": 1, "agent": "FILE",       "task": "Read the full contents of nexus_ai/main.py, nexus_ai/agents.py, nexus_ai/config.py, nexus_ai/logger.py using read_file() and return all contents."},
+  {"step": 2, "agent": "RESEARCHER", "task": "Using the actual file contents provided, analyse the architecture..."},
+  {"step": 3, "agent": "REPORTER",   "task": "Write a structured report using all analysis provided..."}
 ]
 """,
         model_client=model_client,
@@ -104,6 +126,21 @@ common pitfalls, and relevant metrics or benchmarks.
 Structure your research clearly with sections and bullet points.
 Be specific and factual — no vague generalities.
 Reference well-known frameworks, companies, or methodologies where relevant.
+
+IMPORTANT: If actual file contents or code are provided to you from a
+previous step, analyse THOSE specifically. Do not guess or infer from
+filenames — use the real content provided.
+
+
+CRITICAL HONESTY RULE:
+If the task asks about personal information (name, company, age,
+location) and NO relevant data is provided in the memory context,
+you MUST say:
+"I do not have this information stored in memory. Please tell me
+and I will remember it for future sessions."
+
+NEVER invent or guess personal facts like company names, locations,
+or personal details. Only state what is explicitly provided.
 """,
         model_client=model_client,
     )
@@ -283,14 +320,25 @@ You are the File Agent of NEXUS AI. You ONLY act by calling your tools.
 You NEVER narrate or describe — call a tool immediately.
 
 YOUR TOOLS:
-  read_file(file_path)           → reads any file
+  read_file(file_path)           → reads any file (.txt, .csv, .md, .py, ...)
   write_file(file_path, content) → writes text to any file
   write_csv(file_path, rows)     → writes properly formatted CSV
   append_file(file_path, content)→ appends to existing file
-  list_files(directory)          → lists files in a folder
+  list_files(directory)          → lists filenames only (NO file contents)
+
+CRITICAL DISTINCTION:
+  list_files() → returns ONLY filenames, NOT contents
+  read_file()  → returns the ACTUAL content of a file
+
+  If the task says "read", "analyse", "review", or "explain" files
+  → call read_file() on EACH file individually
+  → NEVER use list_files() and assume that counts as reading
 
 RULES:
-  READ → read_file() | WRITE .csv → write_csv() | WRITE .txt/.md → write_file()
+  READ task    → call read_file() for each file explicitly
+  WRITE .csv   → call write_csv()
+  WRITE .txt   → call write_file()
+  LIST task    → call list_files()
   Never fake content. Call the tool and report the result.\
 """,
         model_client=model_client,

@@ -96,20 +96,28 @@ def build_memory_context(user_input: str) -> str:
             sections.append(vs.format_results(similar))
             log_memory("vector_recall", f"Found {len(similar)} similar memories")
 
-    # Long-term: past episodes
     episodes = ltm.format_episodes_for_prompt(n=2)
     if "No past" not in episodes:
         sections.append(episodes)
+        log_memory("sqlite_episodes", "Injected 2 past episodes")
+    else:
+        log_memory("sqlite_episodes", "Empty — no past episodes")
 
-    # Long-term: stored facts
+    # After facts — ADD THIS
     facts = ltm.format_facts_for_prompt()
     if "No facts" not in facts:
         sections.append(facts)
+        log_memory("sqlite_facts", "Injected stored facts")
+    else:
+        log_memory("sqlite_facts", "Empty — no facts stored")
 
-    # Session: recent conversation
+    # After session — ADD THIS
     history = session.format_for_prompt(n=4)
     if "No conversation" not in history:
         sections.append(history)
+        log_memory("session_ram", "Injected recent session history")
+    else:
+        log_memory("session_ram", "Empty — fresh session")
 
     if sections:
         return "\n\n".join(sections) + "\n\n"
