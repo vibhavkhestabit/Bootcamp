@@ -12,11 +12,46 @@ from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
 # Reuse Day 3 tool agents
-import sys, os
+import sys, os, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from tools.code_executor import execute_python_script
 from tools.file_agent    import read_file, write_file, write_csv, append_file, list_files
 from tools.db_agent      import inspect_schema, execute_sql
+
+
+# ─────────────────────────────────────────────────────────────────
+#  Web Search Tool (DuckDuckGo — no API key required)
+# ─────────────────────────────────────────────────────────────────
+
+def web_search(query: str) -> str:
+    """
+    Search the web for real-time information using DuckDuckGo.
+    No API key required. Returns top 3 results with title, snippet, source.
+    Use this for: weather, news, stock prices, sports, current events,
+    company info, or anything that needs up-to-date data.
+    """
+    try:
+        try:
+            from ddgs import DDGS
+        except ImportError:
+            from duckduckgo_search import DDGS
+        time.sleep(1)  # avoid rate limiting
+        with DDGS() as ddgs:
+            results = list(ddgs.text(query, max_results=3))
+        if not results:
+            return "[web_search] No results found for this query."
+
+        lines = [f"[Web Search Results for: '{query}']"]
+        for i, r in enumerate(results, 1):
+            lines.append(f"\n{i}. {r.get('title', 'No title')}")
+            lines.append(f"   {r.get('body', 'No snippet')}")
+            lines.append(f"   Source: {r.get('href', 'Unknown')}")
+        return "\n".join(lines)
+
+    except ImportError:
+        return "[web_search ERROR] Run: pip install duckduckgo-search"
+    except Exception as e:
+        return f"[web_search ERROR] {e}"
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -35,25 +70,44 @@ choosing the right specialist agents in the right order.
 
 AVAILABLE AGENTS:
   PLANNER    → detailed step-by-step breakdown of complex tasks
-  RESEARCHER → background knowledge, context, facts, frameworks
+  RESEARCHER → background knowledge, context, facts, real-time web search
   CODER      → write and execute Python code, data processing
   ANALYST    → analyse results, find patterns, draw conclusions
   CRITIC     → review output critically, find gaps and weaknesses
   OPTIMIZER  → improve output based on Critic feedback
   VALIDATOR  → verify correctness, completeness, accuracy
-  REPORTER   → format everything into a polished final report
+  REPORTER   → format everything into a polished final report or .md file
   FILE       → read/write files (.txt, .csv, .md, .py, any file)
   DB         → SQLite database operations
 
 ROUTING RULES:
-  - Simple question       → RESEARCHER → REPORTER
-  - Code task             → PLANNER → CODER → VALIDATOR → REPORTER
-  - Data analysis         → FILE → ANALYST → CRITIC → OPTIMIZER → REPORTER
-  - Architecture/strategy → PLANNER → RESEARCHER → ANALYST → REPORTER
-  - CSV analysis          → FILE → CODER → ANALYST → CRITIC → REPORTER
-  - Always end with REPORTER for final output
+  - Simple question       → RESEARCHER (end here, no REPORTER)
+  - Real-time query       → RESEARCHER (uses web_search tool, no REPORTER)
+  - Code task             → PLANNER → CODER → VALIDATOR
+  - Data analysis         → FILE → ANALYST → CRITIC → OPTIMIZER
+  - Architecture/strategy → PLANNER → RESEARCHER → ANALYST
+  - CSV analysis          → FILE → CODER → ANALYST → CRITIC
   - Always include CRITIC + OPTIMIZER for tasks needing quality output
-  - VALIDATOR runs before REPORTER for code/technical tasks
+  - VALIDATOR runs for code/technical tasks
+
+REPORTER RULE — CRITICAL:
+  Only include REPORTER as the last step if the user EXPLICITLY asks
+  for a report, document, or file. Trigger words:
+  "create a report", "generate a report", "save a report",
+  "write a report", "make a .md", "document this", "save this".
+
+  CORRECT — user asked for report:
+    "analyse sales.csv and create a report" → ... → REPORTER
+    "generate a report on RAG pipelines"    → ... → REPORTER
+
+  WRONG — user just wants an answer:
+    "what is the weather in Faridabad?"     → RESEARCHER only
+    "explain what RAG is"                   → RESEARCHER only
+    "facts about me"                        → RESEARCHER only
+    "plan a startup"                        → PLANNER → RESEARCHER → ANALYST
+
+  When REPORTER is NOT in the plan, the last agent's output
+  is shown directly to the user as the final answer.
 
 FILE ANALYSIS RULE — CRITICAL:
   If the task asks to "analyse", "explain", "review", or "document"
@@ -62,26 +116,19 @@ FILE ANALYSIS RULE — CRITICAL:
 
   CORRECT — reads real content:
     Step 1: FILE  → "Read the full contents of each file using read_file():
-                     read_file('nexus_ai/main.py'),
-                     read_file('nexus_ai/agents.py'),
-                     read_file('nexus_ai/config.py'),
-                     read_file('nexus_ai/logger.py').
+                     read_file('nexus_ai/main.py'), read_file('nexus_ai/agents.py')
                      Return ALL file contents."
-    Step 2: RESEARCHER → "Using the actual file contents provided,
-                          analyse the architecture..."
+    Step 2: RESEARCHER → "Using the actual file contents provided, analyse..."
 
   WRONG — only lists names, Researcher guesses:
-    Step 1: FILE → "Scan the nexus_ai directory"   ← returns only filenames
-    Step 2: RESEARCHER → guesses from filenames     ← hallucination risk
+    Step 1: FILE → "Scan the nexus_ai directory" ← returns only filenames
 
-  The FILE step task must explicitly say read_file() for EACH file,
-  not just list_files(). list_files() only returns names, not content.
+  The FILE step task must explicitly say read_file() for EACH file.
 
 OUTPUT FORMAT — strict JSON array only, no explanation:
 [
-  {"step": 1, "agent": "FILE",       "task": "Read the full contents of nexus_ai/main.py, nexus_ai/agents.py, nexus_ai/config.py, nexus_ai/logger.py using read_file() and return all contents."},
-  {"step": 2, "agent": "RESEARCHER", "task": "Using the actual file contents provided, analyse the architecture..."},
-  {"step": 3, "agent": "REPORTER",   "task": "Write a structured report using all analysis provided..."}
+  {"step": 1, "agent": "RESEARCHER", "task": "Search for current weather in Faridabad using web_search tool."},
+  {"step": 2, "agent": "ANALYST",    "task": "Using the search results provided, summarise key weather metrics."}
 ]
 """,
         model_client=model_client,
@@ -110,13 +157,13 @@ Include potential failure points and how to handle them.
 
 
 # ─────────────────────────────────────────────────────────────────
-#  Researcher — background knowledge and context
+#  Researcher — background knowledge, context, web search
 # ─────────────────────────────────────────────────────────────────
 
 def get_researcher(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
         name="Researcher",
-        description="Gathers background knowledge, frameworks, and context.",
+        description="Gathers background knowledge, frameworks, context and real-time web search.",
         system_message="""\
 You are the Researcher of NEXUS AI.
 
@@ -127,22 +174,44 @@ Structure your research clearly with sections and bullet points.
 Be specific and factual — no vague generalities.
 Reference well-known frameworks, companies, or methodologies where relevant.
 
-IMPORTANT: If actual file contents or code are provided to you from a
-previous step, analyse THOSE specifically. Do not guess or infer from
-filenames — use the real content provided.
+YOUR TOOLS:
+  web_search(query) → searches DuckDuckGo for real-time information.
+                      Use this for weather, news, prices, current events,
+                      company info, or ANYTHING needing up-to-date data.
 
+REAL-TIME DATA RULE — CRITICAL:
+  You have web_search() available for real-time queries.
+  For weather, stock prices, sports scores, news, company info:
+  → ALWAYS call web_search() first to get current data
+  → NEVER fabricate specific temperatures, prices, or scores
+  → NEVER state a specific date as "today" from training knowledge
+  → Use web_search() and report what the results say
+  → After getting results, synthesize into a clean direct answer
+  → NEVER dump raw search result text to the user
+  → Format: "Current weather in X: temperature, conditions, humidity. Source: ..."
+  → Always cite the source at the end
 
-CRITICAL HONESTY RULE:
-If the task asks about personal information (name, company, age,
-location) and NO relevant data is provided in the memory context,
-you MUST say:
-"I do not have this information stored in memory. Please tell me
-and I will remember it for future sessions."
+  Example:
+    User asks "weather in Faridabad"
+    → call web_search("weather Faridabad today")
+    → report the actual search results
 
-NEVER invent or guess personal facts like company names, locations,
-or personal details. Only state what is explicitly provided.
+FILE CONTENT RULE:
+  If actual file contents or code are provided from a previous step,
+  analyse THOSE specifically. Do not guess from filenames.
+
+MEMORY RULE:
+  If memory context is provided under "--- Memory Context ---",
+  use it directly to answer. Only say "I don't have this information"
+  if the memory context section is completely empty or absent.
+  NEVER ignore data that is explicitly provided to you.
+
+HONESTY RULE:
+  For personal facts (name, company, age) — only state what is
+  explicitly provided in memory context. Never invent personal details.
 """,
         model_client=model_client,
+        tools=[web_search],
     )
 
 
@@ -280,7 +349,7 @@ If PASS — summarise what was validated successfully.
 
 
 # ─────────────────────────────────────────────────────────────────
-#  Reporter — final polished output
+#  Reporter — final polished output (only when user asks)
 # ─────────────────────────────────────────────────────────────────
 
 def get_reporter(model_client: ChatCompletionClient) -> AssistantAgent:
@@ -290,7 +359,8 @@ def get_reporter(model_client: ChatCompletionClient) -> AssistantAgent:
         system_message="""\
 You are the Reporter of NEXUS AI.
 
-You receive all previous agent outputs and produce ONE final, polished report.
+You are only invoked when the user explicitly asked for a report,
+document, or .md file. When you run, produce ONE final polished report.
 
 FORMAT RULES:
   - Start with: # NEXUS AI Report: [Task Title]

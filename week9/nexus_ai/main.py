@@ -3,31 +3,6 @@ nexus_ai/main.py
 ─────────────────────────────────────────────────────────────────
 PROJECT: NEXUS AI
 Autonomous Multi-Agent AI System — Day 5 Capstone
-
-Capabilities:
-  ✔ Multi-agent orchestration
-  ✔ Tool use (code, files, database)
-  ✔ Memory recall (session + long-term + vector)
-  ✔ Self-reflection (Critic → Optimizer loop)
-  ✔ Multi-step planning
-  ✔ Role switching
-  ✔ Logs + Tracing
-  ✔ Failure recovery
-
-Architecture:
-  User Query
-      ↓
-  Memory Search (FAISS + SQLite)
-      ↓
-  Orchestrator → JSON execution plan
-      ↓
-  Specialist Agents run in sequence with full context
-      ↓
-  Critic → Optimizer reflection cycle
-      ↓
-  Validator → Reporter
-      ↓
-  Save to memory + logs
 ─────────────────────────────────────────────────────────────────
 """
 
@@ -37,7 +12,6 @@ import os
 import re
 import sys
 
-# Add parent directory to path so we can import tools/ and memory/
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from autogen_agentchat.messages import TextMessage
@@ -60,7 +34,6 @@ import memory.vector_store     as vs
 # ─────────────────────────────────────────────────────────────────
 
 def parse_plan(raw: str) -> list:
-    """Extract JSON array from Orchestrator output robustly."""
     raw = re.sub(r"```(?:json)?", "", raw).strip().rstrip("`").strip()
     try:
         plan = json.loads(raw)
@@ -76,7 +49,6 @@ def parse_plan(raw: str) -> list:
         except Exception:
             pass
 
-    # Fallback — single researcher step
     print("[Orchestrator] Could not parse plan — defaulting to RESEARCHER.")
     return [{"step": 1, "agent": "RESEARCHER", "task": raw}]
 
@@ -95,7 +67,12 @@ def build_memory_context(user_input: str) -> str:
         if similar:
             sections.append(vs.format_results(similar))
             log_memory("vector_recall", f"Found {len(similar)} similar memories")
+        else:
+            log_memory("vector_recall", "Empty — no similar memories found")
+    else:
+        log_memory("vector_recall", "Empty — no saved index")
 
+    # Long-term: past episodes
     episodes = ltm.format_episodes_for_prompt(n=2)
     if "No past" not in episodes:
         sections.append(episodes)
@@ -103,7 +80,7 @@ def build_memory_context(user_input: str) -> str:
     else:
         log_memory("sqlite_episodes", "Empty — no past episodes")
 
-    # After facts — ADD THIS
+    # Long-term: stored facts
     facts = ltm.format_facts_for_prompt()
     if "No facts" not in facts:
         sections.append(facts)
@@ -111,7 +88,7 @@ def build_memory_context(user_input: str) -> str:
     else:
         log_memory("sqlite_facts", "Empty — no facts stored")
 
-    # After session — ADD THIS
+    # Session: recent conversation
     history = session.format_for_prompt(n=4)
     if "No conversation" not in history:
         sections.append(history)
@@ -132,14 +109,14 @@ async def run_pipeline(
     user_input: str,
     agents: dict,
     memory_context: str,
-) -> str:
+) -> tuple:
     """
-    Run the full NEXUS AI pipeline for a given user task.
-
-    Returns the final report as a string.
+    Returns: (final_report, all_outputs, plan)
+    plan is returned so main() can check if REPORTER ran
+    and decide whether to save a .md report file.
     """
 
-    # ── Step 1: Orchestrator plans the execution ──────────────────
+    # ── Orchestrator plans ────────────────────────────────────────
     print("\n[Orchestrator planning...]")
     orch_prompt = (
         f"{memory_context}"
@@ -154,21 +131,17 @@ async def run_pipeline(
         )
         raw_plan = orch_resp.chat_message.content
         plan = parse_plan(raw_plan)
-        # Cap at max steps
         plan = plan[:MAX_PLAN_STEPS]
     except Exception as e:
         log_error(0, "ORCHESTRATOR", str(e))
         plan = [
             {"step": 1, "agent": "RESEARCHER", "task": user_input},
-            {"step": 2, "agent": "REPORTER",   "task": "Summarise the research into a final report."},
         ]
 
     log_plan(plan)
 
-    # ── Step 2: Execute each agent step in sequence ───────────────
+    # ── Execute steps in sequence ─────────────────────────────────
     all_outputs = []
-    critic_output   = ""
-    optimizer_output = ""
     reflection_count = 0
 
     for step in plan:
@@ -181,15 +154,25 @@ async def run_pipeline(
 
         log_agent_start(step["step"], agent_key, task)
 
-        # Build enriched task with all previous outputs
+        # ── Build enriched task ───────────────────────────────────
         if all_outputs:
+            # Later steps: inject all previous agent outputs
             history = "\n\n".join(all_outputs)
             enriched_task = (
                 f"{task}\n\n"
                 f"--- Outputs from all previous steps ---\n{history}"
             )
         else:
-            enriched_task = task
+            # FIRST step: inject memory context directly so the agent
+            # actually sees the stored facts/episodes/vector memories
+            if memory_context:
+                enriched_task = (
+                    f"{task}\n\n"
+                    f"--- Memory Context (use this to answer) ---\n"
+                    f"{memory_context}"
+                )
+            else:
+                enriched_task = task
 
         # ── Run agent ─────────────────────────────────────────────
         try:
@@ -204,8 +187,6 @@ async def run_pipeline(
             # ── Reflection cycle: Critic → Optimizer ──────────────
             if agent_key == "CRITIC" and reflection_count < MAX_REFLECTION_CYCLES:
                 critic_output = result
-
-                # Find the output just before Critic
                 pre_critic = all_outputs[-2] if len(all_outputs) >= 2 else ""
 
                 optimizer_task = (
@@ -222,20 +203,18 @@ async def run_pipeline(
                 optimizer_output = opt_resp.chat_message.content
                 log_agent_result(step["step"], "OPTIMIZER", optimizer_output)
                 log_reflection(reflection_count + 1, critic_output, optimizer_output)
-
-                all_outputs.append(f"[Reflection {reflection_count+1} — OPTIMIZER]\n{optimizer_output}")
+                all_outputs.append(
+                    f"[Reflection {reflection_count+1} — OPTIMIZER]\n{optimizer_output}"
+                )
                 reflection_count += 1
 
         except Exception as e:
             err = f"[ERROR] {e}"
             log_error(step["step"], agent_key, str(e))
             all_outputs.append(f"[Step {step['step']} — {agent_key} FAILED]\n{err}")
-
-            # ── Failure recovery: skip to REPORTER ────────────────
             print(f"  [Recovery] {agent_key} failed — continuing with remaining steps.")
 
-    # ── Step 3: Extract final report ──────────────────────────────
-    # Find the last REPORTER output or use last available output
+    # ── Extract final output ──────────────────────────────────────
     final_report = ""
     for output in reversed(all_outputs):
         if "REPORTER" in output:
@@ -245,7 +224,8 @@ async def run_pipeline(
     if not final_report:
         final_report = all_outputs[-1] if all_outputs else "No output generated."
 
-    return final_report, all_outputs
+    # Return plan so main() can check if REPORTER ran
+    return final_report, all_outputs, plan
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -253,7 +233,6 @@ async def run_pipeline(
 # ─────────────────────────────────────────────────────────────────
 
 def save_report(task: str, report: str) -> str:
-    """Save the final report to logs/ and return the file path."""
     from datetime import datetime
     os.makedirs(config.LOGS_DIR, exist_ok=True)
     timestamp   = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -275,20 +254,15 @@ def save_report(task: str, report: str) -> str:
 # ─────────────────────────────────────────────────────────────────
 
 async def main():
-    # ── Initialise memory ─────────────────────────────────────────
     os.makedirs(config.MEMORY_DIR, exist_ok=True)
     os.makedirs(config.LOGS_DIR, exist_ok=True)
     ltm.init_db()
     vs.load(directory=config.MEMORY_DIR)
 
-    # ── Initialise model + agents ─────────────────────────────────
     model_client = get_model_client()
     agents = build_all_agents(model_client)
-
-    # ── Session log (saved to long-term on exit) ──────────────────
     session_log: list[dict] = []
 
-    # ── Log session info ──────────────────────────────────────────
     info = log_session_info()
     print("\n" + "="*60)
     print("  PROJECT: NEXUS AI")
@@ -314,7 +288,7 @@ async def main():
         if not user_input:
             continue
 
-        # ── Exit: save session ────────────────────────────────────
+        # ── Exit ──────────────────────────────────────────────────
         if user_input.lower() in ("exit", "quit", "q"):
             if session_log:
                 print(f"\n[Memory] Saving {len(session_log)} exchanges...")
@@ -339,40 +313,47 @@ async def main():
             print(f"  Vector index   : {vs.count()} memories")
             continue
 
-        # ── Clear session ─────────────────────────────────────────
+        # ── Clear ─────────────────────────────────────────────────
         if user_input.lower() == "clear":
             session.clear()
             session_log.clear()
-            agents = build_all_agents(model_client)  # recreate to wipe internal history
+            agents = build_all_agents(model_client)
             print("[Session cleared. Long-term memory untouched.]")
             continue
 
-        # ── Run NEXUS pipeline ────────────────────────────────────
+        # ── Run pipeline ──────────────────────────────────────────
         log_task(user_input)
         session.add_message("user", user_input)
 
-        # Build memory context from all layers
         memory_context = build_memory_context(user_input)
 
         try:
-            final_report, all_outputs = await run_pipeline(
+            final_report, all_outputs, plan = await run_pipeline(
                 user_input=user_input,
                 agents=agents,
                 memory_context=memory_context,
             )
 
-            # Save report to logs/
-            report_path = save_report(user_input, final_report)
-            log_complete(user_input, report_path)
+            # Only save .md report file if REPORTER was in the plan
+            # i.e. user explicitly asked for a report/document
+            reporter_ran = any(
+                step.get("agent", "").upper() == "REPORTER"
+                for step in plan
+            )
 
-            # Store in session
+            if reporter_ran:
+                report_path = save_report(user_input, final_report)
+                log_complete(user_input, report_path)
+                print(f"\n📄 Report saved to: {report_path}")
+            else:
+                log_complete(user_input, "direct answer — no report saved")
+                print(f"\n✅ Done.")
+
             session.add_message("assistant", final_report[:500])
             session_log.append({
                 "task":   user_input,
                 "report": final_report,
             })
-
-            print(f"\n📄 Report saved to: {report_path}")
 
         except Exception as e:
             log_error(0, "PIPELINE", str(e))

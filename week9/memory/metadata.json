@@ -54,5 +54,13 @@
     },
     "stored_at": "2026-03-22T17:36:35.414335",
     "position": 6
+  },
+  {
+    "text": "Task: My name is Vibhav and my age is 21 | Summary: # NEXUS AI Report: User Profile Registration\n\n### Executive Summary\nThis report confirms the successful capture, verification, and integration of user identity data into the NEXUS AI persistent memory system. Following the initial request, the system has processed and stored the provided credentials",
+    "metadata": {
+      "type": "nexus_task"
+    },
+    "stored_at": "2026-03-23T11:29:10.194366",
+    "position": 7
   }
 ]
