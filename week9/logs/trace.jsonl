@@ -702,3 +702,31 @@
 {"timestamp": "2026-03-23T12:38:32.584802", "session": "20260323_120924", "event": "agent_start", "step": 5, "agent": "REPORTER", "task": "Generate a comprehensive .md report explaining the full NEXUS AI architecture based on the analyzed code."}
 {"timestamp": "2026-03-23T12:38:38.308435", "session": "20260323_120924", "event": "agent_result", "step": 5, "agent": "REPORTER", "result": "# NEXUS AI Report: Full System Architecture Analysis\n\n## Executive Summary\nThe NEXUS AI system is built on a modular, decoupled architecture designed to support a multi-agent orchestration pattern. By isolating behavioral logic from execution flow and configuration, the system achieves high extensibility. While the current prototype serves as a functional MVP, the analysis reveals that it relies on synchronous, tightly-coupled context passing. To achieve production readiness, the system requires", "success": true}
 {"timestamp": "2026-03-23T12:38:38.308878", "session": "20260323_120924", "event": "complete", "task": "read all files in nexus_ai/ folder and create a report explaining the full architecture", "report": "logs/report_read_all_files_in_nexus_ai_folder_and_cr_20260323_123838.md"}
+{"timestamp": "2026-03-23T12:59:16.983065", "session": "20260323_125909", "event": "memory_vector_recall", "detail": "Found 3 similar memories"}
+{"timestamp": "2026-03-23T12:59:16.986753", "session": "20260323_125909", "event": "memory_sqlite_episodes", "detail": "Injected 2 past episodes"}
+{"timestamp": "2026-03-23T12:59:16.989226", "session": "20260323_125909", "event": "memory_sqlite_facts", "detail": "Injected stored facts"}
+{"timestamp": "2026-03-23T12:59:16.989800", "session": "20260323_125909", "event": "memory_session_ram", "detail": "Injected recent session history"}
+{"timestamp": "2026-03-23T13:03:55.919270", "session": "20260323_130348", "event": "memory_vector_recall", "detail": "Found 3 similar memories"}
+{"timestamp": "2026-03-23T13:03:55.922559", "session": "20260323_130348", "event": "memory_sqlite_episodes", "detail": "Injected 2 past episodes"}
+{"timestamp": "2026-03-23T13:03:55.925147", "session": "20260323_130348", "event": "memory_sqlite_facts", "detail": "Injected stored facts"}
+{"timestamp": "2026-03-23T13:03:55.926584", "session": "20260323_130348", "event": "memory_session_ram", "detail": "Injected recent session history"}
+{"timestamp": "2026-03-23T13:04:09.317737", "session": "20260323_130348", "event": "memory_vector_recall", "detail": "Found 3 similar memories"}
+{"timestamp": "2026-03-23T13:04:09.321134", "session": "20260323_130348", "event": "memory_sqlite_episodes", "detail": "Injected 2 past episodes"}
+{"timestamp": "2026-03-23T13:04:09.322150", "session": "20260323_130348", "event": "memory_sqlite_facts", "detail": "Injected stored facts"}
+{"timestamp": "2026-03-23T13:04:09.322527", "session": "20260323_130348", "event": "memory_session_ram", "detail": "Injected recent session history"}
+{"timestamp": "2026-03-23T13:05:34.734906", "session": "20260323_130348", "event": "memory_vector_recall", "detail": "Found 3 similar memories"}
+{"timestamp": "2026-03-23T13:05:34.737259", "session": "20260323_130348", "event": "memory_sqlite_episodes", "detail": "Injected 2 past episodes"}
+{"timestamp": "2026-03-23T13:05:34.740379", "session": "20260323_130348", "event": "memory_sqlite_facts", "detail": "Injected stored facts"}
+{"timestamp": "2026-03-23T13:05:34.740814", "session": "20260323_130348", "event": "memory_session_ram", "detail": "Injected recent session history"}
+{"timestamp": "2026-03-23T13:07:23.250181", "session": "20260323_130348", "event": "memory_vector_recall", "detail": "Found 3 similar memories"}
+{"timestamp": "2026-03-23T13:07:23.253757", "session": "20260323_130348", "event": "memory_sqlite_episodes", "detail": "Injected 2 past episodes"}
+{"timestamp": "2026-03-23T13:07:23.257172", "session": "20260323_130348", "event": "memory_sqlite_facts", "detail": "Injected stored facts"}
+{"timestamp": "2026-03-23T13:07:23.257626", "session": "20260323_130348", "event": "memory_session_ram", "detail": "Injected recent session history"}
+{"timestamp": "2026-03-23T13:07:55.045743", "session": "20260323_130348", "event": "memory_vector_recall", "detail": "Found 3 similar memories"}
+{"timestamp": "2026-03-23T13:07:55.048506", "session": "20260323_130348", "event": "memory_sqlite_episodes", "detail": "Injected 2 past episodes"}
+{"timestamp": "2026-03-23T13:07:55.050939", "session": "20260323_130348", "event": "memory_sqlite_facts", "detail": "Injected stored facts"}
+{"timestamp": "2026-03-23T13:07:55.052134", "session": "20260323_130348", "event": "memory_session_ram", "detail": "Injected recent session history"}
+{"timestamp": "2026-03-23T13:08:49.904396", "session": "20260323_130849", "event": "memory_vector_recall", "detail": "Empty \u2014 no saved index"}
+{"timestamp": "2026-03-23T13:08:49.906227", "session": "20260323_130849", "event": "memory_sqlite_episodes", "detail": "Injected 2 past episodes"}
+{"timestamp": "2026-03-23T13:08:49.907671", "session": "20260323_130849", "event": "memory_sqlite_facts", "detail": "Injected stored facts"}
+{"timestamp": "2026-03-23T13:08:49.908649", "session": "20260323_130849", "event": "memory_session_ram", "detail": "Empty \u2014 fresh session"}
