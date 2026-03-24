@@ -77,6 +77,8 @@ def get_model_client():
                 "vision": False,
                 "function_calling": True,
                 "json_output": True,
+                "structured_output": True,  
+                "family": "unknown"
             },
         )
 

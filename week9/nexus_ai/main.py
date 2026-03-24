@@ -117,7 +117,7 @@ async def run_pipeline(
     """
 
     # ── Orchestrator plans ────────────────────────────────────────
-    print("\n[Orchestrator planning...]")
+    print("\non_messa[Orchestrator planning...]")
     orch_prompt = (
         f"{memory_context}"
         f"User task: {user_input}\n\n"
