@@ -1,8 +1,6 @@
 """
-tools/code_executor.py
 ─────────────────────────────────────────────────────────────────
 Code Execution Agent.
-
 Tools:
     auto_install(code)                → pip-installs any missing imports
     execute_python_script(code)       → runs Python in an isolated subprocess
@@ -17,10 +15,7 @@ import os
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Package name normalisation
-# ─────────────────────────────────────────────────────────────────
 
 IMPORT_TO_PIP = {
     "sklearn":  "scikit-learn",
@@ -74,17 +69,13 @@ def auto_install(code: str) -> str:
         return "All imports already available — no installs needed."
     return f"Installed: {', '.join(installed)}"
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Core executor
-# ─────────────────────────────────────────────────────────────────
 
 def execute_python_script(code: str) -> str:
     """
     Execute Python code in an isolated subprocess.
 
-    Uses sys.executable (always the active venv Python — not a hardcoded
-    'python3' which may point to a different installation).
+    Uses sys.executable (always the active venv Python — not a hardcoded 'python3' which may point to a different installation).
     Auto-installs missing packages before running.
     Hard timeout: 30 seconds.
     """
@@ -131,9 +122,7 @@ def execute_python_script(code: str) -> str:
             pass
 
 
-# ─────────────────────────────────────────────────────────────────
 #  Agent builder
-# ─────────────────────────────────────────────────────────────────
 
 def get_code_agent(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(

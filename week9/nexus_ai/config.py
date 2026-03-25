@@ -69,7 +69,7 @@ def get_model_client():
             model_info={
                 "vision": False,
                 "function_calling": True,
-                "json_output": False,
+                "json_output": True,
                 "family": "unknown",
                 "structured_output": True,
             }

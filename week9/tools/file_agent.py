@@ -1,13 +1,10 @@
 """
-tools/file_agent.py
 ─────────────────────────────────────────────────────────────────
 File Operations Agent.
-
 Tools:
     read_file(file_path)               → returns raw text
     write_file(file_path, content)     → creates/overwrites any file
     write_csv(file_path, rows)         → writes valid CSV from list of dicts
-                                         (guaranteed safe escaping via DictWriter)
     append_file(file_path, content)    → appends to existing file
     list_files(directory)              → lists files in a folder
 ─────────────────────────────────────────────────────────────────
@@ -19,10 +16,7 @@ import statistics
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Tool functions
-# ─────────────────────────────────────────────────────────────────
 
 def read_file(file_path: str) -> str:
     """
@@ -183,9 +177,7 @@ def list_files(directory: str = ".") -> str:
         return f"[list_files ERROR] {e}"
 
 
-# ─────────────────────────────────────────────────────────────────
 #  Agent builder
-# ─────────────────────────────────────────────────────────────────
 
 def get_file_agent(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(

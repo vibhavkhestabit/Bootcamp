@@ -28,10 +28,7 @@ import memory.session_memory   as session
 import memory.long_term_memory as ltm
 import memory.vector_store     as vs
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Plan parser
-# ─────────────────────────────────────────────────────────────────
 
 def parse_plan(raw: str) -> list:
     raw = re.sub(r"```(?:json)?", "", raw).strip().rstrip("`").strip()
@@ -52,10 +49,7 @@ def parse_plan(raw: str) -> list:
     print("[Orchestrator] Could not parse plan — defaulting to RESEARCHER.")
     return [{"step": 1, "agent": "RESEARCHER", "task": raw}]
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Memory helpers
-# ─────────────────────────────────────────────────────────────────
 
 def build_memory_context(user_input: str) -> str:
     """Pull relevant context from all memory layers."""
@@ -100,10 +94,7 @@ def build_memory_context(user_input: str) -> str:
         return "\n\n".join(sections) + "\n\n"
     return ""
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Core pipeline runner
-# ─────────────────────────────────────────────────────────────────
 
 async def run_pipeline(
     user_input: str,
@@ -228,9 +219,7 @@ async def run_pipeline(
     return final_report, all_outputs, plan
 
 
-# ─────────────────────────────────────────────────────────────────
 #  Report saver
-# ─────────────────────────────────────────────────────────────────
 
 def save_report(task: str, report: str) -> str:
     from datetime import datetime
@@ -249,9 +238,7 @@ def save_report(task: str, report: str) -> str:
     return report_path
 
 
-# ─────────────────────────────────────────────────────────────────
 #  Main loop
-# ─────────────────────────────────────────────────────────────────
 
 async def main():
     os.makedirs(config.MEMORY_DIR, exist_ok=True)
@@ -344,10 +331,10 @@ async def main():
             if reporter_ran:
                 report_path = save_report(user_input, final_report)
                 log_complete(user_input, report_path)
-                print(f"\n📄 Report saved to: {report_path}")
+                print(f"\n Report saved to: {report_path}")
             else:
                 log_complete(user_input, "direct answer — no report saved")
-                print(f"\n✅ Done.")
+                print(f"\n Done.")
 
             session.add_message("assistant", final_report[:500])
             session_log.append({
