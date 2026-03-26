@@ -11,10 +11,7 @@ import memory.session_memory   as session
 import memory.long_term_memory as ltm
 import memory.vector_store     as vs
 
-
-# ─────────────────────────────────────────────────────────────────
 #  MODEL CONFIGURATION
-# ─────────────────────────────────────────────────────────────────
 
 ACTIVE_PROVIDER = "gemini"   # "ollama" | "gemini"
 
@@ -59,10 +56,7 @@ def get_model_client():
     else:
         raise ValueError(f"Unknown provider '{ACTIVE_PROVIDER}'.")
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Memory-aware prompt builder
-# ─────────────────────────────────────────────────────────────────
 
 def build_prompt(user_input: str) -> str:
     """
@@ -100,10 +94,7 @@ def build_prompt(user_input: str) -> str:
     else:
         return user_input
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Fact extractor
-# ─────────────────────────────────────────────────────────────────
 
 FACT_KEYWORDS = [
     "my name is", "i am", "i work", "i like", "i prefer",
@@ -122,10 +113,7 @@ def extract_facts(user_input: str) -> list[str]:
             return [user_input]
     return []
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Save session to long-term memory (called only on exit)
-# ─────────────────────────────────────────────────────────────────
 
 def save_session_to_long_term(session_log: list[dict]) -> None:
     """
@@ -163,10 +151,7 @@ def save_session_to_long_term(session_log: list[dict]) -> None:
     vs.save(directory="memory")
     print(f"[Memory] Saved to long_term.db and faiss.index successfully.")
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Main loop
-# ─────────────────────────────────────────────────────────────────
 
 AGENT_SYSTEM = """\
 You are a helpful AI assistant with memory. You remember past conversations

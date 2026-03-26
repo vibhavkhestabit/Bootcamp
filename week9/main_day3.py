@@ -14,10 +14,7 @@ from tools.file_agent    import get_file_agent
 from tools.db_agent      import get_db_agent
 from tools.code_executor import get_code_agent
 
-
-# ─────────────────────────────────────────────────────────────────
 #  MODEL CONFIGURATION
-# ─────────────────────────────────────────────────────────────────
 
 ACTIVE_PROVIDER = "gemini"   # "ollama" | "gemini"
 
@@ -66,13 +63,6 @@ def get_model_client():
     else:
         raise ValueError(f"Unknown provider '{ACTIVE_PROVIDER}'. Use 'ollama' or 'gemini'.")
 
-
-# ─────────────────────────────────────────────────────────────────
-#  Demo data setup
-#  Only creates files/tables if they don't already exist —
-#  prevents overwriting real data on every startup.
-# ─────────────────────────────────────────────────────────────────
-
 def setup_dummy_data():
     # Only create sales.csv if it doesn't exist
     if not os.path.exists("sales.csv"):
@@ -92,15 +82,6 @@ def setup_dummy_data():
     conn.commit()
     conn.close()
     print("[System] Demo data ready.")
-
-
-# ─────────────────────────────────────────────────────────────────
-#  Planner
-#  Breaks a user query into an ordered list of agent steps.
-#  Each step has:
-#    agent  : FILE | DB | CODE
-#    task   : precise instruction for that agent
-# ─────────────────────────────────────────────────────────────────
 
 PLANNER_SYSTEM = """\
 You are a task planner for a multi-agent system. Given a user request, break it
@@ -191,10 +172,7 @@ def parse_plan(raw: str) -> list:
     print("[Planner] Could not parse plan — defaulting to single CODE step.")
     return [{"step": 1, "agent": "CODE", "task": raw}]
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Main loop
-# ─────────────────────────────────────────────────────────────────
 
 async def main():
     setup_dummy_data()

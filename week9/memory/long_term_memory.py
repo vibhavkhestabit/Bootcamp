@@ -1,38 +1,16 @@
-"""
-memory/long_term_memory.py
-─────────────────────────────────────────────────────────────────
-Long-Term Memory using SQLite.
-
-Stores important facts, summaries, and conversation episodes
-persistently on disk. Survives across sessions.
-
-Functions:
-    store_fact(content, source, category)  → save an important fact
-    store_episode(user_msg, agent_reply)   → save a conversation turn
-    get_facts(category)                    → retrieve facts by category
-    get_recent_episodes(n)                 → retrieve last n episodes
-    summarize_and_store(session_history)   → summarize session → store
-─────────────────────────────────────────────────────────────────
-"""
-
 import sqlite3
 import os
 from datetime import datetime
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Database setup
-# ─────────────────────────────────────────────────────────────────
 
 DB_PATH = os.path.join("memory", "long_term.db")
-
 
 def _get_connection() -> sqlite3.Connection:
     os.makedirs("memory", exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
-
 
 def init_db() -> None:
     """
@@ -58,10 +36,7 @@ def init_db() -> None:
         """)
     print(f"[LongTermMemory] Database ready at '{DB_PATH}'")
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Facts — semantic memory (important things to remember)
-# ─────────────────────────────────────────────────────────────────
 
 def store_fact(content: str, source: str = "user", category: str = "general") -> int:
     """
@@ -81,7 +56,6 @@ def store_fact(content: str, source: str = "user", category: str = "general") ->
             (content, source, category, datetime.now().isoformat())
         )
         return cur.lastrowid
-
 
 def get_facts(category: str = None) -> list[dict]:
     """
@@ -105,9 +79,7 @@ def get_facts(category: str = None) -> list[dict]:
             ).fetchall()
         return [dict(r) for r in rows]
 
-# ─────────────────────────────────────────────────────────────────
 #  Episodes — episodic memory (conversation turns)
-# ─────────────────────────────────────────────────────────────────
 
 def store_episode(user_msg: str, agent_reply: str) -> int:
     """
@@ -127,7 +99,6 @@ def store_episode(user_msg: str, agent_reply: str) -> int:
         )
         return cur.lastrowid
 
-
 def get_recent_episodes(n: int = 5) -> list[dict]:
     """
     Retrieve the most recent n conversation episodes.
@@ -145,7 +116,6 @@ def get_recent_episodes(n: int = 5) -> list[dict]:
         ).fetchall()
         return [dict(r) for r in rows]
 
-
 def format_episodes_for_prompt(n: int = 3) -> str:
     """Format recent episodes as a string for prompt injection."""
     episodes = get_recent_episodes(n)
@@ -160,7 +130,6 @@ def format_episodes_for_prompt(n: int = 3) -> str:
     lines.append("--- End of Past Conversations ---")
     return "\n".join(lines)
 
-
 def format_facts_for_prompt(category: str = None) -> str:
     """Format stored facts as a string for prompt injection."""
     facts = get_facts(category)
@@ -173,10 +142,7 @@ def format_facts_for_prompt(category: str = None) -> str:
     lines.append("--- End of Facts ---")
     return "\n".join(lines)
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Stats
-# ─────────────────────────────────────────────────────────────────
 
 def memory_stats() -> dict:
     """Return basic stats about long-term memory."""

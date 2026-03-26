@@ -1,20 +1,8 @@
-"""
-Writes every agent action to:
-  - Console (live)
-  - logs/nexus_YYYYMMDD_HHMMSS.log (per session)
-  - logs/trace.jsonl (structured JSON lines for analysis)
-"""
-
 import os
 import json
 import logging
 from datetime import datetime
 from config import LOGS_DIR
-
-
-# ─────────────────────────────────────────────────────────────────
-#  Setup
-# ─────────────────────────────────────────────────────────────────
 
 os.makedirs(LOGS_DIR, exist_ok=True)
 
@@ -32,10 +20,7 @@ logging.basicConfig(
 )
 _logger = logging.getLogger("nexus")
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Public API
-# ─────────────────────────────────────────────────────────────────
 
 def log_task(task: str) -> None:
     """Log a new user task."""
@@ -97,24 +82,21 @@ def log_memory(event: str, detail: str) -> None:
     _logger.info(msg)
     _trace(event=f"memory_{event}", data={"detail": detail})
 
-
 def log_error(step: int, agent: str, error: str) -> None:
     """Log an agent error."""
     msg = f"[ERROR] Step {step} — {agent}: {error}"
-    print(f"\n❌ {msg}")
+    print(f"\n {msg}")
     _logger.error(msg)
     _trace(event="error", data={"step": step, "agent": agent, "error": error})
-
 
 def log_complete(task: str, report_path: str) -> None:
     """Log task completion."""
     msg = f"[COMPLETE] Task finished. Report: {report_path}"
     print(f"\n{'='*60}")
-    print(f"✅ {msg}")
+    print(f" {msg}")
     print(f"{'='*60}")
     _logger.info(msg)
     _trace(event="complete", data={"task": task, "report": report_path})
-
 
 def log_session_info() -> dict:
     """Return info about the current log session."""
@@ -124,10 +106,7 @@ def log_session_info() -> dict:
         "trace_file": _trace_file,
     }
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Internal tracer
-# ─────────────────────────────────────────────────────────────────
 
 def _trace(event: str, data: dict) -> None:
     """Append a structured JSON event to the trace file."""

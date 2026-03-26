@@ -73,7 +73,6 @@ def read_file(file_path: str) -> str:
     except Exception as e:
         return f"[read_file ERROR] {e}"
 
-
 def write_file(file_path: str, content: str) -> str:
     """
     Write (overwrite) a local file with the given text content.
@@ -89,7 +88,6 @@ def write_file(file_path: str, content: str) -> str:
         return f"[write_file OK] Wrote {len(content)} chars to '{file_path}'"
     except Exception as e:
         return f"[write_file ERROR] {e}"
-
 
 def write_csv(file_path: str, rows: list) -> str:
     """
@@ -151,7 +149,6 @@ def write_csv(file_path: str, rows: list) -> str:
     except Exception as e:
         return f"[write_csv ERROR] {e}"
 
-
 def append_file(file_path: str, content: str) -> str:
     """Append content to an existing file (creates it if missing)."""
     try:
@@ -164,7 +161,6 @@ def append_file(file_path: str, content: str) -> str:
     except Exception as e:
         return f"[append_file ERROR] {e}"
 
-
 def list_files(directory: str = ".") -> str:
     """List all files in a directory (non-recursive)."""
     try:
@@ -175,7 +171,6 @@ def list_files(directory: str = ".") -> str:
         return "\n".join(files)
     except Exception as e:
         return f"[list_files ERROR] {e}"
-
 
 #  Agent builder
 

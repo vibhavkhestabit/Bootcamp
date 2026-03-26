@@ -1,21 +1,3 @@
-"""
-memory/vector_store.py
-─────────────────────────────────────────────────────────────────
-Vector Memory using FAISS + sentence-transformers.
-
-Stores text as embeddings and retrieves the most similar
-entries when a new query comes in. This is the semantic
-memory layer — it recalls by meaning, not exact match.
-
-Functions:
-    add_memory(text, metadata)     → embed and store a memory
-    search(query, k)               → find k most similar memories
-    save(path)                     → persist index to disk
-    load(path)                     → load index from disk
-    count()                        → number of stored memories
-─────────────────────────────────────────────────────────────────
-"""
-
 import os
 import json
 import numpy as np
@@ -31,10 +13,7 @@ try:
 except ImportError:
     raise ImportError("Run: pip install sentence-transformers")
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Model + Index
-# ─────────────────────────────────────────────────────────────────
 
 _MODEL_NAME = "all-MiniLM-L6-v2"   # fast, lightweight, 384-dim embeddings
 _model: SentenceTransformer = None
@@ -42,14 +21,12 @@ _index: faiss.IndexFlatL2   = None
 _metadata: list[dict]       = []     # parallel list to the FAISS index
 _DIM = 384
 
-
 def _get_model() -> SentenceTransformer:
     global _model
     if _model is None:
         print("[VectorStore] Loading embedding model...")
         _model = SentenceTransformer(_MODEL_NAME)
     return _model
-
 
 def _get_index() -> faiss.IndexFlatL2:
     global _index
@@ -64,10 +41,7 @@ def _embed(text: str) -> np.ndarray:
     vec = model.encode([text], convert_to_numpy=True).astype("float32")
     return vec
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Public API
-# ─────────────────────────────────────────────────────────────────
 
 def add_memory(text: str, metadata: dict = None) -> int:
     """
@@ -94,7 +68,6 @@ def add_memory(text: str, metadata: dict = None) -> int:
     }
     _metadata.append(entry)
     return entry["position"]
-
 
 def search(query: str, k: int = 3) -> list[dict]:
     """
@@ -125,7 +98,6 @@ def search(query: str, k: int = 3) -> list[dict]:
 
     return results
 
-
 def format_results(results: list[dict]) -> str:
     """Format search results as a string for prompt injection."""
     if not results:
@@ -139,11 +111,9 @@ def format_results(results: list[dict]) -> str:
     lines.append("--- End of Memory ---")
     return "\n".join(lines)
 
-
 def count() -> int:
     """Return the number of stored memories."""
     return _get_index().ntotal
-
 
 def save(directory: str = "memory") -> None:
     """
@@ -157,7 +127,6 @@ def save(directory: str = "memory") -> None:
     with open(os.path.join(directory, "metadata.json"), "w") as f:
         json.dump(_metadata, f, indent=2)
     print(f"[VectorStore] Saved {count()} memories to '{directory}/'")
-
 
 def load(directory: str = "memory") -> None:
     """
