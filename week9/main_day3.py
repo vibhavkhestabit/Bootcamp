@@ -1,22 +1,3 @@
-"""
-main.py  —  Day 3: Autonomous Tool-Calling Pipeline
-─────────────────────────────────────────────────────────────────
-Architecture:
-    User query
-        ↓
-    Planner Agent  — outputs a JSON plan: ordered list of steps
-        ↓
-    Specialist Agents run in sequence, each receiving full context
-        ↓
-    User sees final output
-
-Model switching:
-    Set ACTIVE_PROVIDER at the top of this file:
-        "ollama"  → local Qwen/Mistral via Ollama (CPU-safe)
-        "gemini"  → Google Gemini API
-─────────────────────────────────────────────────────────────────
-"""
-
 import asyncio
 import json
 import os

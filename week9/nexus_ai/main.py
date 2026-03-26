@@ -1,11 +1,3 @@
-"""
-nexus_ai/main.py
-─────────────────────────────────────────────────────────────────
-PROJECT: NEXUS AI
-Autonomous Multi-Agent AI System — Day 5 Capstone
-─────────────────────────────────────────────────────────────────
-"""
-
 import asyncio
 import json
 import os

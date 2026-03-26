@@ -8,7 +8,6 @@ Cleared when the session ends — does not persist to disk.
 
 Functions:
     add_message(role, content)     → adds a message to session
-    get_history()                  → returns full conversation list
     get_recent(n)                  → returns last n messages
     clear()                        → wipes the session
     summarize_session(model_client)→ returns AI summary of session
@@ -16,7 +15,6 @@ Functions:
 """
 
 from datetime import datetime
-
 
 # ─────────────────────────────────────────────────────────────────
 #  In-memory store
@@ -39,21 +37,13 @@ def add_message(role: str, content: str) -> None:
         "timestamp": datetime.now().isoformat(),
     })
 
-
-def get_history() -> list[dict]:
-    """Return the full session conversation."""
-    return list(_session)
-
-
 def get_recent(n: int = 5) -> list[dict]:
     """Return the last n messages from the session."""
     return list(_session[-n:])
 
-
 def clear() -> None:
     """Wipe the current session from memory."""
     _session.clear()
-
 
 def format_for_prompt(n: int = 10) -> str:
     """
@@ -70,7 +60,6 @@ def format_for_prompt(n: int = 10) -> str:
         lines.append(f"[{role}]: {msg['content']}")
     lines.append("--- End of History ---")
     return "\n".join(lines)
-
 
 def session_stats() -> dict:
     """Return basic stats about the current session."""

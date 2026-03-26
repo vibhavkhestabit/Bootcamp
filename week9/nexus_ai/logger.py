@@ -1,13 +1,8 @@
 """
-nexus_ai/logger.py
-─────────────────────────────────────────────────────────────────
-NEXUS AI — Logging + Tracing System
-
 Writes every agent action to:
   - Console (live)
   - logs/nexus_YYYYMMDD_HHMMSS.log (per session)
   - logs/trace.jsonl (structured JSON lines for analysis)
-─────────────────────────────────────────────────────────────────
 """
 
 import os

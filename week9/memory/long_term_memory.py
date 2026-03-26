@@ -11,7 +11,6 @@ Functions:
     store_episode(user_msg, agent_reply)   → save a conversation turn
     get_facts(category)                    → retrieve facts by category
     get_recent_episodes(n)                 → retrieve last n episodes
-    search_facts(keyword)                  → keyword search across facts
     summarize_and_store(session_history)   → summarize session → store
 ─────────────────────────────────────────────────────────────────
 """
@@ -105,25 +104,6 @@ def get_facts(category: str = None) -> list[dict]:
                 "SELECT * FROM facts ORDER BY created_at DESC"
             ).fetchall()
         return [dict(r) for r in rows]
-
-
-def search_facts(keyword: str) -> list[dict]:
-    """
-    Search facts by keyword (case-insensitive substring match).
-
-    Args:
-        keyword : the search term
-
-    Returns:
-        List of matching fact dicts.
-    """
-    with _get_connection() as conn:
-        rows = conn.execute(
-            "SELECT * FROM facts WHERE content LIKE ? ORDER BY created_at DESC",
-            (f"%{keyword}%",)
-        ).fetchall()
-        return [dict(r) for r in rows]
-
 
 # ─────────────────────────────────────────────────────────────────
 #  Episodes — episodic memory (conversation turns)

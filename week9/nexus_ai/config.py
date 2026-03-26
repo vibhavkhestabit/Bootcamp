@@ -1,10 +1,3 @@
-"""
-nexus_ai/config.py
-─────────────────────────────────────────────────────────────────
-NEXUS AI — Central Configuration
-─────────────────────────────────────────────────────────────────
-"""
-
 import os
 from dotenv import load_dotenv
 load_dotenv()

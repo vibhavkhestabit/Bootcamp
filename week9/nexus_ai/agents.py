@@ -1,27 +1,13 @@
-"""
-nexus_ai/agents.py
-─────────────────────────────────────────────────────────────────
-NEXUS AI — All Specialist Agents
-
-Each agent has a focused role and a strict system prompt.
-Tool-using agents (CODER, FILE, DB) reuse Day 3 implementations.
-─────────────────────────────────────────────────────────────────
-"""
-
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
-# Reuse Day 3 tool agents
 import sys, os, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from tools.code_executor import execute_python_script
 from tools.file_agent    import read_file, write_file, write_csv, append_file, list_files
 from tools.db_agent      import inspect_schema, execute_sql
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Web Search Tool (DuckDuckGo — no API key required)
-# ─────────────────────────────────────────────────────────────────
 
 def web_search(query: str) -> str:
     """
@@ -53,10 +39,7 @@ def web_search(query: str) -> str:
     except Exception as e:
         return f"[web_search ERROR] {e}"
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Orchestrator — decides which agents run and in what order
-# ─────────────────────────────────────────────────────────────────
 
 def get_orchestrator(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -134,10 +117,7 @@ OUTPUT FORMAT — strict JSON array only, no explanation:
         model_client=model_client,
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Planner — detailed task decomposition
-# ─────────────────────────────────────────────────────────────────
 
 def get_planner(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -155,10 +135,7 @@ Include potential failure points and how to handle them.
         model_client=model_client,
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Researcher — background knowledge, context, web search
-# ─────────────────────────────────────────────────────────────────
 
 def get_researcher(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -214,10 +191,7 @@ HONESTY RULE:
         tools=[web_search],
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Coder — Python execution (uses Day 3 tools)
-# ─────────────────────────────────────────────────────────────────
 
 def get_coder(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -241,10 +215,7 @@ RULES:
         tools=[execute_python_script],
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Analyst — data analysis and insights
-# ─────────────────────────────────────────────────────────────────
 
 def get_analyst(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -268,10 +239,7 @@ Be specific. Numbers and comparisons are better than vague statements.
         model_client=model_client,
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Critic — quality review
-# ─────────────────────────────────────────────────────────────────
 
 def get_critic(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -295,10 +263,7 @@ Format: Score → Strengths → Weaknesses → Required Improvements.
         model_client=model_client,
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Optimizer — improves based on Critic feedback
-# ─────────────────────────────────────────────────────────────────
 
 def get_optimizer(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -321,10 +286,7 @@ Label it clearly: "## Optimized Output"
         model_client=model_client,
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Validator — final correctness check
-# ─────────────────────────────────────────────────────────────────
 
 def get_validator(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -347,10 +309,7 @@ If PASS — summarise what was validated successfully.
         model_client=model_client,
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Reporter — final polished output (only when user asks)
-# ─────────────────────────────────────────────────────────────────
 
 def get_reporter(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -376,10 +335,7 @@ This is the FINAL output the user sees — make it excellent.
         model_client=model_client,
     )
 
-
-# ─────────────────────────────────────────────────────────────────
-#  File Agent (Day 3 reuse)
-# ─────────────────────────────────────────────────────────────────
+#  File Agent
 
 def get_file_agent(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -415,10 +371,7 @@ RULES:
         tools=[read_file, write_file, write_csv, append_file, list_files],
     )
 
-
-# ─────────────────────────────────────────────────────────────────
-#  DB Agent (Day 3 reuse)
-# ─────────────────────────────────────────────────────────────────
+#  DB Agent
 
 def get_db_agent(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -442,10 +395,7 @@ RULES:
         tools=[inspect_schema, execute_sql],
     )
 
-
-# ─────────────────────────────────────────────────────────────────
 #  Agent registry — maps name → builder function
-# ─────────────────────────────────────────────────────────────────
 
 def build_all_agents(model_client: ChatCompletionClient) -> dict:
     return {

@@ -1,28 +1,3 @@
-"""
-main.py  —  Day 4: Agent Memory System
-─────────────────────────────────────────────────────────────────
-Architecture:
-    User query
-        ↓
-    Search vector memory (FAISS) for similar past context
-        ↓
-    Fetch recent episodes + facts from SQLite (long-term)
-        ↓
-    Inject all memory into the agent prompt
-        ↓
-    Agent generates response with full context
-        ↓
-    Store exchange in session RAM only
-        ↓
-    On EXIT → save everything to long-term SQLite + FAISS
-
-Memory Layers:
-    Session    → RAM, current conversation only, cleared by 'clear'
-    Long-Term  → SQLite, saved only on exit
-    Vector     → FAISS, saved only on exit
-─────────────────────────────────────────────────────────────────
-"""
-
 import asyncio
 import os
 
