@@ -39,17 +39,7 @@ def init_db() -> None:
 #  Facts — semantic memory (important things to remember)
 
 def store_fact(content: str, source: str = "user", category: str = "general") -> int:
-    """
-    Store an important fact in long-term memory.
-
-    Args:
-        content  : the fact to remember
-        source   : where it came from ("user", "agent", "summary")
-        category : label for grouping ("preference", "name", "task", etc.)
-
-    Returns:
-        The ID of the stored fact.
-    """
+    
     with _get_connection() as conn:
         cur = conn.execute(
             "INSERT INTO facts (content, source, category, created_at) VALUES (?, ?, ?, ?)",
@@ -58,15 +48,7 @@ def store_fact(content: str, source: str = "user", category: str = "general") ->
         return cur.lastrowid
 
 def get_facts(category: str = None) -> list[dict]:
-    """
-    Retrieve facts, optionally filtered by category.
-
-    Args:
-        category : if None, returns all facts
-
-    Returns:
-        List of fact dicts.
-    """
+    
     with _get_connection() as conn:
         if category:
             rows = conn.execute(
@@ -82,16 +64,7 @@ def get_facts(category: str = None) -> list[dict]:
 #  Episodes — episodic memory (conversation turns)
 
 def store_episode(user_msg: str, agent_reply: str) -> int:
-    """
-    Store a single conversation turn as an episode.
 
-    Args:
-        user_msg    : what the user said
-        agent_reply : what the agent replied
-
-    Returns:
-        The ID of the stored episode.
-    """
     with _get_connection() as conn:
         cur = conn.execute(
             "INSERT INTO episodes (user_msg, agent_reply, created_at) VALUES (?, ?, ?)",
@@ -100,15 +73,7 @@ def store_episode(user_msg: str, agent_reply: str) -> int:
         return cur.lastrowid
 
 def get_recent_episodes(n: int = 5) -> list[dict]:
-    """
-    Retrieve the most recent n conversation episodes.
-
-    Args:
-        n : number of episodes to return
-
-    Returns:
-        List of episode dicts ordered most-recent-first.
-    """
+    
     with _get_connection() as conn:
         rows = conn.execute(
             "SELECT * FROM episodes ORDER BY created_at DESC LIMIT ?",

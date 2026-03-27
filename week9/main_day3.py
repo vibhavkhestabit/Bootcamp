@@ -4,7 +4,7 @@ import os
 import re
 import sqlite3
 from dotenv import load_dotenv
-load_dotenv()  # loads variables from .env into environment
+load_dotenv() 
 from autogen_agentchat.messages import TextMessage
 from autogen_agentchat.agents import AssistantAgent
 from tools.file_agent    import get_file_agent
@@ -66,13 +66,11 @@ DB INSERT RULE — CRITICAL:
   Never just say "insert into" — always include the CREATE step.
 
   CORRECT:
-    "CREATE TABLE IF NOT EXISTS Vibhav in Vibhav.db with columns
-     SaleID, Date, ProductID, CustomerID, Quantity, UnitPrice —
+    "CREATE TABLE IF NOT EXISTS Vibhav in Vibhav.db with columns SaleID, Date, ProductID, CustomerID, Quantity, UnitPrice —
      then INSERT the 10 rows provided."
 
   WRONG:
-    "Insert the 10 entries into Vibhav table in Vibhav.db"
-    ← Agent may stop if table doesn't exist yet
+    "Insert the 10 entries into Vibhav table in Vibhav.db" ← Agent may stop if table doesn't exist yet
 
 DB EXPORT RULE — CRITICAL:
   When a DB query step is followed by a FILE step that exports data, the DB step task MUST explicitly say "return ALL rows as a formatted table".

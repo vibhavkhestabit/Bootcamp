@@ -1,27 +1,8 @@
-"""
-memory/session_memory.py
-─────────────────────────────────────────────────────────────────
-Short-Term Session Memory.
-
-Stores the current conversation in RAM as a list of messages.
-Cleared when the session ends — does not persist to disk.
-
-Functions:
-    add_message(role, content)     → adds a message to session
-    get_recent(n)                  → returns last n messages
-    clear()                        → wipes the session
-    summarize_session(model_client)→ returns AI summary of session
-─────────────────────────────────────────────────────────────────
-"""
-
 from datetime import datetime
 
-# ─────────────────────────────────────────────────────────────────
 #  In-memory store
-# ─────────────────────────────────────────────────────────────────
 
 _session: list[dict] = []
-
 
 def add_message(role: str, content: str) -> None:
     """
