@@ -3,65 +3,14 @@ import json
 import os
 import re
 import sqlite3
-
 from dotenv import load_dotenv
 load_dotenv()  # loads variables from .env into environment
-
 from autogen_agentchat.messages import TextMessage
 from autogen_agentchat.agents import AssistantAgent
-
 from tools.file_agent    import get_file_agent
 from tools.db_agent      import get_db_agent
 from tools.code_executor import get_code_agent
-
-#  MODEL CONFIGURATION
-
-ACTIVE_PROVIDER = "gemini"   # "ollama" | "gemini"
-
-OLLAMA_MODEL    = "qwen2.5"
-OLLAMA_BASE_URL = "http://localhost:11434"
-
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")   # loaded from .env
-GEMINI_MODEL   = "gemini-3.1-flash-lite-preview"
-
-
-def get_model_client():
-    if ACTIVE_PROVIDER == "ollama":
-        from autogen_ext.models.openai import OpenAIChatCompletionClient
-        print(f"[Model] LOCAL Ollama → {OLLAMA_MODEL}")
-        return OpenAIChatCompletionClient(
-            model=OLLAMA_MODEL,
-            base_url="http://localhost:11434/v1",
-            api_key="NotRequired",
-            model_info={
-                "vision": False,
-                "function_calling": True,
-                "json_output": False,
-                "family": "unknown",
-                "structured_output": True,
-            }
-        )
-
-    elif ACTIVE_PROVIDER == "gemini":
-        from autogen_ext.models.openai import OpenAIChatCompletionClient
-        if not GEMINI_API_KEY:
-            raise ValueError("GEMINI_API_KEY not found. Add it to your .env file.")
-        print(f"[Model] Gemini API → {GEMINI_MODEL}")
-        return OpenAIChatCompletionClient(
-            model=GEMINI_MODEL,
-            api_key=GEMINI_API_KEY,
-            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-            model_capabilities={
-                "vision": False,
-                "function_calling": True,
-                "json_output": True,
-                "structured_output": True,  
-                "family": "unknown"
-            },
-        )
-
-    else:
-        raise ValueError(f"Unknown provider '{ACTIVE_PROVIDER}'. Use 'ollama' or 'gemini'.")
+from nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 
 def setup_dummy_data():
     # Only create sales.csv if it doesn't exist
@@ -84,8 +33,7 @@ def setup_dummy_data():
     print("[System] Demo data ready.")
 
 PLANNER_SYSTEM = """\
-You are a task planner for a multi-agent system. Given a user request, break it
-into an ordered list of steps. Each step must be handled by exactly one agent.
+You are a task planner for a multi-agent system. Given a user request, break it into an ordered list of steps. Each step must be handled by exactly one agent.
 
 AGENTS AND THEIR JOBS:
   FILE  → read files, write files, create .csv/.txt/.md, list files
@@ -93,18 +41,15 @@ AGENTS AND THEIR JOBS:
   CODE  → run Python code, do calculations, analyse data, generate insights
 
 RULES:
-  - If a task needs multiple agents (e.g. read a file THEN analyse it THEN write
-    a report), output multiple steps in the correct order.
-  - Each step's "task" must be a COMPLETE, SELF-CONTAINED instruction that also
-    references any relevant output from previous steps (e.g. "Using the CSV data
-    provided, analyse it and return top 5 insights").
+  - If a task needs multiple agents (e.g. read a file THEN analyse it THEN write a report), output multiple steps in the correct order.
+  - Each step's "task" must be a COMPLETE, SELF-CONTAINED instruction that also references any relevant output from previous steps 
+    (e.g. "Using the CSV data provided, analyse it and return top 5 insights").
   - The last step should always produce what the user ultimately asked for.
   - Output ONLY valid JSON — no explanation, no markdown fences.
 
 FILE SAVING RULE — CRITICAL:
-  Only add a FILE step to save code if the user EXPLICITLY asked to save or
-  create a file. Trigger words: "save", "store", "create a file", "write to a
-  file", "put it in a file", "export".
+  Only add a FILE step to save code if the user EXPLICITLY asked to save or create a file. Trigger words: "save", "store", 
+  "create a file", "write to a file", "put it in a file", "export".
 
   CORRECT — user said "save it":
     "generate fibonacci code and save it as fibonacci.py"
@@ -130,13 +75,11 @@ DB INSERT RULE — CRITICAL:
     ← Agent may stop if table doesn't exist yet
 
 DB EXPORT RULE — CRITICAL:
-  When a DB query step is followed by a FILE step that exports data,
-  the DB step task MUST explicitly say "return ALL rows as a formatted table".
+  When a DB query step is followed by a FILE step that exports data, the DB step task MUST explicitly say "return ALL rows as a formatted table".
   The FILE agent needs actual data rows — NOT a confirmation like "[execute_sql OK]".
 
   CORRECT:
-    DB step task:   "Query ALL rows from RevenueByProduct in Test.db and
-                     return the complete results as a formatted data table."
+    DB step task:   "Query ALL rows from RevenueByProduct in Test.db and return the complete results as a formatted data table."
     FILE step task: "Write the query results provided into revenue.csv"
 
   WRONG:
@@ -150,7 +93,6 @@ OUTPUT FORMAT (strict JSON array):
   {"step": 3, "agent": "FILE", "task": "Write a file called report.txt containing the analysis results provided."}
 ]
 """
-
 
 def parse_plan(raw: str) -> list:
     """Extract JSON array from planner output robustly."""
@@ -177,14 +119,12 @@ def parse_plan(raw: str) -> list:
 async def main():
     setup_dummy_data()
     model_client = get_model_client()
-
     planner = AssistantAgent(
         name="Planner_Agent",
         description="Breaks user requests into ordered multi-agent steps.",
         system_message=PLANNER_SYSTEM,
         model_client=model_client,
     )
-
     agents = {
         "FILE": get_file_agent(model_client),
         "DB":   get_db_agent(model_client),
@@ -224,8 +164,7 @@ async def main():
             print(f"  Step {step['step']} → [{step['agent']}] {step['task'][:80]}...")
 
         # ── Execute steps in sequence ─────────────────────────────
-        # all_outputs accumulates every step's result so later agents
-        # always have full context — not just the last step's output.
+        # all_outputs accumulates every step's result so later agents always have full context — not just the last step's output.
         all_outputs = []
 
         for step in plan:
@@ -266,7 +205,6 @@ async def main():
         print("─" * 50)
         print("\n[Pipeline complete]")
         print("─" * 50)
-
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -1,11 +1,3 @@
-"""
-─────────────────────────────────────────────────────────────────
-Database Agent.
-Tools:
-    inspect_schema(db_path)           → shows tables + columns + sample rows
-    execute_sql(query, db_path)       → runs any SQL, returns formatted rows
-─────────────────────────────────────────────────────────────────
-"""
 import sqlite3
 import re as _re
 from autogen_agentchat.agents import AssistantAgent

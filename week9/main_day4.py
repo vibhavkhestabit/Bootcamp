@@ -1,71 +1,17 @@
 import asyncio
 import os
-
 from dotenv import load_dotenv
 load_dotenv()
-
 from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.messages import TextMessage
-
 import memory.session_memory   as session
 import memory.long_term_memory as ltm
 import memory.vector_store     as vs
-
-#  MODEL CONFIGURATION
-
-ACTIVE_PROVIDER = "gemini"   # "ollama" | "gemini"
-
-OLLAMA_MODEL    = "qwen2.5"
-GEMINI_API_KEY  = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL    = "gemini-3.1-flash-lite-preview"
-
-
-def get_model_client():
-    if ACTIVE_PROVIDER == "ollama":
-        from autogen_ext.models.openai import OpenAIChatCompletionClient
-        print(f"[Model] LOCAL Ollama → {OLLAMA_MODEL}")
-        return OpenAIChatCompletionClient(
-            model=OLLAMA_MODEL,
-            base_url="http://localhost:11434/v1",
-            api_key="NotRequired",
-            model_info={
-                "vision": False,
-                "function_calling": True,
-                "json_output": False,
-                "family": "unknown",
-                "structured_output": True,
-            }
-        )
-
-    elif ACTIVE_PROVIDER == "gemini":
-        from autogen_ext.models.openai import OpenAIChatCompletionClient
-        if not GEMINI_API_KEY:
-            raise ValueError("GEMINI_API_KEY not found. Add it to your .env file.")
-        print(f"[Model] Gemini API → {GEMINI_MODEL}")
-        return OpenAIChatCompletionClient(
-            model=GEMINI_MODEL,
-            api_key=GEMINI_API_KEY,
-            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-            model_capabilities={
-                "vision": False,
-                "function_calling": True,
-                "json_output": True,
-            },
-        )
-
-    else:
-        raise ValueError(f"Unknown provider '{ACTIVE_PROVIDER}'.")
+from nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 
 #  Memory-aware prompt builder
 
 def build_prompt(user_input: str) -> str:
-    """
-    Build a memory-enriched prompt by pulling from:
-    1. FAISS vector store  — semantically similar past context
-    2. SQLite episodes     — recent past conversations
-    3. SQLite facts        — stored user preferences/facts
-    4. Session RAM         — current conversation window
-    """
     sections = []
 
     # ── Vector memory: semantic recall ────────────────────────────
@@ -97,16 +43,11 @@ def build_prompt(user_input: str) -> str:
 #  Fact extractor
 
 FACT_KEYWORDS = [
-    "my name is", "i am", "i work", "i like", "i prefer",
-    "remember that", "don't forget", "my goal", "i want to",
-    "i need", "always", "never", "my favourite", "i hate",
+    "my name is", "i am", "i work", "i like", "i prefer", "remember that", "don't forget", "my goal", "i want to", "i need", "always", "never", "my favourite", "i hate",
 ]
 
 def extract_facts(user_input: str) -> list[str]:
-    """
-    Scan user input for important facts and return them
-    as a list. Does NOT store yet — storing happens on exit.
-    """
+
     lowered = user_input.lower()
     for keyword in FACT_KEYWORDS:
         if keyword in lowered:
@@ -116,12 +57,7 @@ def extract_facts(user_input: str) -> list[str]:
 #  Save session to long-term memory (called only on exit)
 
 def save_session_to_long_term(session_log: list[dict]) -> None:
-    """
-    On exit, go through the full session log and:
-    - Save every exchange as an episode in SQLite
-    - Save any fact-containing messages to SQLite facts
-    - Save every exchange to FAISS vector store
-    """
+
     if not session_log:
         print("[Memory] Nothing to save — session was empty.")
         return
@@ -165,8 +101,6 @@ When memory context is provided above your query, use it to:
 
 Be concise, helpful, and context-aware.\
 """
-
-
 async def main():
     # ── Initialise all memory layers ─────────────────────────────
     ltm.init_db()
@@ -184,7 +118,6 @@ async def main():
         )
 
     agent = create_agent()
-
     # session_log holds this session's exchanges — saved to long-term on exit
     session_log: list[dict] = []
 
@@ -263,7 +196,6 @@ async def main():
         session_log.append({"user": user_input, "agent": reply})
 
         print("\n" + "─" * 50)
-
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -3,11 +3,8 @@ import json
 import os
 import re
 import sys
-
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from autogen_agentchat.messages import TextMessage
-
 import config
 from config import get_model_client, MAX_REFLECTION_CYCLES, MAX_PLAN_STEPS
 from agents import build_all_agents
@@ -15,7 +12,6 @@ from logger import (
     log_task, log_plan, log_agent_start, log_agent_result,
     log_reflection, log_memory, log_error, log_complete, log_session_info
 )
-
 import memory.session_memory   as session
 import memory.long_term_memory as ltm
 import memory.vector_store     as vs
@@ -146,8 +142,7 @@ async def run_pipeline(
                 f"--- Outputs from all previous steps ---\n{history}"
             )
         else:
-            # FIRST step: inject memory context directly so the agent
-            # actually sees the stored facts/episodes/vector memories
+            # FIRST step: inject memory context directly so the agent actually sees the stored facts/episodes/vector memories
             if memory_context:
                 enriched_task = (
                     f"{task}\n\n"
@@ -210,7 +205,6 @@ async def run_pipeline(
     # Return plan so main() can check if REPORTER ran
     return final_report, all_outputs, plan
 
-
 #  Report saver
 
 def save_report(task: str, report: str) -> str:
@@ -228,7 +222,6 @@ def save_report(task: str, report: str) -> str:
         f.write(report)
 
     return report_path
-
 
 #  Main loop
 
@@ -266,7 +259,6 @@ async def main():
 
         if not user_input:
             continue
-
         # ── Exit ──────────────────────────────────────────────────
         if user_input.lower() in ("exit", "quit", "q"):
             if session_log:
@@ -312,9 +304,6 @@ async def main():
                 agents=agents,
                 memory_context=memory_context,
             )
-
-            # Only save .md report file if REPORTER was in the plan
-            # i.e. user explicitly asked for a report/document
             reporter_ran = any(
                 step.get("agent", "").upper() == "REPORTER"
                 for step in plan
@@ -339,7 +328,6 @@ async def main():
             print(f"\n[NEXUS ERROR] {e}")
 
         print("\n" + "─"*60)
-
 
 if __name__ == "__main__":
     asyncio.run(main())

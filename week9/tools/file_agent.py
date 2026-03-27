@@ -1,15 +1,3 @@
-"""
-─────────────────────────────────────────────────────────────────
-File Operations Agent.
-Tools:
-    read_file(file_path)               → returns raw text
-    write_file(file_path, content)     → creates/overwrites any file
-    write_csv(file_path, rows)         → writes valid CSV from list of dicts
-    append_file(file_path, content)    → appends to existing file
-    list_files(directory)              → lists files in a folder
-─────────────────────────────────────────────────────────────────
-"""
-
 import csv
 import os
 import statistics

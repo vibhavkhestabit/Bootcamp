@@ -1,11 +1,3 @@
-"""
-─────────────────────────────────────────────────────────────────
-Code Execution Agent.
-Tools:
-    auto_install(code)                → pip-installs any missing imports
-    execute_python_script(code)       → runs Python in an isolated subprocess
-─────────────────────────────────────────────────────────────────
-"""
 import re
 import subprocess
 import sys
@@ -119,7 +111,6 @@ def execute_python_script(code: str) -> str:
                 os.unlink(tmp_path)
         except Exception:
             pass
-
 
 #  Agent builder
 

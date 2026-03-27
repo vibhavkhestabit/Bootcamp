@@ -1,8 +1,3 @@
-"""
-week9/streamlit_app.py — NEXUS AI Streamlit UI
-Run from week9/: streamlit run streamlit_app.py
-"""
-
 import streamlit as st
 import asyncio
 import os
