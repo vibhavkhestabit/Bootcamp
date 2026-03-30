@@ -5,13 +5,7 @@ from datetime import datetime
 _session: list[dict] = []
 
 def add_message(role: str, content: str) -> None:
-    """
-    Add a message to the current session.
-
-    Args:
-        role    : "user" | "assistant" | "system"
-        content : the message text
-    """
+    
     _session.append({
         "role":      role,
         "content":   content,

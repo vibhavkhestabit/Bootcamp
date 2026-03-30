@@ -1,0 +1,4 @@
+Region: North, Average Salary: 100876.17
+Region: South, Average Salary: 85511.00
+Region: East, Average Salary: 84942.00
+Region: West, Average Salary: 101500.20

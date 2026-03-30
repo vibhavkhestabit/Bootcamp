@@ -7,10 +7,6 @@ from autogen_core.models import ChatCompletionClient
 #  Tool functions
 
 def read_file(file_path: str) -> str:
-    """
-    Read any local file and return its content as a string.
-    For .csv files also returns column statistics.
-    """
     try:
         path_lower = file_path.lower()
 
@@ -62,11 +58,6 @@ def read_file(file_path: str) -> str:
         return f"[read_file ERROR] {e}"
 
 def write_file(file_path: str, content: str) -> str:
-    """
-    Write (overwrite) a local file with the given text content.
-    Creates parent directories automatically.
-    For .csv files prefer write_csv() — this writes raw text as-is.
-    """
     try:
         parent = os.path.dirname(file_path)
         if parent:
@@ -78,18 +69,7 @@ def write_file(file_path: str, content: str) -> str:
         return f"[write_file ERROR] {e}"
 
 def write_csv(file_path: str, rows: list) -> str:
-    """
-    Write structured data to a CSV file safely.
 
-    Accepts:
-      - list of dicts:  [{"name": "Alice", "age": 30}, ...]   ← preferred
-      - list of lists with header row:  [["name","age"], ["Alice",30], ...]
-      - list of lists without header:   [["Alice", 30], ...]  → cols named col_0, col_1...
-      - JSON string:    '[{"name": "Alice", "age": 30}, ...]' ← auto-parsed
-
-    Uses csv.DictWriter — guarantees correct escaping of commas, quotes, newlines.
-    Creates parent directories automatically.
-    """
     import json as _json
     try:
         if not rows:

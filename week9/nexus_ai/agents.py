@@ -79,6 +79,22 @@ REPORTER RULE — CRITICAL:
   "create a report", "generate a report", "save a report",
   "write a report", "make a .md", "document this", "save this".
 
+FILE OVERWRITE RULE — CRITICAL:
+  If the pipeline includes an OPTIMIZER rewriting or fixing code, the VERY 
+  NEXT STEP in your JSON plan MUST be the FILE agent to overwrite the existing 
+  files on the disk with the newly optimized code. Do not leave optimized code 
+  trapped in the chat history.
+
+THE REFLECTION LOOP RULE (CRITICAL):
+  - If VALIDATOR fails or CRITIC finds flaws, the OPTIMIZER must fix it.
+  - HOWEVER, the OPTIMIZER cannot be the final step. 
+  - ANY time the OPTIMIZER runs, the VERY NEXT STEP must be the VALIDATOR 
+    again to ensure the Optimizer actually fixed the code correctly.
+  - If the second Validation passes, THEN you may use the FILE agent to save.
+
+  Example of a secure code-fixing loop:
+  ... → CRITIC → OPTIMIZER → VALIDATOR (checks Optimizer's work) → FILE (saves)
+
   CORRECT — user asked for report:
     "analyse sales.csv and create a report" → ... → REPORTER
     "generate a report on RAG pipelines"    → ... → REPORTER
@@ -131,6 +147,9 @@ Cover every phase needed: research, implementation, validation, reporting.
 Be specific — each step should be actionable, not vague.
 Return your plan as a numbered list with clear headings.
 Include potential failure points and how to handle them.
+
+CODE FIXING RULE: 
+If the plan involves generating code, running validators, and optimizing based on feedback, you MUST include a final step explicitly instructing the FILE agent to overwrite the physical files on the disk with the final, optimized code.
 """,
         model_client=model_client,
     )
@@ -149,29 +168,34 @@ Cover: current state, key frameworks, best practices, real-world examples,
 common pitfalls, and relevant metrics or benchmarks.
 Structure your research clearly with sections and bullet points.
 Be specific and factual — no vague generalities.
-Reference well-known frameworks, companies, or methodologies where relevant.
 
 YOUR TOOLS:
   web_search(query) → searches DuckDuckGo for real-time information.
-                      Use this for weather, news, prices, current events,
-                      company info, or ANYTHING needing up-to-date data.
 
-REAL-TIME DATA RULE — CRITICAL:
-  You have web_search() available for real-time queries.
-  For weather, stock prices, sports scores, news, company info:
-  → ALWAYS call web_search() first to get current data
-  → NEVER fabricate specific temperatures, prices, or scores
-  → NEVER state a specific date as "today" from training knowledge
-  → Use web_search() and report what the results say
-  → After getting results, synthesize into a clean direct answer
-  → NEVER dump raw search result text to the user
-  → Format: "Current weather in X: temperature, conditions, humidity. Source: ..."
+WEB SEARCH TRIGGER RULES — CRITICAL:
+  ONLY call web_search() for these categories:
+    - Current weather conditions
+    - Live stock prices or market data
+    - Sports scores or live match results
+    - Breaking news (last 7 days)
+    - Live exchange rates or commodity prices
+
+  NEVER call web_search() for:
+    - Generating lists (cricketers, players, companies, names, etc.)
+    - Historical facts, biographies, or general knowledge
+    - Technical explanations or definitions
+    - Architecture, strategy, or planning tasks
+    - Creating or generating data for CSV files or datasets
+    - Anything generative or creative in nature
+
+  For ALL non-live tasks: use your training knowledge directly.
+  Do NOT search for data you are being asked to generate.
+
+REAL-TIME DATA RULES (when web_search IS triggered):
+  → Always call web_search() first — never fabricate live data
+  → Synthesize results into a clean, direct answer
+  → Never dump raw search result text to the user
   → Always cite the source at the end
-
-  Example:
-    User asks "weather in Faridabad"
-    → call web_search("weather Faridabad today")
-    → report the actual search results
 
 FILE CONTENT RULE:
   If actual file contents or code are provided from a previous step,
@@ -179,9 +203,7 @@ FILE CONTENT RULE:
 
 MEMORY RULE:
   If memory context is provided under "--- Memory Context ---",
-  use it directly to answer. Only say "I don't have this information"
-  if the memory context section is completely empty or absent.
-  NEVER ignore data that is explicitly provided to you.
+  use it directly to answer. Never ignore explicitly provided data.
 
 HONESTY RULE:
   For personal facts (name, company, age) — only state what is
@@ -209,7 +231,27 @@ RULES:
   3. Use print() for every result.
   4. If execution fails, fix and retry immediately.
   5. For data that needs saving as CSV, print as json.dumps(rows).
-  6. Never use placeholders or '...' in code.\
+  6. Never use placeholders or '...' in code.
+
+LARGE DATA GENERATION RULES — CRITICAL:
+  When asked to generate N rows of data (e.g. 100 cricketers, 50 products):
+
+  RULE A — Never hardcode large lists. Always generate programmatically:
+    WRONG: data = [{"name": "Player1"}, {"name": "Player2"}, ...]
+    RIGHT: Use loops + faker/random to build ALL N rows in code.
+
+  RULE B — Use faker for bulk name/text generation:
+    from faker import Faker; fake = Faker()
+    Seed 10-20 real known names, fill the rest with fake.name().
+    Generate all numeric fields with random.randint() within realistic ranges.
+
+  RULE C — Verify count before finishing:
+    Always print(f"Total rows: {len(rows)}")
+    If count != N, fix the loop and re-run.
+
+  RULE D — Never truncate output:
+    Use json.dumps(rows) or write directly to file — never print row by row.
+    Output must contain ALL N rows, not a sample.
 """,
         model_client=model_client,
         tools=[execute_python_script],
