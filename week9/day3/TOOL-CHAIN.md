@@ -64,7 +64,7 @@ Tools:
 - append_file(file_path, content) — appends to an existing file
 - list_files(directory) — lists files in a folder
 
-**Key behaviours:**
+Key behaviours:
 
 1) write_csv() handles list of dicts, list of lists, and JSON strings
 2) Parent directories are created automatically

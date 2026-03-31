@@ -14,5 +14,6 @@ def get_answer_agent(model_client: ChatCompletionClient) -> AssistantAgent:
             "addresses the user's original query."
         ),
         model_client=model_client,
+        model_client_stream=True,
         model_context=BufferedChatCompletionContext(buffer_size=10)
     )

@@ -13,5 +13,6 @@ def get_research_agent(model_client: ChatCompletionClient) -> AssistantAgent:
             "Output pure informational content to be processed by the next agent."
         ),
         model_client=model_client,
+        model_client_stream=True,
         model_context=BufferedChatCompletionContext(buffer_size=10)
     )

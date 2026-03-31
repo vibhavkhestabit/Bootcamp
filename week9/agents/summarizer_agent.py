@@ -13,5 +13,6 @@ def get_summarizer_agent(model_client: ChatCompletionClient) -> AssistantAgent:
             "Do not add any external information that was not explicitly provided by the Research_Agent."
         ),
         model_client=model_client,
+        model_client_stream=True,
         model_context=BufferedChatCompletionContext(buffer_size=10)
     )
