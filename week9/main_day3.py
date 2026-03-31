@@ -72,6 +72,12 @@ DB INSERT RULE — CRITICAL:
   WRONG:
     "Insert the 10 entries into Vibhav table in Vibhav.db" ← Agent may stop if table doesn't exist yet
 
+APPEND RULE:
+  When user says "append" or "add more rows" to an existing table:
+  → DB step task must say "INSERT without specifying the PRIMARY KEY
+    so SQLite auto-increments correctly from existing max ID."
+  → Never include CREATE TABLE DROP or replace logic for append tasks.
+
 DB EXPORT RULE — CRITICAL:
   When a DB query step is followed by a FILE step that exports data, the DB step task MUST explicitly say "return ALL rows as a formatted table".
   The FILE agent needs actual data rows — NOT a confirmation like "[execute_sql OK]".

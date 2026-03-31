@@ -5,7 +5,7 @@ from autogen_core.models import ChatCompletionClient
 
 #  Tool functions
 
-def inspect_schema(db_path: str = "database.db") -> str:
+def inspect_schema(db_path: str) -> str:
     """
     Return full schema of all user tables: columns, types, and sample rows.
     Always call this before writing SQL so you know the exact column names.
@@ -54,7 +54,7 @@ def inspect_schema(db_path: str = "database.db") -> str:
         return f"[inspect_schema ERROR] {e}"
 
 
-def execute_sql(query: str, db_path: str = "database.db") -> str:
+def execute_sql(query: str, db_path: str) -> str:
     """
     Execute a SQL query and return formatted results.
     Always call inspect_schema() first to know column names.
@@ -65,7 +65,7 @@ def execute_sql(query: str, db_path: str = "database.db") -> str:
             cur = conn.cursor()
 
             # Multi-statement scripts (not SELECT)
-            if ";" in query and not query.strip().upper().startswith("SELECT"):
+            if ";" in query and not query.strip().upper().startswith(("SELECT", "PRAGMA", "WITH")):
                 cur.executescript(query)
                 conn.commit()
                 # Verify actual row counts after INSERT
@@ -131,6 +131,21 @@ RULES:
   4. SQLite does NOT support CREATE DATABASE — create a table instead.
   5. After inserting rows, ALWAYS verify row count.
      If row count is 0, the insert failed — retry with corrected SQL.
+
+     APPEND RULE — CRITICAL:
+  When task says "append", "add more", or "insert more rows":
+  → NEVER use fixed SaleID/ID values — use NULL or omit the PRIMARY KEY
+    so SQLite auto-increments from the last existing value.
+  → After inserting, SELECT COUNT(*) must show original rows + new rows.
+  → If count equals only the new rows, data was lost — report the error.
+
+  CORRECT:
+    INSERT INTO Sales (Date, ProductID, CustomerID, TotalAmount)
+    VALUES ('2024-01-01', 101, 1001, 250.00), ...   ← no SaleID, auto-increments
+
+  WRONG:
+    INSERT INTO Sales VALUES (1, ...), (2, ...) ← conflicts with existing rows
+    
   6. If a query fails, fix the SQL and retry immediately.
 
 EMPTY DATABASE RULE — CRITICAL:
