@@ -114,7 +114,6 @@ def write_csv(file_path: str, rows: list) -> str:
         return f"[write_csv ERROR] {e}"
 
 def append_file(file_path: str, content: str) -> str:
-    """Append content to an existing file (creates it if missing)."""
     try:
         parent = os.path.dirname(file_path)
         if parent:
@@ -126,7 +125,6 @@ def append_file(file_path: str, content: str) -> str:
         return f"[append_file ERROR] {e}"
 
 def list_files(directory: str = ".") -> str:
-    """List all files in a directory (non-recursive)."""
     try:
         entries = os.listdir(directory)
         files   = [e for e in entries if os.path.isfile(os.path.join(directory, e))]

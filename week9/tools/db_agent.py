@@ -4,11 +4,6 @@ from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
 def inspect_schema(db_path: str) -> str:
-    """
-    Return full schema of all user tables: columns, types, and sample rows.
-    Always call this before writing SQL so you know the exact column names.
-    Skips internal sqlite_* tables.
-    """
     try:
         with sqlite3.connect(db_path) as conn:
             conn.row_factory = sqlite3.Row
@@ -52,10 +47,6 @@ def inspect_schema(db_path: str) -> str:
 
 
 def execute_sql(query: str, db_path: str) -> str:
-    """
-    Execute a SQL query and return formatted results.
-    Always call inspect_schema() first to know column names.
-    """
     try:
         with sqlite3.connect(db_path) as conn:
             conn.row_factory = sqlite3.Row
