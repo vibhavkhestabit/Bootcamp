@@ -6,8 +6,6 @@ import os
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
-#  Package name normalisation
-
 IMPORT_TO_PIP = {
     "sklearn":  "scikit-learn",
     "cv2":      "opencv-python",
@@ -60,8 +58,6 @@ def auto_install(code: str) -> str:
         return "All imports already available — no installs needed."
     return f"Installed: {', '.join(installed)}"
 
-#  Core executor
-
 def execute_python_script(code: str) -> str:
     """
     Execute Python code in an isolated subprocess.
@@ -71,8 +67,6 @@ def execute_python_script(code: str) -> str:
     Hard timeout: 30 seconds.
     """
     auto_install(code)
-
-    # Define tmp_path before try so finally block can safely reference it
     tmp_path = None
 
     try:

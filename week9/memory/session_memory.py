@@ -13,18 +13,12 @@ def add_message(role: str, content: str) -> None:
     })
 
 def get_recent(n: int = 5) -> list[dict]:
-    """Return the last n messages from the session."""
     return list(_session[-n:])
 
 def clear() -> None:
-    """Wipe the current session from memory."""
     _session.clear()
 
 def format_for_prompt(n: int = 10) -> str:
-    """
-    Format the last n messages as a readable string
-    suitable for injecting into an agent prompt.
-    """
     recent = get_recent(n)
     if not recent:
         return "No conversation history yet."

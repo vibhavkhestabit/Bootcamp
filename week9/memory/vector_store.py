@@ -1,13 +1,10 @@
 import os
 import json
 import numpy as np
-
-# ── Lazy imports so missing packages give a clear error ──────────
 try:
     import faiss
 except ImportError:
     raise ImportError("Run: pip install faiss-cpu")
-
 try:
     from sentence_transformers import SentenceTransformer
 except ImportError:
@@ -15,10 +12,10 @@ except ImportError:
 
 #  Model + Index
 
-_MODEL_NAME = "all-MiniLM-L6-v2"   # fast, lightweight, 384-dim embeddings
+_MODEL_NAME = "all-MiniLM-L6-v2"   
 _model: SentenceTransformer = None
 _index: faiss.IndexFlatL2   = None
-_metadata: list[dict]       = []     # parallel list to the FAISS index
+_metadata: list[dict]       = []   
 _DIM = 384
 
 def _get_model() -> SentenceTransformer:
@@ -34,26 +31,12 @@ def _get_index() -> faiss.IndexFlatL2:
         _index = faiss.IndexFlatL2(_DIM)
     return _index
 
-
 def _embed(text: str) -> np.ndarray:
-    """Convert text to a normalised float32 embedding vector."""
     model = _get_model()
     vec = model.encode([text], convert_to_numpy=True).astype("float32")
     return vec
 
-#  Public API
-
 def add_memory(text: str, metadata: dict = None) -> int:
-    """
-    Embed text and add it to the FAISS index.
-
-    Args:
-        text     : the text to remember
-        metadata : any extra info to store alongside (e.g. source, timestamp)
-
-    Returns:
-        The index position of the stored memory.
-    """
     from datetime import datetime
 
     vec = _embed(text)
@@ -70,16 +53,6 @@ def add_memory(text: str, metadata: dict = None) -> int:
     return entry["position"]
 
 def search(query: str, k: int = 3) -> list[dict]:
-    """
-    Find the k most semantically similar memories to query.
-
-    Args:
-        query : the search string
-        k     : number of results to return
-
-    Returns:
-        List of dicts with keys: text, metadata, stored_at, distance
-    """
     idx = _get_index()
     if idx.ntotal == 0:
         return []
@@ -99,7 +72,6 @@ def search(query: str, k: int = 3) -> list[dict]:
     return results
 
 def format_results(results: list[dict]) -> str:
-    """Format search results as a string for prompt injection."""
     if not results:
         return "No relevant memories found."
 
@@ -112,16 +84,9 @@ def format_results(results: list[dict]) -> str:
     return "\n".join(lines)
 
 def count() -> int:
-    """Return the number of stored memories."""
     return _get_index().ntotal
 
 def save(directory: str = "memory") -> None:
-    """
-    Persist the FAISS index and metadata to disk.
-
-    Args:
-        directory : folder to save into (created if missing)
-    """
     os.makedirs(directory, exist_ok=True)
     faiss.write_index(_get_index(), os.path.join(directory, "faiss.index"))
     with open(os.path.join(directory, "metadata.json"), "w") as f:
@@ -129,12 +94,6 @@ def save(directory: str = "memory") -> None:
     print(f"[VectorStore] Saved {count()} memories to '{directory}/'")
 
 def load(directory: str = "memory") -> None:
-    """
-    Load a previously saved FAISS index and metadata from disk.
-
-    Args:
-        directory : folder to load from
-    """
     global _index, _metadata
 
     index_path    = os.path.join(directory, "faiss.index")

@@ -3,8 +3,6 @@ import re as _re
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
-#  Tool functions
-
 def inspect_schema(db_path: str) -> str:
     """
     Return full schema of all user tables: columns, types, and sample rows.
@@ -27,7 +25,6 @@ def inspect_schema(db_path: str) -> str:
 
             lines = [f"DATABASE SCHEMA: {db_path}", "=" * 40]
             for table in tables:
-                # Quote table name to handle spaces/special chars safely
                 cur.execute(f'PRAGMA table_info("{table}")')
                 cols = cur.fetchall()
 
@@ -64,11 +61,9 @@ def execute_sql(query: str, db_path: str) -> str:
             conn.row_factory = sqlite3.Row
             cur = conn.cursor()
 
-            # Multi-statement scripts (not SELECT)
             if ";" in query and not query.strip().upper().startswith(("SELECT", "PRAGMA", "WITH")):
                 cur.executescript(query)
                 conn.commit()
-                # Verify actual row counts after INSERT
                 tables = _re.findall(r"INSERT\s+INTO\s+(\w+)", query, _re.IGNORECASE)
                 if tables:
                     counts = []
@@ -103,7 +98,6 @@ def execute_sql(query: str, db_path: str) -> str:
 
     except Exception as e:
         return f"[execute_sql ERROR] {e}"
-
 
 #  Agent builder
 
@@ -145,7 +139,7 @@ RULES:
 
   WRONG:
     INSERT INTO Sales VALUES (1, ...), (2, ...) ← conflicts with existing rows
-    
+
   6. If a query fails, fix the SQL and retry immediately.
 
 EMPTY DATABASE RULE — CRITICAL:

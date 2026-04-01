@@ -13,10 +13,6 @@ def _get_connection() -> sqlite3.Connection:
     return conn
 
 def init_db() -> None:
-    """
-    Create the facts and episodes tables if they don't exist.
-    Call this once at startup.
-    """
     with _get_connection() as conn:
         conn.executescript("""
             CREATE TABLE IF NOT EXISTS facts (
@@ -36,7 +32,7 @@ def init_db() -> None:
         """)
     print(f"[LongTermMemory] Database ready at '{DB_PATH}'")
 
-#  Facts — semantic memory (important things to remember)
+#  Facts — semantic memory 
 
 def store_fact(content: str, source: str = "user", category: str = "general") -> int:
     
@@ -61,7 +57,7 @@ def get_facts(category: str = None) -> list[dict]:
             ).fetchall()
         return [dict(r) for r in rows]
 
-#  Episodes — episodic memory (conversation turns)
+#  Episodes — episodic memory
 
 def store_episode(user_msg: str, agent_reply: str) -> int:
 
@@ -88,7 +84,7 @@ def format_episodes_for_prompt(n: int = 3) -> str:
         return "No past conversations found."
 
     lines = ["--- Past Conversations ---"]
-    for ep in reversed(episodes):   # oldest first for readability
+    for ep in reversed(episodes):   # oldest first 
         lines.append(f"User: {ep['user_msg']}")
         lines.append(f"Agent: {ep['agent_reply']}")
         lines.append("")

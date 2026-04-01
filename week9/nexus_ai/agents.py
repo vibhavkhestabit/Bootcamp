@@ -7,15 +7,7 @@ from tools.code_executor import execute_python_script
 from tools.file_agent    import read_file, write_file, write_csv, append_file, list_files
 from tools.db_agent      import inspect_schema, execute_sql
 
-#  Web Search Tool (DuckDuckGo — no API key required)
-
 def web_search(query: str) -> str:
-    """
-    Search the web for real-time information using DuckDuckGo.
-    No API key required. Returns top 3 results with title, snippet, source.
-    Use this for: weather, news, stock prices, sports, current events,
-    company info, or anything that needs up-to-date data.
-    """
     try:
         try:
             from ddgs import DDGS
@@ -67,9 +59,9 @@ ROUTING RULES:
   - Simple question       → RESEARCHER (end here, no REPORTER)
   - Real-time query       → RESEARCHER (uses web_search tool, no REPORTER)
   - Code task             → PLANNER → CODER → VALIDATOR
-  - Data analysis         → FILE → ANALYST → CRITIC → OPTIMIZER
+  - Data analysis         → FILE → ANALYST → CRITIC → OPTIMIZER → VALIDATOR
   - Architecture/strategy → PLANNER → RESEARCHER → ANALYST
-  - CSV analysis          → FILE → CODER → ANALYST → CRITIC
+  - CSV analysis          → FILE → CODER → ANALYST → CRITIC → VALIDATOR
   - Always include CRITIC + OPTIMIZER for tasks needing quality output
   - VALIDATOR runs for code/technical tasks
 
@@ -89,7 +81,7 @@ THE REFLECTION LOOP RULE (CRITICAL):
   - If VALIDATOR fails or CRITIC finds flaws, the OPTIMIZER must fix it.
   - HOWEVER, the OPTIMIZER cannot be the final step. 
   - ANY time the OPTIMIZER runs, the VERY NEXT STEP must be the VALIDATOR 
-    again to ensure the Optimizer actually fixed the code correctly.
+    again to ensure the Optimizer actually fixed the output correctly, regardless of whether it is code, text, or data analysis."
   - If the second Validation passes, THEN you may use the FILE agent to save.
 
   Example of a secure code-fixing loop:
@@ -124,6 +116,9 @@ FILE ANALYSIS RULE — CRITICAL:
 
   The FILE step task must explicitly say read_file() for EACH file.
 
+CODE FIXING RULE: 
+If the plan involves generating code, running validators, and optimizing based on feedback, you MUST include a final step explicitly instructing the FILE agent to overwrite the physical files on the disk with the final, optimized code.
+
 OUTPUT FORMAT — strict JSON array only, no explanation:
 [
   {"step": 1, "agent": "RESEARCHER", "task": "Search for current weather in Faridabad using web_search tool."},
@@ -148,8 +143,6 @@ Be specific — each step should be actionable, not vague.
 Return your plan as a numbered list with clear headings.
 Include potential failure points and how to handle them.
 
-CODE FIXING RULE: 
-If the plan involves generating code, running validators, and optimizing based on feedback, you MUST include a final step explicitly instructing the FILE agent to overwrite the physical files on the disk with the final, optimized code.
 """,
         model_client=model_client,
     )
@@ -213,7 +206,7 @@ HONESTY RULE:
         tools=[web_search],
     )
 
-#  Coder — Python execution (uses Day 3 tools)
+#  Coder — Python execution 
 
 def get_coder(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(
@@ -351,7 +344,7 @@ If PASS — summarise what was validated successfully.
         model_client=model_client,
     )
 
-#  Reporter — final polished output (only when user asks)
+#  Reporter — final polished output 
 
 def get_reporter(model_client: ChatCompletionClient) -> AssistantAgent:
     return AssistantAgent(

@@ -29,36 +29,29 @@ class DAGOrchestrator:
         print("\n[DAG] Execution Tree Started")
         print(f" ├── User Query: {query}")
         
-        # 1. Planning Phase (Sequential)
         plan_msg = TextMessage(content=query, source="user")
         plan_response = await self.planner_agent.on_messages([plan_msg], cancellation_token=None)
         
-        # Parse the pipe-separated string into a list of tasks
         subtasks = plan_response.chat_message.content.split("|")
         print(f" ├── Planner generated {len(subtasks)} parallel tasks.")
         
-        # 2. Worker Phase (PARALLEL EXECUTION)
         print(f" ├── [Parallel Execution Initiated]")
         worker_coroutines = []
         for i, task in enumerate(subtasks):
             worker = get_worker_agent(self.model_client, worker_id=i+1)
             worker_msg = TextMessage(content=task.strip(), source="planner")
             print(f" │    ├── Worker {i+1} assigned: {task.strip()}")
-            # Add to asyncio event loop without awaiting immediately
             worker_coroutines.append(worker.on_messages([worker_msg], cancellation_token=None))
         
-        # Await all workers simultaneously
         worker_results = await asyncio.gather(*worker_coroutines)
         
         combined_output = "\n\n".join([f"Worker {i+1}: {res.chat_message.content}" for i, res in enumerate(worker_results)])
         print(f" ├── [Parallel Execution Completed]")
         
-        # 3. Reflection Phase (Sequential)
         print(" ├── Reflection Agent synthesizing results...")
         reflect_msg = TextMessage(content=f"Original Query: {query}\n\nWorker Outputs:\n{combined_output}", source="orchestrator")
         reflection_response = await self.reflection_agent.on_messages([reflect_msg], cancellation_token=None)
         
-        # 4. Validator Phase (Sequential)
         print(" ├── Validator Agent checking constraints against original query...")
         
         validation_payload = (

@@ -4,8 +4,6 @@ import statistics
 from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import ChatCompletionClient
 
-#  Tool functions
-
 def read_file(file_path: str) -> str:
     try:
         path_lower = file_path.lower()
@@ -75,7 +73,6 @@ def write_csv(file_path: str, rows: list) -> str:
         if not rows:
             return "[write_csv ERROR] No rows provided."
 
-        # ── Handle JSON string input from Code Agent ──────────────
         if isinstance(rows, str):
             try:
                 rows = _json.loads(rows)
@@ -85,7 +82,6 @@ def write_csv(file_path: str, rows: list) -> str:
         if not rows:
             return "[write_csv ERROR] No rows provided."
 
-        # ── Normalise to list of dicts ────────────────────────────
         if isinstance(rows[0], dict):
             dict_rows = rows
         elif isinstance(rows[0], (list, tuple)):

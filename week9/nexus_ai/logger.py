@@ -10,7 +10,6 @@ _session_id  = datetime.now().strftime("%Y%m%d_%H%M%S")
 _log_file    = os.path.join(LOGS_DIR, f"nexus_{_session_id}.log")
 _trace_file  = os.path.join(LOGS_DIR, "trace.jsonl")
 
-# File logger
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -19,8 +18,6 @@ logging.basicConfig(
     ]
 )
 _logger = logging.getLogger("nexus")
-
-#  Public API
 
 def log_task(task: str) -> None:
     """Log a new user task."""
@@ -62,7 +59,6 @@ def log_agent_result(step: int, agent: str, result: str, success: bool = True) -
         "result": result[:500], "success": success
     })
 
-
 def log_reflection(cycle: int, critic: str, optimizer: str) -> None:
     """Log a Critic → Optimizer reflection cycle."""
     msg = f"[Reflection Cycle {cycle}]"
@@ -73,7 +69,6 @@ def log_reflection(cycle: int, critic: str, optimizer: str) -> None:
         "critic": critic[:300],
         "optimizer": optimizer[:300]
     })
-
 
 def log_memory(event: str, detail: str) -> None:
     """Log a memory operation."""
@@ -105,8 +100,6 @@ def log_session_info() -> dict:
         "log_file":   _log_file,
         "trace_file": _trace_file,
     }
-
-#  Internal tracer
 
 def _trace(event: str, data: dict) -> None:
     """Append a structured JSON event to the trace file."""

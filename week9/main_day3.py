@@ -13,17 +13,14 @@ from tools.code_executor import get_code_agent
 from nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 
 def setup_dummy_data():
-    # Only create sales.csv if it doesn't exist
     if not os.path.exists("sales.csv"):
         with open("sales.csv", "w", encoding="utf-8") as f:
             f.write("id,product,revenue\n1,Widget A,100\n2,Widget B,550\n3,Widget C,300")
         print("[System] Created sales.csv")
 
-    # Only create database.db users table if it doesn't exist
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
     c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, role TEXT)")
-    # Only insert if table is empty
     c.execute("SELECT COUNT(*) FROM users")
     if c.fetchone()[0] == 0:
         c.execute("INSERT INTO users (name, role) VALUES ('Alice', 'Admin'), ('Bob', 'User')")
@@ -118,8 +115,6 @@ def parse_plan(raw: str) -> list:
     print("[Planner] Could not parse plan — defaulting to single CODE step.")
     return [{"step": 1, "agent": "CODE", "task": raw}]
 
-#  Main loop
-
 async def main():
     setup_dummy_data()
     model_client = get_model_client()
@@ -154,7 +149,6 @@ async def main():
             print("[Shutting down]")
             break
 
-        # ── Plan ──────────────────────────────────────────────────
         print("\n[Planner thinking...]")
         planner_resp = await planner.on_messages(
             [TextMessage(content=user_input, source="user")],
@@ -167,8 +161,6 @@ async def main():
         for step in plan:
             print(f"  Step {step['step']} → [{step['agent']}] {step['task'][:80]}...")
 
-        # ── Execute steps in sequence ─────────────────────────────
-        # all_outputs accumulates every step's result so later agents always have full context — not just the last step's output.
         all_outputs = []
 
         for step in plan:

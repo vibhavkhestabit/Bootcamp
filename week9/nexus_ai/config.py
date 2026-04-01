@@ -20,10 +20,8 @@ NEXUS_DB_PATH    = os.path.join(MEMORY_DIR, "nexus.db")
 
 #  Agent Pipeline Configuration
 
-# How many Critic → Optimizer cycles to allow per task
 MAX_REFLECTION_CYCLES = 2
 
-# Max steps the Orchestrator can plan
 MAX_PLAN_STEPS = 10
 
 #  Agent Roster — used by Orchestrator to pick agents

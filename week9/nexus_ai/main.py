@@ -16,8 +16,6 @@ import memory.session_memory   as session
 import memory.long_term_memory as ltm
 import memory.vector_store     as vs
 
-#  Plan parser
-
 def parse_plan(raw: str) -> list:
     raw = re.sub(r"```(?:json)?", "", raw).strip().rstrip("`").strip()
     try:
@@ -37,13 +35,10 @@ def parse_plan(raw: str) -> list:
     print("[Orchestrator] Could not parse plan — defaulting to RESEARCHER.")
     return [{"step": 1, "agent": "RESEARCHER", "task": raw}]
 
-#  Memory helpers
-
 def build_memory_context(user_input: str) -> str:
     """Pull relevant context from all memory layers."""
     sections = []
 
-    # Vector: semantic recall from past sessions
     if vs.count() > 0:
         similar = vs.search(user_input, k=3)
         if similar:
@@ -54,7 +49,6 @@ def build_memory_context(user_input: str) -> str:
     else:
         log_memory("vector_recall", "Empty — no saved index")
 
-    # Long-term: past episodes
     episodes = ltm.format_episodes_for_prompt(n=2)
     if "No past" not in episodes:
         sections.append(episodes)
@@ -62,7 +56,6 @@ def build_memory_context(user_input: str) -> str:
     else:
         log_memory("sqlite_episodes", "Empty — no past episodes")
 
-    # Long-term: stored facts
     facts = ltm.format_facts_for_prompt()
     if "No facts" not in facts:
         sections.append(facts)
@@ -70,8 +63,7 @@ def build_memory_context(user_input: str) -> str:
     else:
         log_memory("sqlite_facts", "Empty — no facts stored")
 
-    # Session: recent conversation
-    history = session.format_for_prompt(n=4)
+    history = session.format_for_prompt(n=10)
     if "No conversation" not in history:
         sections.append(history)
         log_memory("session_ram", "Injected recent session history")
@@ -82,20 +74,12 @@ def build_memory_context(user_input: str) -> str:
         return "\n\n".join(sections) + "\n\n"
     return ""
 
-#  Core pipeline runner
-
 async def run_pipeline(
     user_input: str,
     agents: dict,
     memory_context: str,
 ) -> tuple:
-    """
-    Returns: (final_report, all_outputs, plan)
-    plan is returned so main() can check if REPORTER ran
-    and decide whether to save a .md report file.
-    """
-
-    # ── Orchestrator plans ────────────────────────────────────────
+    
     print("\n[Orchestrator planning...]")
     orch_prompt = (
         f"{memory_context}"
@@ -119,7 +103,6 @@ async def run_pipeline(
 
     log_plan(plan)
 
-    # ── Execute steps in sequence ─────────────────────────────────
     all_outputs = []
     reflection_count = 0
 
@@ -133,16 +116,14 @@ async def run_pipeline(
 
         log_agent_start(step["step"], agent_key, task)
 
-        # ── Build enriched task ───────────────────────────────────
         if all_outputs:
-            # Later steps: inject all previous agent outputs
+
             history = "\n\n".join(all_outputs)
             enriched_task = (
                 f"{task}\n\n"
                 f"--- Outputs from all previous steps ---\n{history}"
             )
         else:
-            # FIRST step: inject memory context directly so the agent actually sees the stored facts/episodes/vector memories
             if memory_context:
                 enriched_task = (
                     f"{task}\n\n"
@@ -152,7 +133,6 @@ async def run_pipeline(
             else:
                 enriched_task = task
 
-        # ── Run agent ─────────────────────────────────────────────
         try:
             resp = await agents[agent_key].on_messages(
                 [TextMessage(content=enriched_task, source="user")],
@@ -162,7 +142,6 @@ async def run_pipeline(
             log_agent_result(step["step"], agent_key, result, success=True)
             all_outputs.append(f"[Step {step['step']} — {agent_key}]\n{result}")
 
-            # ── Reflection cycle: Critic → Optimizer ──────────────
             if agent_key == "CRITIC" and reflection_count < MAX_REFLECTION_CYCLES:
                 critic_output = result
                 pre_critic = all_outputs[-2] if len(all_outputs) >= 2 else ""
@@ -192,7 +171,6 @@ async def run_pipeline(
             all_outputs.append(f"[Step {step['step']} — {agent_key} FAILED]\n{err}")
             print(f"  [Recovery] {agent_key} failed — continuing with remaining steps.")
 
-    # ── Extract final output ──────────────────────────────────────
     final_report = ""
     for output in reversed(all_outputs):
         if "REPORTER" in output:
@@ -202,10 +180,7 @@ async def run_pipeline(
     if not final_report:
         final_report = all_outputs[-1] if all_outputs else "No output generated."
 
-    # Return plan so main() can check if REPORTER ran
     return final_report, all_outputs, plan
-
-#  Report saver
 
 def save_report(task: str, report: str) -> str:
     from datetime import datetime
@@ -259,7 +234,6 @@ async def main():
 
         if not user_input:
             continue
-        # ── Exit ──────────────────────────────────────────────────
         if user_input.lower() in ("exit", "quit", "q"):
             if session_log:
                 print(f"\n[Memory] Saving {len(session_log)} exchanges...")
@@ -276,7 +250,6 @@ async def main():
             print("[NEXUS AI Shutting down]")
             break
 
-        # ── Memory stats ──────────────────────────────────────────
         if user_input.lower() == "memory":
             print("\n── NEXUS Memory Stats ──")
             print(f"  Session tasks  : {len(session_log)}")
@@ -284,7 +257,6 @@ async def main():
             print(f"  Vector index   : {vs.count()} memories")
             continue
 
-        # ── Clear ─────────────────────────────────────────────────
         if user_input.lower() == "clear":
             session.clear()
             session_log.clear()
@@ -292,7 +264,6 @@ async def main():
             print("[Session cleared. Long-term memory untouched.]")
             continue
 
-        # ── Run pipeline ──────────────────────────────────────────
         log_task(user_input)
         session.add_message("user", user_input)
 

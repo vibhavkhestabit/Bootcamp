@@ -9,28 +9,22 @@ import memory.long_term_memory as ltm
 import memory.vector_store     as vs
 from nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 
-#  Memory-aware prompt builder
-
 def build_prompt(user_input: str) -> str:
     sections = []
 
-    # ── Vector memory: semantic recall ────────────────────────────
     similar = vs.search(user_input, k=3)
     if similar:
         sections.append(vs.format_results(similar))
 
-    # ── Long-term: past episodes ──────────────────────────────────
     episodes = ltm.format_episodes_for_prompt(n=3)
     if "No past" not in episodes:
         sections.append(episodes)
 
-    # ── Long-term: stored facts ───────────────────────────────────
     facts = ltm.format_facts_for_prompt()
     if "No facts" not in facts:
         sections.append(facts)
 
-    # ── Session: recent conversation ──────────────────────────────
-    history = session.format_for_prompt(n=6)
+    history = session.format_for_prompt(n=10)
     if "No conversation" not in history:
         sections.append(history)
 
@@ -54,8 +48,6 @@ def extract_facts(user_input: str) -> list[str]:
             return [user_input]
     return []
 
-#  Save session to long-term memory (called only on exit)
-
 def save_session_to_long_term(session_log: list[dict]) -> None:
 
     if not session_log:
@@ -68,26 +60,20 @@ def save_session_to_long_term(session_log: list[dict]) -> None:
         user_msg   = exchange["user"]
         agent_reply = exchange["agent"]
 
-        # Save as episode
         ltm.store_episode(user_msg=user_msg, agent_reply=agent_reply)
 
-        # Save facts if present
         facts = extract_facts(user_msg)
         for fact in facts:
             ltm.store_fact(content=fact, source="user", category="preference")
             print(f"[Memory] Stored fact: '{fact[:60]}'")
 
-        # Save to vector store
         vs.add_memory(
             text=f"User: {user_msg} | Agent: {agent_reply[:200]}",
             metadata={"type": "conversation"},
         )
 
-    # Persist FAISS index to disk
     vs.save(directory="memory")
     print(f"[Memory] Saved to long_term.db and faiss.index successfully.")
-
-#  Main loop
 
 AGENT_SYSTEM = """\
 You are a helpful AI assistant with memory. You remember past conversations
@@ -102,9 +88,8 @@ When memory context is provided above your query, use it to:
 Be concise, helpful, and context-aware.\
 """
 async def main():
-    # ── Initialise all memory layers ─────────────────────────────
     ltm.init_db()
-    vs.load(directory="memory")   # load saved FAISS index if exists
+    vs.load(directory="memory")  
 
     model_client = get_model_client()
 
@@ -118,7 +103,6 @@ async def main():
         )
 
     agent = create_agent()
-    # session_log holds this session's exchanges — saved to long-term on exit
     session_log: list[dict] = []
 
     print("\n=== Day 4: Agent Memory System ===")
@@ -141,13 +125,11 @@ async def main():
         if not user_input:
             continue
 
-        # ── Exit: save session then quit ──────────────────────────
         if user_input.lower() in ("exit", "quit", "q"):
             save_session_to_long_term(session_log)
             print("[Shutting down]")
             break
 
-        # ── Memory stats ──────────────────────────────────────────
         if user_input.lower() == "memory":
             print("\n── Memory Stats ──")
             print(f"Session exchanges : {len(session_log)}")
@@ -156,26 +138,22 @@ async def main():
             print(f"Vector (saved)    : {vs.count()} memories in index")
             continue
 
-        # ── Clear: wipe session RAM only ──────────────────────────
         if user_input.lower() == "clear":
             session.clear()
             session_log.clear()
-            agent = create_agent()   # recreate agent to wipe its internal history
+            agent = create_agent()  
             print("[Session memory cleared. Long-term memory untouched.]")
             print("[Note: This session's conversations will NOT be saved on exit.]")
             continue
 
-        # ── Step 1: Store user message in session RAM ─────────────
         session.add_message("user", user_input)
 
-        # ── Step 2: Build memory-enriched prompt ──────────────────
         enriched_prompt = build_prompt(user_input)
 
         similar_count = len(vs.search(user_input, k=3)) if vs.count() > 0 else 0
         if similar_count > 0:
             print(f"[Memory] Found {similar_count} relevant past memories.")
 
-        # ── Step 3: Run agent ─────────────────────────────────────
         print("[Agent thinking...]\n")
         try:
             resp = await agent.on_messages(
@@ -189,10 +167,8 @@ async def main():
             print(f"[ERROR] {e}")
             reply = f"[ERROR] {e}"
 
-        # ── Step 4: Store reply in session RAM ────────────────────
         session.add_message("assistant", reply)
 
-        # ── Step 5: Add to session log (saved to long-term on exit)
         session_log.append({"user": user_input, "agent": reply})
 
         print("\n" + "─" * 50)
