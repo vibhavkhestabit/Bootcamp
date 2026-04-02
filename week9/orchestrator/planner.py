@@ -27,32 +27,32 @@ class DAGOrchestrator:
 
     async def execute_tree(self, query: str):
         print("\n[DAG] Execution Tree Started")
-        print(f" ├── User Query: {query}")
+        print(f" |--- User Query: {query}")
         
         plan_msg = TextMessage(content=query, source="user")
         plan_response = await self.planner_agent.on_messages([plan_msg], cancellation_token=None)
         
         subtasks = plan_response.chat_message.content.split("|")
-        print(f" ├── Planner generated {len(subtasks)} parallel tasks.")
+        print(f" |--- Planner generated {len(subtasks)} parallel tasks.")
         
-        print(f" ├── [Parallel Execution Initiated]")
+        print(f" |--- [Parallel Execution Initiated]")
         worker_coroutines = []
         for i, task in enumerate(subtasks):
             worker = get_worker_agent(self.model_client, worker_id=i+1)
             worker_msg = TextMessage(content=task.strip(), source="planner")
-            print(f" │    ├── Worker {i+1} assigned: {task.strip()}")
+            print(f" |    |---Worker {i+1} assigned: {task.strip()}")
             worker_coroutines.append(worker.on_messages([worker_msg], cancellation_token=None))
         
         worker_results = await asyncio.gather(*worker_coroutines)
         
         combined_output = "\n\n".join([f"Worker {i+1}: {res.chat_message.content}" for i, res in enumerate(worker_results)])
-        print(f" ├── [Parallel Execution Completed]")
+        print(f" |---[Parallel Execution Completed]")
         
-        print(" ├── Reflection Agent synthesizing results...")
+        print(" |--- Reflection Agent synthesizing results...")
         reflect_msg = TextMessage(content=f"Original Query: {query}\n\nWorker Outputs:\n{combined_output}", source="orchestrator")
         reflection_response = await self.reflection_agent.on_messages([reflect_msg], cancellation_token=None)
         
-        print(" ├── Validator Agent checking constraints against original query...")
+        print(" |--- Validator Agent checking constraints against original query...")
         
         validation_payload = (
             f"Original Query: {query}\n\n"
@@ -62,5 +62,5 @@ class DAGOrchestrator:
         valid_msg = TextMessage(content=validation_payload, source="reflection")
         validator_response = await self.validator_agent.on_messages([valid_msg], cancellation_token=None)
         
-        print(" └── Final Answer Delivered.\n")
+        print(" |___ Final Answer Delivered.\n")
         return validator_response.chat_message.content

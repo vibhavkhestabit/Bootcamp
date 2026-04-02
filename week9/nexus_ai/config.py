@@ -4,7 +4,7 @@ load_dotenv()
 
 #  Model Configuration
 
-ACTIVE_PROVIDER = "gemini"   # "ollama" | "gemini"
+ACTIVE_PROVIDER = "gemini" 
 
 OLLAMA_MODEL    = "qwen2.5"
 OLLAMA_BASE_URL = "http://localhost:11434"

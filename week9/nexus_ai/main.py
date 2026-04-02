@@ -74,6 +74,17 @@ def build_memory_context(user_input: str) -> str:
         return "\n\n".join(sections) + "\n\n"
     return ""
 
+    FACT_KEYWORDS = [
+    "my name is", "i am", "i work", "i like", "i prefer", "remember that", "don't forget", "my goal", "i want to", "i need", "always", "never", "my favourite", "i hate",
+]
+
+def extract_facts(user_input: str) -> list[str]:
+    lowered = user_input.lower()
+    for keyword in FACT_KEYWORDS:
+        if keyword in lowered:
+            return [user_input]
+    return []
+
 async def run_pipeline(
     user_input: str,
     agents: dict,
@@ -239,6 +250,12 @@ async def main():
                 print(f"\n[Memory] Saving {len(session_log)} exchanges...")
                 for exchange in session_log:
                     ltm.store_episode(exchange["task"], exchange["report"][:500])
+                    
+                    facts = extract_facts(exchange["task"])
+                    for fact in facts:
+                        ltm.store_fact(content=fact, source="user", category="preference")
+                        print(f"  [Memory] Stored fact: '{fact[:60]}'")
+
                     vs.add_memory(
                         text=f"Task: {exchange['task']} | Summary: {exchange['report'][:300]}",
                         metadata={"type": "nexus_task"},
