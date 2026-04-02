@@ -16,7 +16,6 @@ IMPORT_TO_PIP = {
     "dateutil": "python-dateutil",
 }
 
-
 def _extract_imports(code: str) -> list:
     pattern = re.compile(
         r'^\s*(?:import|from)\s+([a-zA-Z_][a-zA-Z0-9_]*)', re.MULTILINE
@@ -28,13 +27,7 @@ def _extract_imports(code: str) -> list:
             seen.append(pkg)
     return seen
 
-
 def auto_install(code: str) -> str:
-    """
-    Scan code for imports and pip-install any missing packages.
-    Uses sys.executable so it always installs into the active venv.
-    Returns a summary of what was installed.
-    """
     installed = []
     for name in _extract_imports(code):
         try:
@@ -59,13 +52,6 @@ def auto_install(code: str) -> str:
     return f"Installed: {', '.join(installed)}"
 
 def execute_python_script(code: str) -> str:
-    """
-    Execute Python code in an isolated subprocess.
-
-    Uses sys.executable (always the active venv Python — not a hardcoded 'python3' which may point to a different installation).
-    Auto-installs missing packages before running.
-    Hard timeout: 30 seconds.
-    """
     auto_install(code)
     tmp_path = None
 

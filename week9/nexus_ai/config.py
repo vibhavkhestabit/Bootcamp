@@ -24,7 +24,7 @@ MAX_REFLECTION_CYCLES = 2
 
 MAX_PLAN_STEPS = 10
 
-#  Agent Roster — used by Orchestrator to pick agents
+#  Agent Roster
 
 AGENT_ROSTER = {
     "PLANNER":    "Breaks the task into detailed ordered steps",

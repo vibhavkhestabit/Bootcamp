@@ -1,0 +1,25 @@
+ProductName,StockQuantity,ProductID,Category,Price
+Product_1,73,1,Home & Kitchen,411.41
+Product_2,84,2,Home & Kitchen,239.22
+Product_3,27,3,Toys,339.68
+Product_4,62,4,Clothing,136.59
+Product_5,40,5,Clothing,298.73
+Product_6,2,6,Clothing,478.14
+Product_7,88,7,Toys,249.3
+Product_8,13,8,Home & Kitchen,282.94
+Product_9,96,9,Books,296.31
+Product_10,13,10,Electronics,95.16
+Product_11,40,11,Toys,87.08
+Product_12,79,12,Toys,181.43
+Product_13,5,13,Electronics,496.08
+Product_14,95,14,Home & Kitchen,346.12
+Product_15,18,15,Clothing,147.92
+Product_17,90,17,Clothing,229.59
+Product_18,92,18,Clothing,284.62
+Product_19,86,19,Books,63.6
+Product_20,6,20,Books,462.78
+Product_21,77,21,Clothing,183.89
+Product_22,63,22,Clothing,418.21
+Product_23,12,23,Toys,172.18
+Product_24,64,24,Clothing,445.62
+Product_25,47,25,Toys,419.07

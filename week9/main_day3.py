@@ -12,23 +12,6 @@ from tools.db_agent      import get_db_agent
 from tools.code_executor import get_code_agent
 from nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 
-def setup_dummy_data():
-    if not os.path.exists("sales.csv"):
-        with open("sales.csv", "w", encoding="utf-8") as f:
-            f.write("id,product,revenue\n1,Widget A,100\n2,Widget B,550\n3,Widget C,300")
-        print("[System] Created sales.csv")
-
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-    c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, role TEXT)")
-    c.execute("SELECT COUNT(*) FROM users")
-    if c.fetchone()[0] == 0:
-        c.execute("INSERT INTO users (name, role) VALUES ('Alice', 'Admin'), ('Bob', 'User')")
-        print("[System] Created users table.")
-    conn.commit()
-    conn.close()
-    print("[System] Demo data ready.")
-
 PLANNER_SYSTEM = """\
 You are a task planner for a multi-agent system. Given a user request, break it into an ordered list of steps. Each step must be handled by exactly one agent.
 
@@ -116,7 +99,6 @@ def parse_plan(raw: str) -> list:
     return [{"step": 1, "agent": "CODE", "task": raw}]
 
 async def main():
-    setup_dummy_data()
     model_client = get_model_client()
     planner = AssistantAgent(
         name="Planner_Agent",
