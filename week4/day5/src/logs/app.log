@@ -1,0 +1,428 @@
+2026-01-29T11:29:49.218Z [INFO]: Database connected
+2026-01-29T11:29:49.220Z [INFO]: Middlewares loaded
+2026-01-29T11:29:49.220Z [INFO]: Routes mounted
+2026-01-29T11:29:49.221Z [INFO]: Server started on port 4000
+2026-01-29T12:20:28.585Z [INFO]: Database connected
+2026-01-29T12:20:28.588Z [INFO]: Middlewares loaded
+2026-01-29T12:20:28.588Z [INFO]: Routes mounted
+2026-01-29T12:20:28.591Z [INFO]: Server started on port 4000
+2026-01-29T12:26:41.682Z [INFO]: Database connected
+2026-01-29T12:26:41.686Z [INFO]: Middlewares loaded
+2026-01-29T12:26:41.686Z [INFO]: Routes mounted
+2026-01-29T12:26:41.689Z [INFO]: Server started on port 4000
+2026-01-29T12:27:33.835Z [INFO]: Database connected
+2026-01-29T12:27:33.839Z [INFO]: Middlewares loaded
+2026-01-29T12:27:33.839Z [INFO]: Routes mounted
+2026-01-29T12:27:33.842Z [INFO]: Server started on port 4000
+2026-01-29T14:10:00.704Z [INFO]: Database connected
+2026-01-29T14:11:45.774Z [INFO]: Database connected
+2026-01-29T14:23:27.240Z [INFO]: Database connected
+2026-01-29T14:30:13.121Z [INFO]: Database connected
+2026-01-29T14:30:35.673Z [INFO]: Database connected
+2026-01-30T12:51:28.131Z [INFO]: Database connected
+2026-01-30T12:53:27.169Z [INFO]: Database connected
+2026-01-30T12:54:41.503Z [INFO]: Database connected
+2026-01-30T12:56:31.983Z [INFO]: Database connected
+2026-01-30T13:03:28.541Z [INFO]: Database connected
+2026-01-30T13:04:51.296Z [INFO]: Database connected
+2026-01-30T13:06:22.379Z [INFO]: Database connected
+2026-01-30T13:06:22.384Z [INFO]: Middlewares loaded
+2026-01-30T13:06:22.384Z [INFO]: Routes mounted
+2026-01-30T13:06:22.387Z [INFO]: Server started on port 4000
+2026-01-30T13:15:49.060Z [INFO]: Database connected
+2026-01-30T13:17:11.579Z [INFO]: Database connected
+2026-01-30T13:17:53.150Z [INFO]: Database connected
+2026-01-30T13:19:45.381Z [INFO]: Database connected
+2026-01-30T13:21:51.828Z [INFO]: Database connected
+2026-01-30T13:24:36.383Z [INFO]: Database connected
+2026-01-30T13:25:09.148Z [INFO]: Database connected
+2026-01-30T13:31:43.360Z [INFO]: Database connected
+2026-01-30T13:37:18.813Z [INFO]: Database connected
+2026-01-30T14:14:44.309Z [INFO]: Database connected
+2026-01-30T14:14:44.315Z [INFO]: Server started on port 4000
+2026-01-30T14:19:18.349Z [INFO]: Database connected
+2026-01-30T14:19:18.356Z [INFO]: Server started on port 4000
+2026-01-30T14:23:32.703Z [INFO]: Database connected
+2026-01-30T14:23:32.711Z [INFO]: Server started on port 4000
+2026-01-30T14:24:08.134Z [INFO]: Database connected
+2026-01-30T14:24:08.142Z [INFO]: Server started on port 4000
+2026-01-30T14:25:04.246Z [INFO]: Database connected
+2026-01-30T14:25:11.824Z [INFO]: Database connected
+2026-01-30T14:25:11.830Z [INFO]: Server started on port 4000
+2026-02-02T06:11:10.099Z [INFO]: Database connected
+2026-02-02T06:11:10.102Z [INFO]: Server started on port 4000
+2026-02-02T11:39:51.293Z [INFO]: Database connected
+2026-02-02T11:39:51.296Z [INFO]: Server started on port 4000
+2026-02-02T11:40:17.713Z [INFO]: Database connected
+2026-02-02T11:40:17.716Z [INFO]: Server started on port 4000
+2026-02-03T07:09:10.883Z [INFO]: Database connected
+2026-02-03T07:09:10.887Z [INFO]: Server started on port 4000
+2026-02-03T07:12:43.142Z [INFO]: Database connected
+2026-02-03T07:12:43.146Z [INFO]: Server started on port 4000
+2026-02-03T07:13:21.010Z [INFO]: Database connected
+2026-02-03T07:13:21.014Z [INFO]: Server started on port 4000
+2026-02-03T07:19:59.532Z [INFO]: Database connected
+2026-02-03T07:19:59.536Z [INFO]: Server started on port 4000
+2026-02-03T07:20:32.488Z [INFO]: Database connected
+2026-02-03T07:20:32.493Z [INFO]: Server started on port 4000
+2026-02-03T07:32:04.324Z [INFO]: Database connected
+2026-02-03T07:32:04.328Z [INFO]: Server started on port 4000
+2026-02-03T07:38:25.624Z [INFO]: Database connected
+2026-02-03T07:38:25.628Z [INFO]: Server started on port 4000
+2026-02-03T07:39:42.983Z [INFO]: Database connected
+2026-02-03T07:39:42.987Z [INFO]: Server started on port 4000
+2026-02-03T07:57:32.203Z [INFO]: Database connected
+2026-02-03T07:57:32.207Z [INFO]: Server started on port 4000
+2026-02-03T08:08:31.340Z [INFO]: Database connected
+2026-02-03T08:08:31.344Z [INFO]: Server started on port 4000
+2026-02-03T08:09:41.806Z [INFO]: Database connected
+2026-02-03T08:09:41.810Z [INFO]: Server started on port 4000
+2026-02-03T08:16:05.382Z [INFO]: Database connected
+2026-02-03T08:16:05.387Z [INFO]: Server started on port 4000
+2026-02-03T08:27:56.423Z [INFO]: Database connected
+2026-02-03T08:27:56.428Z [INFO]: Server started on port 4000
+2026-02-03T09:05:53.739Z [INFO]: Database connected
+2026-02-03T09:05:53.743Z [INFO]: Server started on port 4000
+2026-02-03T09:07:25.276Z [INFO]: Database connected
+2026-02-03T09:07:25.280Z [INFO]: Server started on port 4000
+2026-02-03T11:33:48.561Z [INFO]: Database connected
+2026-02-03T11:33:48.566Z [INFO]: Server started on port 4000
+2026-02-03T12:07:54.375Z [INFO]: Database connected
+2026-02-03T12:07:54.384Z [INFO]: Server started on port 4000
+2026-02-03T12:46:44.194Z [INFO]: Database connected
+2026-02-03T12:46:44.198Z [INFO]: Server started on port 4000
+2026-02-03T12:55:10.885Z [INFO]: Database connected
+2026-02-03T12:55:10.889Z [INFO]: Server started on port 4000
+2026-02-03T12:57:00.725Z [INFO]: Database connected
+2026-02-03T12:57:00.729Z [INFO]: Server started on port 4000
+2026-02-03T12:57:45.865Z [INFO]: Database connected
+2026-02-03T12:57:45.873Z [INFO]: Server started on port 4000
+2026-02-03T12:59:14.269Z [INFO]: Database connected
+2026-02-03T12:59:14.273Z [INFO]: Server started on port 4000
+2026-02-03T13:00:15.607Z [INFO]: Database connected
+2026-02-03T13:00:15.612Z [INFO]: Server started on port 4000
+2026-02-03 19:33:57 [INFO]: Database connected
+2026-02-03 19:33:57 [INFO]: Server started on port 4000
+2026-02-03 19:35:06 [ID: d038f88b-a62c-4c70-a93b-a3c0a1ef7326] [INFO]: GET /api/products
+2026-02-03 19:35:06 [ID: d038f88b-a62c-4c70-a93b-a3c0a1ef7326] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-03 19:42:00 [INFO]: Database connected
+2026-02-03 19:42:00 [INFO]: Server started on port 4000
+2026-02-03 19:48:35 [INFO]: Database connected
+2026-02-03 19:48:35 [INFO]: Server started on port 4000
+2026-02-03 19:49:14 [ID: e117a4b1-bb65-4761-be0a-9979b9839d74] [INFO]: GET /api/products
+2026-02-03 19:49:14 [ID: e117a4b1-bb65-4761-be0a-9979b9839d74] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-03 19:53:49 [ID: 204107be-5462-46c3-b86b-faf02f0796bd] [INFO]: GET /api/products
+2026-02-03 19:53:49 [ID: 204107be-5462-46c3-b86b-faf02f0796bd] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-03 19:57:09 [ID: 775bc775-ccdd-484e-8049-e8981b550084] [INFO]: POST /api/products/
+2026-02-03 19:57:10 [ID: 775bc775-ccdd-484e-8049-e8981b550084] [INFO]: Product created: 698205bd34c737a52e9d3fc8 by user: anonymous
+2026-02-03 19:57:10 [INFO]: [Worker] Starting email job 1 for recipient: inventory@store.com
+2026-02-03 19:57:11 [INFO]: [Worker] Email payload delivered for job 1
+2026-02-03 19:57:11 [INFO]: Job 1 (Email) has successfully completed.
+2026-02-04 11:23:46 [INFO]: Database connected
+2026-02-04 11:23:46 [INFO]: Server started on port 4000
+2026-02-04 11:26:14 [ID: 3e4aac80-4dbc-4bb8-99ed-8b09f3c3de80] [INFO]: GET /api/products?search=Laptop&minPrice=500&maxPrice=2000&sort=price:desc
+2026-02-04 11:26:14 [ID: 3e4aac80-4dbc-4bb8-99ed-8b09f3c3de80] [INFO]: Fetching products with query: {"search":"Laptop","minPrice":500,"maxPrice":2000,"sort":"price:desc","page":1,"limit":10,"includeDeleted":false}
+2026-02-04 11:26:15 [ID: 8ed51027-2713-4db7-93ce-30bbddb0d65e] [INFO]: GET /favicon.ico
+2026-02-04 11:26:21 [ID: 0baa27dd-5e81-4502-bcad-3e30aa7e790a] [INFO]: GET /api/products
+2026-02-04 11:26:21 [ID: 0baa27dd-5e81-4502-bcad-3e30aa7e790a] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 11:26:46 [ID: b4fb253a-693f-4ed5-9ab8-f5ffa60bef10] [INFO]: GET /api/products
+2026-02-04 11:26:46 [ID: b4fb253a-693f-4ed5-9ab8-f5ffa60bef10] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 11:53:56 [INFO]: Environment Config loaded from .env.local
+2026-02-04 11:53:56 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 11:53:56 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 11:53:56 [INFO]: Connecting to Database...
+2026-02-04 11:53:58 [INFO]: Database connected
+2026-02-04 11:53:58 [INFO]: Loading Express Application...
+2026-02-04 11:53:58 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 11:53:58 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 11:53:58 [INFO]: Mounting API Routes on /api...
+2026-02-04 11:53:58 [INFO]: Loading Global Error Handler...
+2026-02-04 11:53:58 [INFO]: ✅ Server successfully started on port 4000
+2026-02-04 11:53:58 [INFO]: --- Mode: local ---
+2026-02-04 12:07:31 [ID: 436cae02-91e5-403a-87d8-043c2eccdc5a] [INFO]: GET /api/products
+2026-02-04 12:07:31 [ID: 436cae02-91e5-403a-87d8-043c2eccdc5a] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 12:09:23 [ID: cadfccd9-c852-4a73-ae66-8ec801f01fc3] [INFO]: POST /api/products/
+2026-02-04 12:46:17 [ID: d2321411-6caa-4fd8-b80c-82b82efc0e3d] [INFO]: POST /api/product
+2026-02-04 12:46:53 [ID: a6d66ee3-c415-40b8-87e6-eb774335ab17] [INFO]: POST /api/products
+2026-02-04 12:46:53 [ID: a6d66ee3-c415-40b8-87e6-eb774335ab17] [INFO]: Product created: 6982f26588a57b205ba688d3 by user: anonymous
+2026-02-04 12:46:53 [INFO]: [Worker] Starting email job 2 for recipient: inventory@store.com
+2026-02-04 12:46:55 [INFO]: [Worker] Email payload delivered for job 2
+2026-02-04 12:46:55 [INFO]: Job 2 (Email) has successfully completed.
+2026-02-04 13:21:41 [ID: 8e7f569a-7d49-47a9-8b26-f5ef531bac36] [INFO]: GET /api/products
+2026-02-04 13:21:41 [ID: 8e7f569a-7d49-47a9-8b26-f5ef531bac36] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 13:24:19 [ID: f7fb0d9f-aa91-46e2-abe7-147533d3df47] [INFO]: PUT /api/product/6982f26588a57b205ba688d3
+2026-02-04 13:25:17 [ID: 9242d059-4766-4418-8161-e38a0d93b2f9] [INFO]: PUT /api/product/6982f26588a57b205ba688d3
+2026-02-04 13:25:50 [ID: a751df22-3c2b-4179-94f7-67d6824b878d] [INFO]: GET /api/products
+2026-02-04 13:25:50 [ID: a751df22-3c2b-4179-94f7-67d6824b878d] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 13:26:51 [ID: cfaa004c-88d4-4415-b896-cc9416d4fc17] [INFO]: PATCH /api/product/6982f26588a57b205ba688d3
+2026-02-04 13:26:53 [ID: 172c45f7-d6ed-4989-851a-81a88de6066b] [INFO]: PATCH /api/product/6982f26588a57b205ba688d3
+2026-02-04 13:27:27 [ID: 2b25dd79-df18-4c92-8700-deaadb5e4d09] [INFO]: PUT /api/products/6982f26588a57b205ba688d3
+2026-02-04 13:27:43 [ID: 8b721833-9b18-44fa-ad12-437512474874] [INFO]: PATCH /api/products/6982f26588a57b205ba688d3
+2026-02-04 13:27:44 [ID: 8b721833-9b18-44fa-ad12-437512474874] [INFO]: Product updated: 6982f26588a57b205ba688d3
+2026-02-04 13:28:01 [ID: 84f9fe9b-83bd-46b6-a604-214a6ddc1083] [INFO]: GET /api/products
+2026-02-04 13:28:01 [ID: 84f9fe9b-83bd-46b6-a604-214a6ddc1083] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 13:30:03 [ID: fbfe2d1d-e417-4e26-ae31-a4ac78284412] [INFO]: DELETE /api/product/6981ebda50514fe51113c311
+2026-02-04 13:30:09 [ID: 8cf822fe-f4a2-4ad5-94c4-239dc045dba1] [INFO]: DELETE /api/product/6981ebda50514fe51113c311
+2026-02-04 13:30:15 [ID: bb567bf4-b047-41e2-9316-a1b99bc69df0] [INFO]: DELETE /api/products/6981ebda50514fe51113c311
+2026-02-04 13:30:15 [ID: bb567bf4-b047-41e2-9316-a1b99bc69df0] [WARN]: Product soft-deleted: 6981ebda50514fe51113c311
+2026-02-04 13:30:15 [INFO]: [Worker] Starting email job 3 for recipient: audit@store.com
+2026-02-04 13:30:17 [INFO]: [Worker] Email payload delivered for job 3
+2026-02-04 13:30:17 [INFO]: Job 3 (Email) has successfully completed.
+2026-02-04 13:30:41 [ID: 80bfc459-53e4-48c1-b217-36e0877ad4ed] [INFO]: GET /api/products
+2026-02-04 13:30:41 [ID: 80bfc459-53e4-48c1-b217-36e0877ad4ed] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 13:32:05 [ID: 92deeea8-b01c-45ec-9f1b-45a4017bb6d8] [INFO]: DELETE /api/products/6981eb4950514fe51113c30d
+2026-02-04 13:32:05 [ID: 92deeea8-b01c-45ec-9f1b-45a4017bb6d8] [WARN]: Product soft-deleted: 6981eb4950514fe51113c30d
+2026-02-04 13:32:05 [INFO]: [Worker] Starting email job 4 for recipient: audit@store.com
+2026-02-04 13:32:06 [INFO]: [Worker] Email payload delivered for job 4
+2026-02-04 13:32:06 [INFO]: Job 4 (Email) has successfully completed.
+2026-02-04 13:32:13 [ID: 85b9da23-854e-4244-872d-7e15eaf50457] [INFO]: GET /api/products
+2026-02-04 13:32:13 [ID: 85b9da23-854e-4244-872d-7e15eaf50457] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 13:32:47 [ID: a2707ea2-5240-474a-a731-fd9b361236bc] [INFO]: POST /api/products
+2026-02-04 13:32:48 [ID: a2707ea2-5240-474a-a731-fd9b361236bc] [INFO]: Product created: 6982fd2788a57b205ba688e2 by user: anonymous
+2026-02-04 13:32:48 [INFO]: [Worker] Starting email job 5 for recipient: inventory@store.com
+2026-02-04 13:32:49 [INFO]: [Worker] Email payload delivered for job 5
+2026-02-04 13:32:49 [INFO]: Job 5 (Email) has successfully completed.
+2026-02-04 13:33:17 [ID: eb65d96d-6b92-4191-b179-869d7185a280] [INFO]: POST /api/products
+2026-02-04 13:33:17 [ID: eb65d96d-6b92-4191-b179-869d7185a280] [INFO]: Product created: 6982fd4588a57b205ba688e4 by user: anonymous
+2026-02-04 13:33:17 [INFO]: [Worker] Starting email job 6 for recipient: inventory@store.com
+2026-02-04 13:33:19 [INFO]: [Worker] Email payload delivered for job 6
+2026-02-04 13:33:19 [INFO]: Job 6 (Email) has successfully completed.
+2026-02-04 13:33:22 [ID: 9f469bf5-cff3-4380-a8a5-2f938b6661f3] [INFO]: GET /api/products
+2026-02-04 13:33:22 [ID: 9f469bf5-cff3-4380-a8a5-2f938b6661f3] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 13:35:37 [INFO]: Environment Config loaded from .env.local
+2026-02-04 13:35:37 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 13:35:37 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 13:35:37 [INFO]: Connecting to Database...
+2026-02-04 13:35:42 [INFO]: Database connected
+2026-02-04 13:35:42 [INFO]: Loading Express Application...
+2026-02-04 13:35:42 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 13:35:42 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 13:35:42 [INFO]: Mounting API Routes on /api...
+2026-02-04 13:35:42 [INFO]: Loading Global Error Handler...
+2026-02-04 13:35:42 [INFO]: ✅ Server successfully started on port 4000
+2026-02-04 13:35:42 [INFO]: --- Mode: local ---
+2026-02-04 13:35:48 [ID: 8e98716e-1a49-4f56-8257-f517e6fca3fa] [INFO]: GET /api/products
+2026-02-04 13:35:48 [ID: 8e98716e-1a49-4f56-8257-f517e6fca3fa] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 13:40:08 [INFO]: Environment Config loaded from .env.local
+2026-02-04 13:40:08 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 13:40:08 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 13:40:08 [INFO]: Connecting to Database...
+2026-02-04 13:40:12 [INFO]: Database connected
+2026-02-04 13:40:12 [INFO]: Loading Express Application...
+2026-02-04 13:40:12 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 13:40:12 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 13:40:12 [INFO]: Mounting API Routes on /api...
+2026-02-04 13:40:12 [INFO]: Loading Global Error Handler...
+2026-02-04 13:40:12 [INFO]: ✅ Server successfully started on port 4000
+2026-02-04 13:40:12 [INFO]: --- Mode: local ---
+2026-02-04 14:08:54 [ID: f1c4db86-95d2-431c-80ce-a0399035f4dc] [INFO]: GET /api/products?search=Laptop&minPrice=500&maxPrice=2000&sort=price:desc
+2026-02-04 14:08:54 [ID: f1c4db86-95d2-431c-80ce-a0399035f4dc] [INFO]: Fetching products with query: {"search":"Laptop","minPrice":500,"maxPrice":2000,"sort":"price:desc","page":1,"limit":10,"includeDeleted":false}
+2026-02-04 14:10:56 [ID: 5a4aa7a4-b8c7-453f-909e-77eaf942c2ee] [INFO]: GET /api/products/6981c624763a1aaaa16c2ffe
+2026-02-04 14:11:50 [ID: 3f425781-5660-409a-a62f-f00af979abd7] [INFO]: GET /api/products?minPrice=500
+2026-02-04 14:11:50 [ID: 3f425781-5660-409a-a62f-f00af979abd7] [INFO]: Fetching products with query: {"minPrice":500,"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 14:11:57 [ID: a15017be-199f-4a6c-9d12-a941793f415e] [INFO]: GET /api/products?minPrice=500000
+2026-02-04 14:11:57 [ID: a15017be-199f-4a6c-9d12-a941793f415e] [INFO]: Fetching products with query: {"minPrice":500000,"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 14:12:27 [ID: 8c206771-bf4f-4c65-bbd1-b00314735b55] [INFO]: GET /api/products?minPrice=500000&status=active
+2026-02-04 14:12:27 [ID: 8c206771-bf4f-4c65-bbd1-b00314735b55] [INFO]: Fetching products with query: {"minPrice":500000,"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 14:12:32 [ID: 36e6de09-a5b4-4e30-b823-d3a030087803] [INFO]: GET /api/products?minPrice=500&status=active
+2026-02-04 14:12:32 [ID: 36e6de09-a5b4-4e30-b823-d3a030087803] [INFO]: Fetching products with query: {"minPrice":500,"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 14:12:58 [ID: 86f8f55e-0107-4445-83cd-1214352b980c] [INFO]: GET /api/products?minPrice=500&name=hard
+2026-02-04 14:12:58 [ID: 86f8f55e-0107-4445-83cd-1214352b980c] [INFO]: Fetching products with query: {"minPrice":500,"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 14:13:15 [ID: f6dc5ab4-1a0f-4626-8182-485221590ec4] [INFO]: GET /api/products?minPrice=500&name=Samsung
+2026-02-04 14:13:15 [ID: f6dc5ab4-1a0f-4626-8182-485221590ec4] [INFO]: Fetching products with query: {"minPrice":500,"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 14:13:53 [ID: 158ae898-24f5-442b-a83a-03d2a2d26f37] [INFO]: GET /api/products?minPrice=500&search=Samsung
+2026-02-04 14:13:53 [ID: 158ae898-24f5-442b-a83a-03d2a2d26f37] [INFO]: Fetching products with query: {"minPrice":500,"search":"Samsung","page":1,"limit":10,"includeDeleted":false}
+2026-02-04 15:03:36 [ID: 721d26c6-2b40-4152-8a1f-276d26a85057] [INFO]: GET /api/products?includedDelete=true
+2026-02-04 15:03:36 [ID: 721d26c6-2b40-4152-8a1f-276d26a85057] [INFO]: Fetching products with query: {"page":1,"limit":10,"includeDeleted":false}
+2026-02-04 15:04:24 [ID: 7d290c62-7e67-45ea-83fc-382607652b5b] [INFO]: GET /api/products?includeDeleted=true
+2026-02-04 15:04:24 [ID: 7d290c62-7e67-45ea-83fc-382607652b5b] [INFO]: Fetching products with query: {"includeDeleted":true,"page":1,"limit":10}
+2026-02-04 15:05:31 [ID: e1353e32-ed68-4e40-83c0-9a1ac63e2068] [INFO]: GET /api/products?includeDeleted=true
+2026-02-04 15:05:31 [ID: e1353e32-ed68-4e40-83c0-9a1ac63e2068] [INFO]: Fetching products with query: {"includeDeleted":true,"page":1,"limit":10}
+2026-02-04 15:08:32 [INFO]: Environment Config loaded from .env.local
+2026-02-04 15:08:32 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 15:08:32 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 15:08:32 [INFO]: Connecting to Database...
+2026-02-04 15:08:33 [INFO]: Database connected
+2026-02-04 15:08:33 [INFO]: Loading Express Application...
+2026-02-04 15:08:33 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 15:08:33 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 15:08:33 [INFO]: Mounting API Routes on /api...
+2026-02-04 15:08:33 [INFO]: Loading Global Error Handler...
+2026-02-04 15:08:33 [INFO]: ✅ Server successfully started on port 4000
+2026-02-04 15:08:33 [INFO]: --- Mode: local ---
+2026-02-04 15:08:43 [ID: 40062dfb-b8a4-46f2-b23e-cc71f900f466] [INFO]: GET /api/products?includeDeleted=true
+2026-02-04 15:08:43 [ID: 40062dfb-b8a4-46f2-b23e-cc71f900f466] [INFO]: Fetching products with query: {"includeDeleted":true,"page":1,"limit":10}
+2026-02-04 15:15:03 [INFO]: Environment Config loaded from .env.local
+2026-02-04 15:15:03 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 15:15:03 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 15:15:03 [INFO]: Connecting to Database...
+2026-02-04 15:15:09 [INFO]: Database connected
+2026-02-04 15:15:09 [INFO]: Loading Express Application...
+2026-02-04 15:15:09 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 15:15:09 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 15:15:09 [INFO]: Mounting API Routes on /api...
+2026-02-04 15:15:09 [INFO]: Loading Global Error Handler...
+2026-02-04 15:15:09 [INFO]:  Server successfully started on port 4000
+2026-02-04 15:15:09 [INFO]: --- Mode: local ---
+2026-02-04 15:15:22 [ID: db20cdf9-6a96-43ff-a039-7341ca349f8b] [INFO]: GET /api/products?includeDeleted=true
+2026-02-04 15:15:22 [ID: db20cdf9-6a96-43ff-a039-7341ca349f8b] [INFO]: Fetching products with query: {"includeDeleted":true,"page":1,"limit":10}
+2026-02-04 15:16:43 [INFO]: Environment Config loaded from .env.local
+2026-02-04 15:16:43 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 15:16:43 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 15:16:43 [INFO]: Connecting to Database...
+2026-02-04 15:16:46 [INFO]: Database connected
+2026-02-04 15:16:46 [INFO]: Loading Express Application...
+2026-02-04 15:16:46 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 15:16:46 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 15:16:46 [INFO]: Mounting API Routes on /api...
+2026-02-04 15:16:46 [INFO]: Loading Global Error Handler...
+2026-02-04 15:16:46 [INFO]:  Server successfully started on port 4000
+2026-02-04 15:16:46 [INFO]: --- Mode: local ---
+2026-02-04 15:16:51 [ID: c2a8ad96-5215-4454-8267-4c81bcde098b] [INFO]: GET /api/products?includeDeleted=true
+2026-02-04 15:16:51 [ID: c2a8ad96-5215-4454-8267-4c81bcde098b] [INFO]: Fetching products with query: {"includeDeleted":true,"page":1,"limit":20}
+2026-02-04 15:17:38 [ID: 1a38e156-36db-49f0-88c3-3709001aa0d9] [INFO]: GET /api/products?minPrice=500&search=6982fd2788a57b205ba688e2
+2026-02-04 15:17:38 [ID: 1a38e156-36db-49f0-88c3-3709001aa0d9] [INFO]: Fetching products with query: {"minPrice":500,"search":"6982fd2788a57b205ba688e2","page":1,"limit":20,"includeDeleted":false}
+2026-02-04 15:17:51 [ID: f31e527e-6ebe-454b-a690-0642936f83c9] [INFO]: GET /api/products?minPrice=500&search=Samsung
+2026-02-04 15:17:51 [ID: f31e527e-6ebe-454b-a690-0642936f83c9] [INFO]: Fetching products with query: {"minPrice":500,"search":"Samsung","page":1,"limit":20,"includeDeleted":false}
+2026-02-04 15:20:53 [ID: d4845d38-7ca7-4a40-b56d-f2ef37337858] [INFO]: GET /api/products/6982fd2788a57b205ba688e2
+2026-02-04 15:22:13 [INFO]: Environment Config loaded from .env.local
+2026-02-04 15:22:13 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 15:22:13 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 15:22:13 [INFO]: Connecting to Database...
+2026-02-04 15:22:14 [INFO]: Database connected
+2026-02-04 15:22:14 [INFO]: Loading Express Application...
+2026-02-04 15:22:14 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 15:22:14 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 15:22:14 [INFO]: Mounting API Routes on /api...
+2026-02-04 15:22:14 [INFO]: Loading Global Error Handler...
+2026-02-04 15:22:14 [INFO]:  Server successfully started on port 4000
+2026-02-04 15:22:14 [INFO]: --- Mode: local ---
+2026-02-04 15:22:23 [ID: 1fdb7185-2c7e-4e05-8d79-4cc7ae2bdad5] [INFO]: GET /api/products/6982fd2788a57b205ba688e2
+2026-02-04 15:22:23 [ID: 1fdb7185-2c7e-4e05-8d79-4cc7ae2bdad5] [INFO]: Fetching products with query: {"page":1,"limit":20,"includeDeleted":false}
+2026-02-04 15:22:36 [ID: c93fcf3f-9ea9-4c04-a0a0-ae49f41c96c1] [INFO]: GET /api/products?minPrice=500&search=Samsung
+2026-02-04 15:22:36 [ID: c93fcf3f-9ea9-4c04-a0a0-ae49f41c96c1] [INFO]: Fetching products with query: {"minPrice":500,"search":"Samsung","page":1,"limit":20,"includeDeleted":false}
+2026-02-04 15:24:39 [ID: 36c49d03-e07e-4ffe-91b2-757f87ca8b8b] [INFO]: GET /api/products?includeDeleted=true
+2026-02-04 15:24:39 [ID: 36c49d03-e07e-4ffe-91b2-757f87ca8b8b] [INFO]: Fetching products with query: {"includeDeleted":true,"page":1,"limit":20}
+2026-02-04 15:28:21 [INFO]: Environment Config loaded from .env.local
+2026-02-04 15:28:22 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 15:28:22 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 15:28:22 [INFO]: Connecting to Database...
+2026-02-04 15:28:23 [INFO]: Database connected
+2026-02-04 15:28:23 [INFO]: Loading Express Application...
+2026-02-04 15:28:23 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 15:28:23 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 15:28:23 [INFO]: Mounting API Routes on /api...
+2026-02-04 15:28:23 [INFO]: Loading Global Error Handler...
+2026-02-04 15:28:23 [INFO]:  Server successfully started on port 4000
+2026-02-04 15:28:23 [INFO]: --- Mode: local ---
+2026-02-04 15:28:30 [ID: 95c72ab2-1c59-4bf4-b370-853921c77320] [INFO]: GET /api/products?includeDeleted=true
+2026-02-04 15:28:30 [ID: 95c72ab2-1c59-4bf4-b370-853921c77320] [INFO]: Fetching products with query: {"includeDeleted":true,"page":1,"limit":20}
+2026-02-04 15:32:02 [ID: 43012da1-d79f-4aa9-9f1c-f3da7239c550] [INFO]: POST /api/products
+2026-02-04 15:32:02 [ID: 43012da1-d79f-4aa9-9f1c-f3da7239c550] [INFO]: Product created: 6983191ac890938e3cd955e0 by user: anonymous
+2026-02-04 15:32:02 [INFO]: [Worker] Starting email job 7 for recipient: inventory@store.com
+2026-02-04 15:32:03 [INFO]: [Worker] Email payload delivered for job 7
+2026-02-04 15:32:03 [INFO]: Job 7 (Email) has successfully completed.
+2026-02-04 15:52:34 [INFO]: Environment Config loaded from .env.local
+2026-02-04 15:52:34 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 15:52:35 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 15:52:35 [INFO]: Connecting to Database...
+2026-02-04 15:52:36 [INFO]: Database connected
+2026-02-04 15:52:36 [INFO]: Loading Express Application...
+2026-02-04 15:52:36 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 15:52:36 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 15:52:36 [INFO]: Mounting API Routes on /api...
+2026-02-04 15:52:36 [INFO]: Loading Global Error Handler...
+2026-02-04 15:52:36 [INFO]:  Server successfully started on port 4000
+2026-02-04 15:52:36 [INFO]: --- Mode: local ---
+2026-02-04 16:12:36 [INFO]: Environment Config loaded from .env.local
+2026-02-04 16:12:37 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 16:12:37 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 16:12:37 [INFO]: Connecting to Database...
+2026-02-04 16:12:40 [INFO]: Database connected
+2026-02-04 16:12:40 [INFO]: Loading Express Application...
+2026-02-04 16:12:40 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 16:12:40 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 16:12:40 [INFO]: Mounting API Routes on /api...
+2026-02-04 16:12:40 [INFO]: Loading Global Error Handler...
+2026-02-04 16:12:40 [INFO]:  Server successfully started on port 4000
+2026-02-04 16:12:40 [INFO]: --- Mode: .env.local ---
+2026-02-04 16:13:18 [INFO]: Environment Config loaded from .env.local
+2026-02-04 16:13:19 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 16:13:19 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 16:13:19 [INFO]: Connecting to Database...
+2026-02-04 16:13:20 [INFO]: Database connected
+2026-02-04 16:13:20 [INFO]: Loading Express Application...
+2026-02-04 16:13:20 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 16:13:20 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 16:13:20 [INFO]: Mounting API Routes on /api...
+2026-02-04 16:13:20 [INFO]: Loading Global Error Handler...
+2026-02-04 16:13:20 [INFO]:  Server successfully started on port 4000
+2026-02-04 16:13:20 [INFO]: --- Mode: .env.local ---
+2026-02-04 16:13:38 [INFO]: Environment Config loaded from .env.local
+2026-02-04 16:13:39 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 16:13:39 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 16:13:39 [INFO]: Connecting to Database...
+2026-02-04 16:13:40 [INFO]: Database connected
+2026-02-04 16:13:40 [INFO]: Loading Express Application...
+2026-02-04 16:13:40 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 16:13:40 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 16:13:40 [INFO]: Mounting API Routes on /api...
+2026-02-04 16:13:40 [INFO]: Loading Global Error Handler...
+2026-02-04 16:13:40 [INFO]:  Server successfully started on port 4000
+2026-02-04 16:13:40 [INFO]: --- Mode: .env.local ---
+2026-02-04 16:14:14 [INFO]: Environment Config loaded from .env.local
+2026-02-04 16:14:14 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 16:14:14 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 16:14:14 [INFO]: Connecting to Database...
+2026-02-04 16:14:16 [INFO]: Database connected
+2026-02-04 16:14:16 [INFO]: Loading Express Application...
+2026-02-04 16:14:16 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 16:14:16 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 16:14:16 [INFO]: Mounting API Routes on /api...
+2026-02-04 16:14:16 [INFO]: Loading Global Error Handler...
+2026-02-04 16:14:16 [INFO]:  Server successfully started on port 4000
+2026-02-04 16:14:16 [INFO]: --- Mode: .env.local ---
+2026-02-04 16:19:04 [ID: 35ba4cdf-80c3-4285-85ba-321135f0a871] [INFO]: GET /api/products
+2026-02-04 16:19:04 [ID: 35ba4cdf-80c3-4285-85ba-321135f0a871] [INFO]: Fetching products with query: {"page":1,"limit":20,"includeDeleted":false}
+2026-02-04 16:30:38 [INFO]: Environment Config loaded from .env.local
+2026-02-04 16:30:38 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 16:30:38 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 16:30:38 [INFO]: Connecting to Database...
+2026-02-04 16:30:41 [INFO]: Database connected
+2026-02-04 16:30:41 [INFO]: Loading Express Application...
+2026-02-04 16:30:41 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 16:30:41 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 16:30:41 [INFO]: Mounting API Routes on /api...
+2026-02-04 16:30:41 [INFO]: Loading Global Error Handler...
+2026-02-04 16:30:41 [INFO]:  Server successfully started on port 4000
+2026-02-04 16:30:41 [INFO]: --- Mode: .env.local ---
+2026-02-04 16:30:48 [ID: bdae50a5-ad4f-4b07-b1d5-6bd747285fe4] [INFO]: GET /api/products
+2026-02-04 16:30:48 [ID: bdae50a5-ad4f-4b07-b1d5-6bd747285fe4] [INFO]: Fetching products with query: {"page":1,"limit":20,"includeDeleted":false}
+2026-02-04 16:31:00 [ID: 57086263-3a80-40f1-96ac-8a739b12d6f4] [INFO]: GET /api/products
+2026-02-04 16:31:00 [ID: 57086263-3a80-40f1-96ac-8a739b12d6f4] [INFO]: Fetching products with query: {"page":1,"limit":20,"includeDeleted":false}
+2026-02-04 16:31:10 [ID: a6eab923-91e9-42ab-ba8d-1550dd9b7855] [INFO]: GET /api/products?includeDeleted=true
+2026-02-04 16:31:10 [ID: a6eab923-91e9-42ab-ba8d-1550dd9b7855] [INFO]: Fetching products with query: {"includeDeleted":true,"page":1,"limit":20}
+2026-02-04 16:36:34 [INFO]: Environment Config loaded from .env.local
+2026-02-04 16:36:34 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 16:36:34 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 16:36:34 [INFO]: Connecting to Database...
+2026-02-04 16:36:37 [INFO]: Database connected
+2026-02-04 16:36:37 [INFO]: Loading Express Application...
+2026-02-04 16:36:37 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 16:36:37 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 16:36:37 [INFO]: Mounting API Routes on /api...
+2026-02-04 16:36:37 [INFO]: Loading Global Error Handler...
+2026-02-04 16:36:37 [INFO]:  Server successfully started on port 4000
+2026-02-04 16:36:37 [INFO]: --- Mode: .env.local ---
+2026-02-04 16:43:59 [INFO]: Environment Config loaded from .env.local
+2026-02-04 16:43:59 [INFO]: Redis Configuration initialized for 127.0.0.1:6379
+2026-02-04 16:43:59 [INFO]: --- Backend Boot Sequence Initiated ---
+2026-02-04 16:43:59 [INFO]: Connecting to Database...
+2026-02-04 16:44:02 [INFO]: Database connected
+2026-02-04 16:44:02 [INFO]: Loading Express Application...
+2026-02-04 16:44:02 [INFO]: Initializing Tracing and Request Logging Middlewares...
+2026-02-04 16:44:02 [INFO]: Applying Security Layers (Helmet, CORS, Rate-Limit)...
+2026-02-04 16:44:02 [INFO]: Mounting API Routes on /api...
+2026-02-04 16:44:02 [INFO]: Loading Global Error Handler...
+2026-02-04 16:44:02 [INFO]:  Server successfully started on port 4000
+2026-02-04 16:44:02 [INFO]: --- Mode: .env.local ---
