@@ -46,6 +46,8 @@ Based on the quantization pipeline executed in the Colab environment, the follow
 
 ## Day 3 INT And GGUF Models
 
+Models Cannot be uploaded on git because of size constraints, All running models for GPU Compatibilty(Hugging Face Models) as well as CPU Compatability(GGUF Models) are stored in the drive link shared below.
+
 https://drive.google.com/file/d/1IgeiFkPCVrva1g0FXorsiZFJK9_zQ5yh/view?usp=sharing
 
 ## Output
