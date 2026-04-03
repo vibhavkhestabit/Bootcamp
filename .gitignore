@@ -8,3 +8,4 @@ venv/
 *.safetensors
 model-f16.gguf
 model-q8_0.gguf
+model-q4_0.gguf
