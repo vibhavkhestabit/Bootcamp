@@ -1,7 +1,5 @@
 from datetime import datetime
 
-#  In-memory store
-
 _session: list[dict] = []
 
 def add_message(role: str, content: str) -> None:

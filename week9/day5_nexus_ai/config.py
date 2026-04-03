@@ -1,16 +1,11 @@
 import os
 from dotenv import load_dotenv
-
-# 1. Absolute Pathing Setup (The Enterprise Fix)
-# current_dir gets week9/day5_nexus_ai
 current_dir = os.path.dirname(os.path.abspath(__file__))
-# parent_dir gets week9/
 parent_dir = os.path.dirname(current_dir) 
 
-# Force dotenv to look for the .env file in the root week9 folder
 load_dotenv(os.path.join(parent_dir, ".env"))
 
-# --- Model Configuration ---
+# Model Configuration
 
 ACTIVE_PROVIDER = "gemini" 
 
@@ -20,22 +15,16 @@ OLLAMA_BASE_URL = "http://localhost:11434"
 GEMINI_API_KEY  = os.getenv("GEMINI_API_KEY", "")
 GEMINI_MODEL    = "gemini-3.1-flash-lite-preview"
 
-# --- Paths ---
+# Paths
 
-# Keep logs inside day5_nexus_ai/logs
 LOGS_DIR = os.path.join(current_dir, "logs")
-
-# Point the memory directory to the Day 4 folder we just fixed!
 MEMORY_DIR = os.path.join(parent_dir, "day4", "memory")
 NEXUS_DB_PATH = os.path.join(MEMORY_DIR, "nexus.db")
 
-# --- Agent Pipeline Configuration ---
-
 MAX_REFLECTION_CYCLES = 2
-
 MAX_PLAN_STEPS = 10
 
-# --- Agent Roster ---
+# Agent Roster 
 
 AGENT_ROSTER = {
     "PLANNER":    "Breaks the task into detailed ordered steps",
@@ -48,7 +37,7 @@ AGENT_ROSTER = {
     "REPORTER":   "Formats everything into a polished final report",
 }
 
-# --- Model client factory ---
+# Model client factory
 
 def get_model_client():
     if ACTIVE_PROVIDER == "ollama":

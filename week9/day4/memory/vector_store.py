@@ -1,8 +1,6 @@
 import os
 import json
 import numpy as np
-
-# 1. Absolute Pathing Setup (The Enterprise Fix)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 directory = current_dir
 
@@ -89,9 +87,7 @@ def format_results(results: list[dict]) -> str:
 
 def count() -> int:
     return _get_index().ntotal
-
-# --- The Fixed Save & Load Functions ---
-
+ 
 def save(target_dir: str = directory) -> None:
     os.makedirs(target_dir, exist_ok=True)
     faiss.write_index(_get_index(), os.path.join(target_dir, "faiss.index"))

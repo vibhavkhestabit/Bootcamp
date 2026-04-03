@@ -3,15 +3,12 @@ import json
 import os
 import re
 import sys
-
-# 1. The Enterprise Path Trick: Forces Python to see the 'week9' folder
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
 from autogen_agentchat.messages import TextMessage
 
-# 2. Explicit Imports: Pointing securely to Day 5 files
 from day5_nexus_ai import config
 from day5_nexus_ai.config import get_model_client, MAX_REFLECTION_CYCLES, MAX_PLAN_STEPS
 from day5_nexus_ai.agents import build_all_agents
@@ -20,7 +17,6 @@ from day5_nexus_ai.logger import (
     log_reflection, log_memory, log_error, log_complete, log_session_info
 )
 
-# 3. Memory Imports: Seamlessly pulling from Day 4
 import day4.memory.session_memory   as session
 import day4.memory.long_term_memory as ltm
 import day4.memory.vector_store     as vs
@@ -218,14 +214,12 @@ def save_report(task: str, report: str) -> str:
 
     return report_path
 
-# --- Main loop ---
+# Main loop 
 
 async def main():
     os.makedirs(config.MEMORY_DIR, exist_ok=True)
     os.makedirs(config.LOGS_DIR, exist_ok=True)
     ltm.init_db()
-    
-    # 4. FIX: Removed the directory keyword!
     vs.load() 
 
     model_client = get_model_client()
@@ -272,7 +266,6 @@ async def main():
                         metadata={"type": "nexus_task"},
                     )
                 
-                # 5. FIX: Removed the directory keyword!
                 vs.save()
                 print("[Memory] Saved to long-term memory.")
             else:

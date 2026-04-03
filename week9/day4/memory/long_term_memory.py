@@ -1,8 +1,6 @@
 import sqlite3
 import os
 from datetime import datetime
-
-#  Database setup
 current_dir = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(current_dir, "long_term.db")
 
