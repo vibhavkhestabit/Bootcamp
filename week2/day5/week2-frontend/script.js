@@ -1,25 +1,14 @@
+const pageType = document.body.getAttribute('data-page') || 'home';
 let allProducts = [];
 let cart = JSON.parse(localStorage.getItem("ut_cart")) || [];
 let wishlist = JSON.parse(localStorage.getItem("ut_wishlist")) || [];
-let currentView = "home";
+let currentView = pageType === 'products' ? 'shop-all' : 'home';
 
 const homeSections = [
   { id: "top-rated", title: "Top Rated Picks" },
-  {
-    id: "watches",
-    title: "Vintage Watches",
-    group: ["mens-watches", "womens-watches"],
-  },
-  {
-    id: "shoes",
-    title: "Streetwear Kicks",
-    group: ["mens-shoes", "womens-shoes"],
-  },
-  {
-    id: "beauty",
-    title: "Beauty & Care",
-    group: ["beauty", "fragrances", "skin-care"],
-  },
+  { id: "watches", title: "Vintage Watches", group: ["mens-watches", "womens-watches"] },
+  { id: "shoes", title: "Streetwear Kicks", group: ["mens-shoes", "womens-shoes"] },
+  { id: "beauty", title: "Beauty & Care", group: ["beauty", "fragrances", "skin-care"] },
 ];
 
 const container = document.getElementById("productContainer");
@@ -40,10 +29,19 @@ async function init() {
     const data = await res.json();
     allProducts = data.products;
     populateDropdown(allProducts);
-    loader.classList.add("hidden");
-    switchView("home");
+    if(loader) loader.classList.add("hidden");
+
+    // Check for Category URL Params (e.g. from index.html -> products.html?category=shoes)
+    const urlParams = new URLSearchParams(window.location.search);
+    const cat = urlParams.get('category');
+
+    if (cat) {
+        renderCategory(cat);
+    } else {
+        switchView(currentView);
+    }
   } catch (e) {
-    loader.innerHTML = "Error loading products.";
+    if(loader) loader.innerHTML = "Error loading products.";
   }
 }
 
@@ -53,33 +51,41 @@ function switchView(view) {
   document.getElementById("noResults").classList.add("hidden");
   window.scrollTo(0, 0);
 
-  if (document.getElementById("btn-home"))
-    document.getElementById("btn-home").classList.toggle("active", view === "home");
-  if (document.getElementById("btn-shop"))
-    document.getElementById("btn-shop").classList.toggle("active", view === "shop-all");
+  const btnHome = document.getElementById("btn-home");
+  const btnShop = document.getElementById("btn-shop");
+  if (btnHome) btnHome.classList.toggle("active", view === "home");
+  if (btnShop) btnShop.classList.toggle("active", view === "shop-all");
 
   if (view === "home") {
-    heroSection.classList.remove("hidden");
+    if (heroSection) heroSection.classList.remove("hidden");
     controlsSection.classList.remove("hidden");
     pageTitle.textContent = "Home";
     renderHomeHorizontal();
   } else if (view === "shop-all") {
-    heroSection.classList.add("hidden");
+    if (heroSection) heroSection.classList.add("hidden");
     controlsSection.classList.remove("hidden");
     pageTitle.textContent = "Shop All Categories";
     renderShopAllVertical();
   } else if (view === "cart") {
-    heroSection.classList.add("hidden");
+    if (heroSection) heroSection.classList.add("hidden");
     controlsSection.classList.add("hidden");
     pageTitle.textContent = "Your Bag";
     renderCartPage();
   } else if (view === "wishlist") {
-    heroSection.classList.add("hidden");
+    if (heroSection) heroSection.classList.add("hidden");
     controlsSection.classList.add("hidden");
     pageTitle.textContent = "Your Wishlist";
     renderWishlistPage();
   }
   lucide.createIcons();
+}
+
+function renderCategory(cat) {
+  currentView = 'category';
+  if (heroSection) heroSection.classList.add("hidden");
+  controlsSection.classList.remove("hidden");
+  pageTitle.textContent = cat.replace("-", " ").toUpperCase();
+  renderFlat(allProducts.filter((p) => p.category === cat));
 }
 
 function renderHomeHorizontal() {
@@ -89,9 +95,7 @@ function renderHomeHorizontal() {
       section.id === "top-rated"
         ? [...allProducts].sort((a, b) => b.rating - a.rating).slice(0, 8)
         : allProducts.filter((p) =>
-            section.group
-              ? section.group.includes(p.category)
-              : p.category === section.id
+            section.group ? section.group.includes(p.category) : p.category === section.id
           );
 
     if (sectionProducts.length > 0) {
@@ -124,7 +128,7 @@ function renderWishlistPage() {
     container.innerHTML = `<div style="text-align:center; grid-column: 1/-1; padding: 4rem;">
                     <h2>WISHLIST IS EMPTY</h2>
                     <p style="margin: 1rem 0;">Keep track of your favorites here.</p>
-                    <button onclick="switchView('shop-all')" class="add-btn" style="max-width:200px; margin: 0 auto;">START SHOPPING</button>
+                    <button onclick="window.location.href='products.html'" class="add-btn" style="max-width:200px; margin: 0 auto;">START SHOPPING</button>
                 </div>`;
     return;
   }
@@ -176,16 +180,20 @@ function applyFilters() {
 
   if (search || sort !== "default") {
     let filtered = [...allProducts];
-    if (search)
-      filtered = filtered.filter((p) => p.title.toLowerCase().includes(search));
+    if (search) filtered = filtered.filter((p) => p.title.toLowerCase().includes(search));
     if (sort === "low") filtered.sort((a, b) => a.price - b.price);
     if (sort === "high") filtered.sort((a, b) => b.price - a.price);
     if (sort === "rating") filtered.sort((a, b) => b.rating - a.rating);
 
     renderFlat(filtered);
-    heroSection.classList.add("hidden");
+    if (heroSection) heroSection.classList.add("hidden");
+    controlsSection.classList.remove("hidden");
+    pageTitle.textContent = search ? "SEARCH RESULTS" : "PRODUCTS";
   } else {
-    switchView(currentView);
+    const urlParams = new URLSearchParams(window.location.search);
+    const cat = urlParams.get('category');
+    if (cat) renderCategory(cat);
+    else switchView(pageType === 'products' ? 'shop-all' : 'home');
   }
 }
 
@@ -211,11 +219,14 @@ function populateDropdown(products) {
     const a = document.createElement("a");
     a.className = "dropdown-item";
     a.textContent = cat.replace("-", " ");
-    a.onclick = () => {
-      renderFlat(allProducts.filter((p) => p.category === cat));
-      pageTitle.textContent = cat.toUpperCase();
-      heroSection.classList.add("hidden");
-      window.scrollTo(0, 0);
+    a.onclick = (e) => {
+       e.preventDefault();
+       if (pageType === 'home') {
+           window.location.href = `products.html?category=${cat}`;
+       } else {
+           renderCategory(cat);
+           window.scrollTo(0, 0);
+       }
     };
     categoryDropdown.appendChild(a);
   });
@@ -262,7 +273,7 @@ function updateQty(id, change) {
 
 function renderCartPage() {
   if (cart.length === 0) {
-    container.innerHTML = `<div style="text-align:center; grid-column: 1/-1; padding: 4rem;"><h2>BAG IS EMPTY</h2><button onclick="switchView('shop-all')" class="add-btn" style="max-width:200px; margin:2rem auto;">SHOP NOW</button></div>`;
+    container.innerHTML = `<div style="text-align:center; grid-column: 1/-1; padding: 4rem;"><h2>BAG IS EMPTY</h2><button onclick="window.location.href='products.html'" class="add-btn" style="max-width:200px; margin:2rem auto;">SHOP NOW</button></div>`;
     return;
   }
   let total = 0;
@@ -270,33 +281,29 @@ function renderCartPage() {
   cart.forEach((item) => {
     total += item.price * item.qty;
     cartHTML += `
-                    <div class="cart-page-item">
-                        <img src="${item.thumbnail}" class="cart-page-img">
-                        <div style="flex-grow:1">
-                            <h4 style="margin-bottom: 0.5rem;">${item.title}</h4>
-                            <p style="font-weight: 700; margin-bottom: 1rem;">$${item.price}</p>
-                            <div style="display:flex; align-items:center; gap: 1rem; margin-top: auto;">
-                                <div style="display:flex; align-items:center; border: 1px solid black;">
-                                    <button onclick="updateQty(${item.id}, -1)" style="padding:5px 15px; background: white; border: none; cursor:pointer;">-</button>
-                                    <span style="padding:0 15px; font-weight: 700;">${item.qty}</span>
-                                    <button onclick="updateQty(${item.id}, 1)" style="padding:5px 15px; background: white; border: none; cursor:pointer;">+</button>
-                                </div>
-                                <button onclick="updateQty(${item.id}, -${item.qty})" style="background: none; border: none; text-decoration: underline; font-size: 0.8rem; cursor:pointer; color: #ef4444;">Remove</button>
-                            </div>
-                        </div>
-                    </div>`;
+      <div class="cart-page-item">
+          <img src="${item.thumbnail}" class="cart-page-img">
+          <div style="flex-grow:1">
+              <h4 style="margin-bottom: 0.5rem;">${item.title}</h4>
+              <p style="font-weight: 700; margin-bottom: 1rem;">$${item.price}</p>
+              <div style="display:flex; align-items:center; gap: 1rem; margin-top: auto;">
+                  <div style="display:flex; align-items:center; border: 1px solid black;">
+                      <button onclick="updateQty(${item.id}, -1)" style="padding:5px 15px; background: white; border: none; cursor:pointer;">-</button>
+                      <span style="padding:0 15px; font-weight: 700;">${item.qty}</span>
+                      <button onclick="updateQty(${item.id}, 1)" style="padding:5px 15px; background: white; border: none; cursor:pointer;">+</button>
+                  </div>
+                  <button onclick="updateQty(${item.id}, -${item.qty})" style="background: none; border: none; text-decoration: underline; font-size: 0.8rem; cursor:pointer; color: #ef4444;">Remove</button>
+              </div>
+          </div>
+      </div>`;
   });
   cartHTML += `</div><div class="cart-summary-box">
-                <h3 style="margin-bottom: 1rem;">SUMMARY</h3>
-                <div style="display:flex; justify-content: space-between; margin-bottom: 1rem;"><span>Subtotal</span><span>$${total.toFixed(
-                  2
-                )}</span></div>
-                <div style="display:flex; justify-content: space-between; margin-bottom: 1rem; color: #10b981;"><span>Shipping</span><span>FREE</span></div>
-                <div style="display:flex; justify-content: space-between; padding-top: 1rem; border-top: 2px solid black; font-size: 1.5rem; font-weight: 700;"><span>TOTAL</span><span>$${total.toFixed(
-                  2
-                )}</span></div>
-                <button class="add-btn" style="width:100%; margin-top:2rem;">CHECKOUT</button>
-            </div></div>`;
+        <h3 style="margin-bottom: 1rem;">SUMMARY</h3>
+        <div style="display:flex; justify-content: space-between; margin-bottom: 1rem;"><span>Subtotal</span><span>$${total.toFixed(2)}</span></div>
+        <div style="display:flex; justify-content: space-between; margin-bottom: 1rem; color: #10b981;"><span>Shipping</span><span>FREE</span></div>
+        <div style="display:flex; justify-content: space-between; padding-top: 1rem; border-top: 2px solid black; font-size: 1.5rem; font-weight: 700;"><span>TOTAL</span><span>$${total.toFixed(2)}</span></div>
+        <button class="add-btn" style="width:100%; margin-top:2rem;">CHECKOUT</button>
+    </div></div>`;
   container.innerHTML = cartHTML;
 }
 

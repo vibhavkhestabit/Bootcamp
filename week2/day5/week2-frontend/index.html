@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ULTIMATE THRIFT | Streetwear & Vintage</title>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body data-page="home">
+    <div class="marquee">
+      <p>
+        FREE SHIPPING ON ORDERS OVER $200 /// NEW DROP EVERY FRIDAY /// LIMITED
+        STOCK AVAILABLE /// ULTIMATE THRIFT EXCLUSIVE ///
+      </p>
+    </div>
+
+    <header class="header">
+      <div class="container nav-container">
+        <a href="index.html" class="logo" style="text-decoration:none;"><span>ULTIMATE THRIFT</span></a>
+        
+        <nav class="nav-menu">
+          <div class="nav-item">
+            <a href="products.html" class="nav-link" style="text-decoration:none;">SHOP ALL</a>
+          </div>
+          <div class="nav-item">
+            <div class="nav-link">
+              CATEGORIES <i data-lucide="chevron-down" style="width: 16px"></i>
+            </div>
+            <div id="categoryDropdown" class="dropdown-menu"></div>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link" onclick="switchView('wishlist')">WISHLIST</a>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link" onclick="switchView('cart')">CART</a>
+          </div>
+        </nav>
+        
+        <div class="header-actions">
+          <div class="header-search">
+            <i data-lucide="search" style="width: 18px; color: #666"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="SEARCH..." />
+          </div>
+          <button class="icon-btn" onclick="switchView('wishlist')">
+            <i data-lucide="heart"></i>
+            <span id="wishlistBadge" class="badge hidden">0</span>
+          </button>
+          <button class="icon-btn" onclick="switchView('cart')">
+            <i data-lucide="shopping-bag"></i>
+            <span id="cartBadge" class="badge hidden">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero" id="heroSection">
+      <div class="container">
+        <h1>SEASON ESSENTIALS</h1>
+        <p style="margin-bottom: 2rem; font-weight: 600">
+          CURATED VINTAGE & MODERN STREETWEAR.
+        </p>
+        <div class="filter-bar">
+          <button class="filter-btn active" id="btn-home" onclick="window.location.href='index.html'">HOME</button>
+          <button class="filter-btn" id="btn-shop" onclick="window.location.href='products.html'">SHOP ALL</button>
+        </div>
+      </div>
+    </section>
+
+    <main class="container main-content" id="mainContainer">
+      <div class="controls" id="controlsSection">
+        <span class="section-title" id="pageTitle">Home</span>
+        <select id="sortSelect" class="sort-select">
+          <option value="default">SORT: FEATURED</option>
+          <option value="rating">RATING: Highest Rated</option>
+          <option value="low">PRICE: Lowest - Highest</option>
+          <option value="high">PRICE: Highest - Lowest</option>
+        </select>
+      </div>
+
+      <div id="loader" class="loader"></div>
+      <div id="productContainer"></div>
+      <div id="noResults" class="hidden" style="text-align: center; padding: 4rem">NO ITEMS FOUND.</div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <h4 class="footer-title">ULTIMATE THRIFT</h4>
+        <p>Curating the best streetwear and vintage fashion since 2026.</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: #666">
+          Contact: vibhav.khaneja@hestabit.in | 8130907023 | Role: Trainee Software Engineer
+        </p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -3,20 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ULTIMATE THRIFT | Streetwear & Vintage</title>
+    <title>Shop All | ULTIMATE THRIFT</title>
     
-    <!-- External Dependencies -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    
-    <!-- Link to CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body>
+  <body data-page="products">
     <div class="marquee">
       <p>
         FREE SHIPPING ON ORDERS OVER $200 /// NEW DROP EVERY FRIDAY /// LIMITED
@@ -26,12 +20,11 @@
 
     <header class="header">
       <div class="container nav-container">
-        <!-- onclick calls window.switchView -->
-        <a class="logo" onclick="switchView('home')"><span>ULTIMATE THRIFT</span></a>
+        <a href="index.html" class="logo" style="text-decoration:none;"><span>ULTIMATE THRIFT</span></a>
         
         <nav class="nav-menu">
           <div class="nav-item">
-            <a class="nav-link" onclick="switchView('shop-all')">SHOP ALL</a>
+            <a href="products.html" class="nav-link" style="text-decoration:none;">SHOP ALL</a>
           </div>
           <div class="nav-item">
             <div class="nav-link">
@@ -50,12 +43,7 @@
         <div class="header-actions">
           <div class="header-search">
             <i data-lucide="search" style="width: 18px; color: #666"></i>
-            <input
-              type="text"
-              id="searchInput"
-              class="search-input"
-              placeholder="SEARCH..."
-            />
+            <input type="text" id="searchInput" class="search-input" placeholder="SEARCH..." />
           </div>
           <button class="icon-btn" onclick="switchView('wishlist')">
             <i data-lucide="heart"></i>
@@ -69,34 +57,9 @@
       </div>
     </header>
 
-    <section class="hero" id="heroSection">
-      <div class="container">
-        <h1>SEASON ESSENTIALS</h1>
-        <p style="margin-bottom: 2rem; font-weight: 600">
-          CURATED VINTAGE & MODERN STREETWEAR.
-        </p>
-        <div class="filter-bar">
-          <button
-            class="filter-btn active"
-            id="btn-home"
-            onclick="switchView('home')"
-          >
-            HOME
-          </button>
-          <button
-            class="filter-btn"
-            id="btn-shop"
-            onclick="switchView('shop-all')"
-          >
-            SHOP ALL
-          </button>
-        </div>
-      </div>
-    </section>
-
     <main class="container main-content" id="mainContainer">
       <div class="controls" id="controlsSection">
-        <span class="section-title" id="pageTitle">Home</span>
+        <span class="section-title" id="pageTitle">Shop All Categories</span>
         <select id="sortSelect" class="sort-select">
           <option value="default">SORT: FEATURED</option>
           <option value="rating">RATING: Highest Rated</option>
@@ -107,13 +70,7 @@
 
       <div id="loader" class="loader"></div>
       <div id="productContainer"></div>
-      <div
-        id="noResults"
-        class="hidden"
-        style="text-align: center; padding: 4rem"
-      >
-        NO ITEMS FOUND.
-      </div>
+      <div id="noResults" class="hidden" style="text-align: center; padding: 4rem">NO ITEMS FOUND.</div>
     </main>
 
     <footer class="footer">
