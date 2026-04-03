@@ -1,0 +1,465 @@
+[
+    {
+        "timestamp": "2026-02-24T19:51:46.035107",
+        "endpoint": "/ask-sql",
+        "user_query": "How many total customers are in the dataset?",
+        "ai_response": "There are 100 customers in the dataset.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T11:39:28.279771",
+        "endpoint": "/ask",
+        "user_query": "tell me about the product: aurora driver",
+        "ai_response": "The Aurora Driver is a comprehensive self-driving technology platform developed by Aurora Innovation, designed to enable vehicles to operate autonomously without human intervention.\n\nKey components and features include:\n*   **Full-Stack Solution:** A complete hardware and software system, encompassing sensors, software, and a powerful computing platform.\n*   **Sensor Suite:** Utilizes lidar (including their proprietary FirstLight lidar), radar, and cameras for 360-degree environmental perception in various conditions.\n*   **AI and Machine Learning:** Advanced algorithms process sensor data, predict road user behavior, and make driving decisions.\n*   **Safety-First:** Developed with a strong emphasis on achieving a high level of safety.\n\nThe Aurora Driver is primarily applied in two product areas:\n*   **Aurora Horizon:** For autonomous long-haul trucking.\n*   **Aurora Connect:** For autonomous ride-hailing services.\n\nAurora partners with vehicle manufacturers like Volvo and PACCAR to integrate this technology into purpose-built autonomous vehicles.",
+        "confidence_score": 0
+    },
+    {
+        "timestamp": "2026-02-25T11:45:24.226406",
+        "endpoint": "/ask",
+        "user_query": "tell me about the product: aurora driver",
+        "ai_response": "The Aurora Driver is a comprehensive product developed by Aurora Innovation, consisting of hardware, software, and services. It is designed to enable safe, cost-efficient, and high-uptime autonomous driving services.\n\nKey aspects of the Aurora Driver include:\n*   **Platform Design:** It is based on a common driver platform that can integrate with various vehicle makes, models, and classes to serve multiple commercial applications.\n*   **Components:** It is an advanced and scalable suite of self-driving hardware, software, and data services.\n*   **Customer Access:** Customers who subscribe to the Aurora Driver receive access to:\n    *   Aurora Driver hardware and software for safe and efficient autonomous operation of self-driving fleets.\n    *   Updates to the Aurora Driver, including map and software updates.\n    *   Aurora Beacon, an interface for efficient dispatch, deployment, and fleet monitoring.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T11:46:01.404747",
+        "endpoint": "/ask-image",
+        "user_query": "Moon",
+        "ai_response": "The moon.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T11:50:34.920046",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "Here are the top matching images from your database:\n1. File: moon.jpeg (Caption: the moon is seen in this image)\n2. File: just_image_image29(1).jpeg.jpg (Caption: the moon and the earth)\n3. File: just_image_26171394-0-image-a-49_1584634275032.jpg.jpg (Caption: the moon is seen in this image taken from the sky)\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T12:05:20.070062",
+        "endpoint": "/ask",
+        "user_query": "stock based compensation",
+        "ai_response": "Text RAG Execution Failed: Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 39.44051577s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '39s'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:09:03.918910",
+        "endpoint": "/ask",
+        "user_query": "stock based compensation",
+        "ai_response": "Text RAG Execution Failed: Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 32.283292825s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '32s'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:14:21.773910",
+        "endpoint": "/ask-sql",
+        "user_query": "Customers first name having s anyhwere in name and last name starting from a",
+        "ai_response": "SQL Execution Failed: Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 37.356722826s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '37s'}]}}",
+        "confidence_score": "Bypassed (API Limits)"
+    },
+    {
+        "timestamp": "2026-02-25T12:18:46.995602",
+        "endpoint": "/ask-sql",
+        "user_query": "Customers first name having s anyhwere in name and last name starting from a",
+        "ai_response": "SQL Execution Failed: Error calling model 'gemini-2.0-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\\nPlease retry in 48.561457753s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '48s'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:24:46.956880",
+        "endpoint": "/ask",
+        "user_query": "tell about doc",
+        "ai_response": "Text RAG Execution Failed: Error calling model 'gemini-1.5-flash' (NOT_FOUND): 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:30:31.516407",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "Vision Search Failed: Error calling model 'gemini-2.5-flash' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T12:36:16.197877",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "The moon is seen in this image.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T12:38:04.130864",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "Here are the top matching images from your database:\n1. File: moon.jpeg (Caption: the moon is seen in this image)\n2. File: just_image_image29(1).jpeg.jpg (Caption: the moon and the earth)\n3. File: just_image_26171394-0-image-a-49_1584634275032.jpg.jpg (Caption: the moon is seen in this image taken from the sky)\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T12:38:49.801685",
+        "endpoint": "/ask-sql",
+        "user_query": "customers with first name starting with s and a anywhere in last name",
+        "ai_response": "The query returned 6 customers whose first names start with 'S' and whose last names contain the letter 'a'.",
+        "confidence_score": 67
+    },
+    {
+        "timestamp": "2026-02-25T12:54:23.395564",
+        "endpoint": "/ask-sql",
+        "user_query": "Return customers whose first name starts from s",
+        "ai_response": "The query returned 10 customers whose first names begin with the letter 'S'.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T13:24:54.640819",
+        "endpoint": "/ask-sql",
+        "user_query": "Return customers with first name starting with A",
+        "ai_response": "The query returned 5 customers whose first names begin with the letter 'A'.\n\n**Extracted Database Records:**\n- (6, '2d08FB17EE273F4', 'Aimee', 'Downs', 'Steele Group', 'Chavezborough', 'Bosnia and Herzegovina', '(283)437-3886x88321', '999-728-1637', 'louis27@gilbert.com', '2020-02-25', 'http://www.berger.net/')\n- (71, 'CBCd2Ac8E3eBDF9', 'Alexandria', 'Buck', 'Keller-Coffey', 'Nicolasfort', 'Iran', '078-900-4760x76668', '414-112-8700x68751', 'lee48@manning.com', '2021-02-20', 'https://ramsey.org/')\n- (74, 'A3F76Be153Df4a3', 'Anita', 'Benson', 'Parrish Ltd', 'Skinnerport', 'Russian Federation', '874.617.5668x69878', '(399)820-6418x0071', 'angie04@oconnell.com', '2020-02-09', 'http://oconnor.com/')\n- (80, 'A7F85c1DE4dB87f', 'Alejandro', 'Blair', 'Combs, Waller and Durham', 'Thomasland', 'Iceland', '(690)068-4641x51468', '555.509.8691x2329', 'elizabethbarr@ewing.com', '2020-09-19', 'https://mercado-blevins.com/')\n- (88, 'E4Bbcd8AD81fC5f', 'Alison', 'Vargas', 'Vaughn, Watts and Leach', 'East Cristinabury', 'Benin', '365-273-8144', '053-308-7653x6287', 'vcantu@norton.com', '2020-11-10', 'http://mason.info/')\n",
+        "confidence_score": 90
+    },
+    {
+        "timestamp": "2026-02-25T13:45:07.688313",
+        "endpoint": "/ask-sql",
+        "user_query": "customers with first name starting with a in descending order",
+        "ai_response": "The query returned 5 customers whose first names start with 'A', ordered alphabetically in descending order.\n\n**Extracted Database Records:**\n- (74, 'A3F76Be153Df4a3', 'Anita', 'Benson', 'Parrish Ltd', 'Skinnerport', 'Russian Federation', '874.617.5668x69878', '(399)820-6418x0071', 'angie04@oconnell.com', '2020-02-09', 'http://oconnor.com/')\n- (88, 'E4Bbcd8AD81fC5f', 'Alison', 'Vargas', 'Vaughn, Watts and Leach', 'East Cristinabury', 'Benin', '365-273-8144', '053-308-7653x6287', 'vcantu@norton.com', '2020-11-10', 'http://mason.info/')\n- (71, 'CBCd2Ac8E3eBDF9', 'Alexandria', 'Buck', 'Keller-Coffey', 'Nicolasfort', 'Iran', '078-900-4760x76668', '414-112-8700x68751', 'lee48@manning.com', '2021-02-20', 'https://ramsey.org/')\n- (80, 'A7F85c1DE4dB87f', 'Alejandro', 'Blair', 'Combs, Waller and Durham', 'Thomasland', 'Iceland', '(690)068-4641x51468', '555.509.8691x2329', 'elizabethbarr@ewing.com', '2020-09-19', 'https://mercado-blevins.com/')\n- (6, '2d08FB17EE273F4', 'Aimee', 'Downs', 'Steele Group', 'Chavezborough', 'Bosnia and Herzegovina', '(283)437-3886x88321', '999-728-1637', 'louis27@gilbert.com', '2020-02-25', 'http://www.berger.net/')\n",
+        "confidence_score": 90
+    },
+    {
+        "timestamp": "2026-02-25T13:46:32.067099",
+        "endpoint": "/ask-sql",
+        "user_query": "customers with name startig with letter a in descending order",
+        "ai_response": "The query returned 8 customers whose first or last names start with 'A', ordered by first name in descending order.",
+        "confidence_score": 50
+    },
+    {
+        "timestamp": "2026-02-25T13:49:34.955543",
+        "endpoint": "/ask-sql",
+        "user_query": "return customers with first name starting with A in descending order",
+        "ai_response": "The following customers have first names starting with 'A', listed in descending order:\n\n*   **Alice**\n*   **Andrew**\n*   **Anna**\n*   **Arthur**\n*   **Amy**",
+        "confidence_score": 50
+    },
+    {
+        "timestamp": "2026-02-25T13:49:49.497480",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": "Here are the top matching images from your database:\n1. File: images.jpeg (Caption: a cat sitting on a wall)\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg (Caption: a cat with blue eyes is looking at the camera)\n3. File: kitten-lying-in-blanket.jpg (Caption: a kitten is laying on a bed)\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T13:51:18.994942",
+        "endpoint": "/ask-sql",
+        "user_query": "Count the total customers with first name starting from A",
+        "ai_response": "There are 5 customers whose first name starts with the letter 'A'.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T13:59:00.620168",
+        "endpoint": "/ask-image",
+        "user_query": "pie-chart",
+        "ai_response": "Here are the top matching images from your database:\n1. File: pie_chart_images233.jpg.jpg (Caption: a pie chart with the percentage of digital marketing)\n2. File: bar_chart_image12 (3).png.jpg (Caption: a bar chart showing the percentage of people who have been on the internet)\n3. File: flow_chart_images459.jpg.jpg (Caption: a flow diagram with a block diagram)\n",
+        "confidence_score": 90
+    },
+    {
+        "timestamp": "2026-02-25T14:07:34.675455",
+        "endpoint": "/ask-image",
+        "user_query": "pie-chart",
+        "ai_response": "Here are the top matching images from your database:\n1. File: pie_chart_images233.jpg.jpg\n   - Caption: a pie chart with the percentage of digital marketing\n   - OCR: \u2018ig marketing stategy?\n\n2. File: bar_chart_image12 (3).png.jpg\n   - Caption: a bar chart showing the percentage of people who have been on the internet\n   - OCR: \u2014\u2014\n\n3. File: flow_chart_images459.jpg.jpg\n   - Caption: a flow diagram with a block diagram\n   - OCR: ney\n\n\u2018i\n\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T14:08:15.431106",
+        "endpoint": "/ask",
+        "user_query": "stock based compensation",
+        "ai_response": "Stock-based compensation is measured using the fair value based method on the grant date. Restricted stock units (RSUs) are measured based on the fair value of the Company\u2019s publicly traded common stock, while stock options are measured using a Black-Scholes option pricing model. For awards with only service conditions, the compensation is recognized on a straight-line basis over the requisite service period (generally the vesting period). For awards with service and performance conditions, it is recognized on a graded-vesting basis over the requisite service period. No income tax benefits have been recognized in the statement of operations for stock-based compensation arrangements, and no stock-based compensation has been capitalized as of December 31, 2022.",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T14:40:04.194731",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": "Here are the top matching images from your database:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T14:40:48.593816",
+        "endpoint": "/ask-image",
+        "user_query": "images(1).jpeg",
+        "ai_response": "Here are the top matching images from your database:\n1. File: waterfall.png\n   - Caption: the water is blue\n   - OCR: \n\n2. File: flow_chart_images459.jpg.jpg\n   - Caption: a flow diagram with a block diagram\n   - OCR: ney\n\n\u2018i\n\n3. File: just_image_black-white-photography-people-pictures-4.jpg.jpg\n   - Caption: a young boy looks at the camera\n   - OCR: \n\n",
+        "confidence_score": 100
+    },
+    {
+        "timestamp": "2026-02-25T14:42:30.232125",
+        "endpoint": "/ask-image",
+        "user_query": "/home/vibhavkhaneja/training/week7/src/data/images/images (1).jpeg",
+        "ai_response": "Here are the top matching images from your database:\n1. File: images (1).jpeg\n   - Caption: a full moon with a white background\n   - OCR: \n\n2. File: just_image_image30(1).jpeg.jpg\n   - Caption: a full moon wall sticker\n   - OCR: \n\n3. File: just_image_image29(1).jpeg.jpg\n   - Caption: the moon and the earth\n   - OCR: \n\n",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T14:48:39.885141",
+        "endpoint": "/ask-sql",
+        "user_query": "Customers with A in first name in descending order",
+        "ai_response": "SQL Execution Failed: Error calling model 'gemini-2.5-flash-lite' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite\\nPlease retry in 53.880400331s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash-lite', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '53s'}]}}",
+        "confidence_score": "Skipped (Error)"
+    },
+    {
+        "timestamp": "2026-02-25T16:06:06.168311",
+        "endpoint": "/ask-sql",
+        "user_query": "total customers count",
+        "ai_response": "There are 100 customers in total.",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T16:07:54.508424",
+        "endpoint": "/ask-sql",
+        "user_query": "return customers with first name starting with A in descending order",
+        "ai_response": "The customers with first names starting with 'A', in descending order, are: Anita, Alison, Alexandria, Alejandro, and Aimee.",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T17:00:16.042044",
+        "endpoint": "/ask-sql",
+        "user_query": "Return the names of customers whose first name contain V anywhere",
+        "ai_response": "*   Virginia Dudley\n*   Vernon Kane",
+        "critique": "The original answer incorrectly included a customer whose first name contains a lowercase 'v' instead of the specified uppercase 'V'.",
+        "confidence_score": 60,
+        "faithfulness_status": "Unfaithful"
+    },
+    {
+        "timestamp": "2026-02-25T17:07:25.040188",
+        "endpoint": "/ask-sql",
+        "user_query": "names of customers where first name starts with A in descending order",
+        "ai_response": "Here are the names of customers whose first name starts with 'A', in descending order:\n\n*   Anita Benson\n*   Alison Vargas\n*   Alexandria Buck\n*   Alejandro Blair\n*   Aimee Downs",
+        "critique": "The previous answer accurately lists the customer names in descending alphabetical order based on their first names.",
+        "confidence_score": 50,
+        "faithfulness_status": "Unfaithful"
+    },
+    {
+        "timestamp": "2026-02-25T17:08:06.413729",
+        "endpoint": "/ask-sql",
+        "user_query": "return customers with first name starting with A in descending order",
+        "ai_response": "The customers with first names starting with 'A', in descending order, are: Anita, Alison, Alexandria, Alejandro, and Aimee.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T17:11:27.936584",
+        "endpoint": "/ask-sql",
+        "user_query": "count the customers where first name starts from A",
+        "ai_response": "There are 5 customers whose first name starts with 'A'.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:05:00.496415",
+        "endpoint": "/ask-image",
+        "user_query": "dog",
+        "ai_response": "Based on the image data I have, there's one image that features a dog. It's a picture of an angry chihuahua with its mouth open, and the image also contains the words \"the best dog training.\"\n\nHere are the specific files:\n1. File: just_image_angry_chihuahua.png.jpg\n   - Caption: a dog with its mouth open and the words, ' the best dog training '\n   - OCR: \n\n2. File: just_image_black-white-photography-people-pictures-4.jpg.jpg\n   - Caption: a young boy looks at the camera\n   - OCR: \n\n3. File: waterfall.png\n   - Caption: the water is blue\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:09:50.092079",
+        "endpoint": "/ask-image",
+        "user_query": "dog",
+        "ai_response": "Okay, you searched for 'dog'! Let's take a look at the images we have.\n\nFirst up, we have an image titled **just_image_angry_chihuahua.png.jpg**. This one is definitely relevant to your search, as it shows a dog with its mouth open, and it even has the words 'the best dog training' visible within the image.\n\nNext, we also have **just_image_black-white-photography-people-pictures-4.jpg.jpg**. While this one doesn't feature a dog, it shows a young boy looking directly at the camera, captured in black and white photography.\n\nAnd finally, there's **waterfall.png**. This image displays a beautiful scene where the water is distinctly blue, but no dogs are present in this one either.\n\nSo, out of the three, one image clearly features a dog, while the others show a boy and a blue waterfall!\n\nHere are the specific files:\n1. File: just_image_angry_chihuahua.png.jpg\n   - Caption: a dog with its mouth open and the words, ' the best dog training '\n   - OCR: \n\n2. File: just_image_black-white-photography-people-pictures-4.jpg.jpg\n   - Caption: a young boy looks at the camera\n   - OCR: \n\n3. File: waterfall.png\n   - Caption: the water is blue\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 99,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:20:25.798189",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": "\ud83e\udd16 AI Vision Summary:\nCertainly! You searched for 'cat,' and I found a few images that might interest you.\n\nFirst, there's an image of **a cat sitting on a wall**.\n\nThen, I have a picture of **a cat with striking blue eyes that is looking directly at the camera**.\n\nAnd finally, there's an adorable image of **a kitten lying comfortably on a bed**.\n\n\ud83d\udcc1 Source Files:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:23:16.399889",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": " AI Vision Summary:\nSure, I found some images of cats for you!\n\nThere's a picture of a **cat sitting on a wall**. Another image shows a **cat with striking blue eyes looking directly at the camera**. And finally, I have a photo of a **kitten comfortably lying down on a blanket**, which looks like it might be a bed.\n\n Source Files:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:23:44.662638",
+        "endpoint": "/ask-image",
+        "user_query": "/home/vibhavkhaneja/training/week7/src/data/images/images (1).jpeg",
+        "ai_response": " AI Vision Summary:\nIt looks like you were interested in images related to the moon! I found a few for you.\n\nFirst, there's an image of a **full moon with a white background**.\n\nThen, I have an image that shows a **full moon wall sticker**.\n\nAnd finally, there's a picture depicting **the moon and the earth**.\n\n Source Files:\n1. File: images (1).jpeg\n   - Caption: a full moon with a white background\n   - OCR: \n\n2. File: just_image_image30(1).jpeg.jpg\n   - Caption: a full moon wall sticker\n   - OCR: \n\n3. File: just_image_image29(1).jpeg.jpg\n   - Caption: the moon and the earth\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful"
+    },
+    {
+        "timestamp": "2026-02-25T19:40:42.034599",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": " AI Vision Summary:\nCertainly! You searched for 'cat', and I found a few images that might interest you.\n\nFirst, there's a picture of **a cat sitting on a wall**. It's a straightforward image of a feline perched on a wall.\n\nThen, we have an image titled **just_image__111515733_gettyimages-1208779325.jpg.jpg**. This one features **a cat with striking blue eyes, and it's looking directly at the camera**.\n\nFinally, there's an image named **kitten-lying-in-blanket.jpg**. This image shows **a kitten comfortably laying on a bed**, nestled in a blanket.\n\n Source Files:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-02-25T19:49:16.232020",
+        "endpoint": "/ask",
+        "user_query": "Stock based compensation",
+        "ai_response": "AI Vision Summary:\nI found information regarding stock-based compensation.\n\nThe company measures stock-based compensation using the fair value based method on the grant date. Restricted stock units (RSUs) are valued based on the fair value of the company's publicly traded common stock, while stock options are assessed using a Black-Scholes option pricing model.\n\nStock-based compensation is allocated on a departmental basis according to the classification of the option holder or grant recipient. For the twelve months ended December 31, 2022, no income tax benefits were recognized in the statement of operations for stock-based compensation arrangements, and no stock-based compensation was capitalized as of that date.\n\nThe document also provides a breakdown of total stock-based compensation expense by function in millions.\n\n\ud83d\udcc1 Source Files:\n1. File: /home/vibhavkhaneja/training/week7/src/pipelines/../data/raw/file.pdf - Page: 68\n   - Content: Stock-based Compensation\n     The Company measures stock-based compensation using the fair value based method on the grant date. Restricted stock units (\u201cRSUs\u201d) are measured based on fair value of the\n     Company\u2019s publicly traded common stock, while stock options are measured using a Black-Scholes option pricing model with assumptions including expected term, risk-free\n\n2. File: /home/vibhavkhaneja/training/week7/src/pipelines/../data/raw/file.pdf - Page: 75\n   - Content: the twelve months ended December 31, 2022.\n     Stock-based Compensation Expense\n     Stock-based compensation is allocated on a departmental basis, based on the classification of the option holder or grant recipient. No income tax benefits have been recognized\n     in the statement of operations for stock-based compensation arrangements and no stock-based compensation has been capitalized as of December 31, 2022.\n     Total stock-based compensation expense by function was as follows (in millions):",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-13T12:15:21.481004",
+        "endpoint": "/ask",
+        "user_query": "Some Credit laws",
+        "ai_response": "Here's a summary of information related to credit laws and risks:\n\n*   **Concentration of Credit Risk:**\n    *   The company's financial instruments that potentially subject it to a concentration of credit risk are primarily cash, cash equivalents, and short-term investments.\n    *   Cash and cash equivalents are mainly held at U.S. commercial banks.\n    *   Short-term investments primarily consist of U.S. Treasury securities.\n    *   While cash and cash equivalents deposited with domestic commercial banks often exceed the Federal Deposit Insurance Corporation (FDIC) insurable limit, the company has not experienced any credit losses on these deposits.\n\n*   **Accounting Standards for Credit Losses:**\n    *   The company adopted ASU 2016-13, \"Financial Instruments\u2014Credit Losses (Topic 326): Measurement of Credit Losses on Financial Instruments,\" effective January 1, 2022.\n    *   This standard replaced the previous incurred loss impairment methodology.\n    *   The new model requires the immediate recognition of estimated credit losses expected to occur for most financial assets and certain other instruments.\n    *   The adoption of this standard did not have a material impact on the company.\n\n*   **Anti-Corruption and Anti-Bribery Laws:**\n    *   The company is subject to anti-corruption, anti-bribery, and anti-money laundering laws and regulations in various jurisdictions.\n    *   Examples include the U.S. Foreign Corrupt Practices Act (FCPA) and the U.K. Bribery Act 2010.\n    *   These laws prohibit offering, promising, or providing anything of value to a \"foreign official\" to influence decisions or obtain favorable treatment.\n    *   The FCPA also mandates accurate record-keeping and adequate internal accounting controls for publicly listed companies.\n    *   The company may be held liable for the corrupt or illegal activities of its employees, agents, representatives, business partners, or third-party intermediaries, even if not explicitly authorized.\n    *   Non-compliance with these laws can lead to whistleblower complaints, adverse media coverage, investigations, prosecution, enforcement actions, fines, damages, severe administrative, civil, and criminal sanctions, loss of export privileges, and other negative consequences.",
+        "critique": "The original answer incorrectly conflates information about credit risk concentration with information about anti-corruption and anti-bribery laws, and it fails to present the information in a structured, bulleted format as requested.",
+        "confidence_score": 75,
+        "faithfulness_status": "Unfaithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-13T12:21:20.542215",
+        "endpoint": "/ask",
+        "user_query": "which measures should we take to control them",
+        "ai_response": "To control the risks mentioned, the following measures are recommended:\n\n*   **Internal Control over Financial Reporting:**\n    *   Develop and maintain an effective system of internal control over financial reporting to ensure accurate and timely reporting of financial results.\n    *   Management is responsible for establishing and maintaining adequate internal controls designed to provide reasonable assurance regarding the reliability of financial reporting and the preparation of financial statements in accordance with GAAP.\n    *   Regularly evaluate the effectiveness of internal controls on a quarterly basis and disclose any changes or material weaknesses identified.\n    *   Implement measures to prevent, detect, and correct material misstatements in financial statements in a timely manner.\n    *   Ensure compliance with securities law requirements regarding timely filing of periodic reports and applicable stock exchange listing requirements.\n\n*   **Cybersecurity and Data Protection:**\n    *   Continuously develop and update information technology measures to protect against intellectual property, technology, and materials theft, data breaches, and other cyber incidents.\n    *   Maintain a formal incident response plan.\n    *   Ensure that implemented measures are adequate to detect, prevent, or mitigate cyber incidents.\n    *   Invest in the implementation, maintenance, segregation, and improvement of IT systems, acknowledging the associated costs and management time.\n    *   Address the inherent risks associated with developing, improving, expanding, and updating current systems to avoid disruption of data management, procurement, production, finance, supply chain, and sales and service processes.\n    *   Ensure effective implementation, maintenance, and expansion of systems, including those of third-party vendors or suppliers.\n    *   Protect intellectual property rights and proprietary or competitively sensitive information, technology, or materials.\n    *   Achieve and maintain compliance with applicable laws, regulations, and contracts.\n    *   Have contingency plans in place in case systems do not operate as expected, which may require expending significant resources to make corrections or find alternative sources.\n\n*   **Vehicle System Security (for autonomous vehicles):**\n    *   Implement security measures intended to prevent unauthorized access to information technology networks and systems installed in vehicles.\n    *   Anticipate and implement adequate measures to protect against evolving techniques used to obtain unauthorized access or sabotage systems.\n    *   Address potential legal claims, regulatory inquiries, investigations, proceedings, negative publicity, and harm to reputation resulting from security incidents.\n\n*   **Compliance with Privacy and Data Protection Laws:**\n    *   Ensure compliance with privacy, data protection, and information security requirements in all operating jurisdictions.\n    *   Continuously improve or change policies and operations as legal requirements evolve and remain uncertain.\n    *   Adhere to laws and regulations addressing privacy and the collection, use, storage, disclosure, and transfer of data.\n\n*   **Anti-Corruption and Anti-Bribery Compliance:**\n    *   Ensure compliance with anti-corruption, anti-bribery, and anti-money laundering laws and regulations in various jurisdictions.\n    *   Implement accurate record-keeping and adequate internal accounting controls.\n    *   Train employees, agents, representatives, business partners, and third-party intermediaries on these laws and the company's policies.\n    *   Establish mechanisms to detect and prevent corrupt or illegal activities by these parties.\n\n*   **Tax Law Compliance:**\n    *   Monitor unanticipated changes in effective tax rates, adverse outcomes from tax examinations, changes in tax laws or regulations, and changes in the ability to utilize net operating losses.\n    *   Take proactive measures to mitigate the adverse effects of these tax-related changes on the business, prospects, financial condition, and results of operations.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-13T12:22:27.575184",
+        "endpoint": "/ask-image",
+        "user_query": "cat",
+        "ai_response": " AI Vision Summary:\nCertainly! You searched for 'cat', and I found a few images that might interest you.\n\nFirst, there's an image of **a cat sitting on a wall**. It's a straightforward shot of a feline perched up high.\n\nThen, we have a picture of **a cat with striking blue eyes that is looking directly at the camera**. This one seems to be a close-up, focusing on the cat's gaze.\n\nLastly, there's an adorable image of **a kitten lying on a bed**, looking very cozy and relaxed.\n\nSo, to recap, we have a cat on a wall, a cat with blue eyes looking at you, and a kitten relaxing on a bed!\n\n Source Files:\n1. File: images.jpeg\n   - Caption: a cat sitting on a wall\n   - OCR: \n\n2. File: just_image__111515733_gettyimages-1208779325.jpg.jpg\n   - Caption: a cat with blue eyes is looking at the camera\n   - OCR: \n\n3. File: kitten-lying-in-blanket.jpg\n   - Caption: a kitten is laying on a bed\n   - OCR: \n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-13T12:24:36.334852",
+        "endpoint": "/ask",
+        "user_query": "a summary on that animal",
+        "ai_response": "*   To provide an accurate summary, I need to know which animal you are referring to. Please specify the animal you would like a summary about.",
+        "critique": "The previous answer incorrectly assumes the user is referring to a cat based on a non-existent previous conversation and provides a summary of hypothetical cat images.",
+        "confidence_score": 0,
+        "faithfulness_status": "Unfaithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:07:13.002315",
+        "endpoint": "/ask",
+        "user_query": "stock based compensation",
+        "ai_response": "The stock-based compensation recognized for related party RSUs was $6 million, $128 million, and $\u2014 for the twelve months ended December 31, 2022, 2021, and 2020, respectively. No unrecognized stock-based compensation remains for the related party RSUs as of December 31, 2022. In December 2021 and January 2022, the Company made withholding tax payments associated with the related party RSUs and received a $13 million reimbursement during the twelve months ended December 31, 2022.\n\nStock-based compensation is allocated on a departmental basis, based on the classification of the option holder or grant recipient. No income tax benefits have been recognized in the statement of operations for stock-based compensation arrangements and no stock-based compensation has been capitalized as of December 31, 2022.\n\nTotal stock-based compensation expense by function was as follows (in millions):\n*   For the twelve months ended December 31, 2022: Research and development was $137 million, Selling, general, and administrative was $19 million, totaling $156 million.\n*   For the twelve months ended December 31, 2021: Research and development was $207 million, Selling, general, and administrative was $13 million, totaling $220 million.\n*   For the twelve months ended December 31, 2020: Research and development was $14 million, Selling, general, and administrative was $3 million, totaling $17 million.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:14:39.895618",
+        "endpoint": "/ask",
+        "user_query": "What is an ML Model",
+        "ai_response": "An ML model is a program or algorithm that has been trained on data to recognize patterns and make predictions or decisions without being explicitly programmed for every scenario.\n\nHere's a breakdown of what that means:\n\n*   **Algorithm:** At its core, an ML model is a mathematical algorithm.\n*   **Training Data:** It learns by being exposed to a large dataset. This data can include examples, observations, or past results.\n*   **Pattern Recognition:** During training, the model identifies underlying patterns, relationships, and features within the data.\n*   **Prediction/Decision Making:** Once trained, the model can use its learned patterns to:\n    *   **Predict:** Estimate future outcomes or values (e.g., predicting house prices, forecasting sales).\n    *   **Classify:** Assign data points to specific categories (e.g., identifying spam emails, recognizing images of cats).\n    *   **Generate:** Create new data that resembles the training data (e.g., generating text, creating art).\n*   **Generalization:** A key goal is for the model to generalize well, meaning it can perform accurately on new, unseen data that it wasn't trained on.\n*   **No Explicit Programming:** Unlike traditional software where every rule is hardcoded, ML models learn these rules implicitly from the data.",
+        "critique": "The previous answer incorrectly stated a lack of information, when in fact, the concept of an ML model is general knowledge and does not require specific documents.",
+        "confidence_score": 0,
+        "faithfulness_status": "Unfaithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:17:15.713339",
+        "endpoint": "/ask",
+        "user_query": "item 10 in table of contents",
+        "ai_response": "Item 10 in the table of contents is \"Directors, Executive Officers and Corporate Governance.\" The information required for this item will be provided in the definitive proxy statement for the 2023 Annual Meeting of Stockholders no later than 120 days after December 31, 2022.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:18:55.924533",
+        "endpoint": "/ask",
+        "user_query": "symptoms of cancer",
+        "ai_response": "*   Cancer symptoms can vary greatly depending on the type and location of the cancer, but some common signs to be aware of include:\n    *   Unexplained weight loss\n    *   Persistent fatigue\n    *   Changes in bowel or bladder habits\n    *   A sore that does not heal\n    *   Unusual bleeding or discharge\n    *   Thickening or lump in the breast or elsewhere\n    *   Nagging cough or hoarseness\n    *   Changes in a mole or skin lesion\n    *   Persistent pain\n*   It is important to note that these symptoms can also be caused by many other, less serious conditions. However, if you experience any of these symptoms persistently or are concerned, it is crucial to consult a healthcare professional for proper diagnosis and evaluation.",
+        "critique": "The previous answer incorrectly stated it lacked information, when the question was a general knowledge query about cancer symptoms, which is widely available information.",
+        "confidence_score": 0,
+        "faithfulness_status": "Unfaithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:37:10.116835",
+        "endpoint": "/ask",
+        "user_query": "economic risk factors",
+        "ai_response": "Economic risk factors include changes in interest rates, inflation, and the availability of funding sources. The company does not believe that a 100-basis point increase or decrease in interest rates would materially affect its business, financial condition, or results of operations. While the company does not believe inflation has had a material effect on its business, financial condition, or results of operations beyond its impact on the general economy, it acknowledges that if its costs become subject to inflationary pressures, it may not be able to fully offset these higher costs through price increases, which could harm its business, financial condition, and results of operations.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 95,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:46:03.915588",
+        "endpoint": "/ask",
+        "user_query": "DevOps Importance",
+        "ai_response": "DevOps is crucial for modern software development and IT operations for several key reasons:\n\n*   **Faster Time to Market:** By automating and streamlining the development and deployment pipeline, DevOps enables organizations to release new features and updates to customers more quickly and frequently.\n*   **Improved Collaboration and Communication:** It breaks down silos between development (Dev) and operations (Ops) teams, fostering a culture of shared responsibility and better communication, leading to more efficient problem-solving.\n*   **Increased Efficiency and Productivity:** Automation of repetitive tasks, such as testing, building, and deployment, frees up teams to focus on more strategic and value-adding activities.\n*   **Enhanced Quality and Reliability:** Continuous integration and continuous delivery (CI/CD) practices, central to DevOps, allow for early detection and resolution of bugs, leading to more stable and reliable software.\n*   **Better Customer Satisfaction:** Faster delivery of high-quality software that meets user needs directly contributes to improved customer satisfaction and loyalty.\n*   **Reduced Costs:** Streamlined processes, fewer errors, and increased efficiency can lead to significant cost savings in development, operations, and incident management.\n*   **Greater Innovation:** By reducing the time and effort required for deployment and maintenance, DevOps allows organizations to experiment more freely and innovate faster.",
+        "critique": "The original answer incorrectly states a lack of information, when the question is a general knowledge query about DevOps importance, not tied to specific documents.",
+        "confidence_score": 0,
+        "faithfulness_status": "Unfaithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T16:50:32.924869",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "**AI Vision Summary:**\nYou searched for 'moon', and I found a few images for you!\n\nFirst, there's `moon.jpeg`, which quite simply shows **the moon**.\n\nNext, we have `just_image_image29(1).jpeg.jpg`. This image offers a broader view, featuring **both the moon and the Earth**.\n\nFinally, there's `just_image_26171394-0-image-a-49_1584634275032.jpg.jpg`. This one also depicts **the moon**, but its summary specifies it was \"taken from the sky.\" Interestingly, this image also has some text on it, indicating it's a stock image from \"Getty Images/EyeEm.\"\n\n**Source Files:**\n1. File: moon.jpeg\n   - Caption: the moon is seen in this image\n   - OCR: \n\n2. File: just_image_image29(1).jpeg.jpg\n   - Caption: the moon and the earth\n   - OCR: \n\n3. File: just_image_26171394-0-image-a-49_1584634275032.jpg.jpg\n   - Caption: the moon is seen in this image taken from the sky\n   - OCR: s/EyeEm\n\u00a9 Getty Images/Eye\n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T17:11:22.648823",
+        "endpoint": "/ask-image",
+        "user_query": "moon",
+        "ai_response": "**AI Vision Summary:**\nYou searched for 'moon', and I've found a few images that match!\n\nFirst, there's an image simply named **moon.jpeg**. Its summary clearly states that the moon is seen in this image.\n\nNext up, we have **just_image_image29(1).jpeg.jpg**. This one is quite interesting as its summary indicates it features both the moon and the Earth.\n\nFinally, there's **just_image_26171394-0-image-a-49_1584634275032.jpg.jpg**. This image also shows the moon, and its summary specifically mentions it was taken from the sky. What's more, this particular file has some OCR data, showing \"s/EyeEm \u00a9 Getty Images/Eye\", suggesting it might be sourced from platforms like EyeEm or Getty Images.\n\n**Source Files:**\n1. File: moon.jpeg\n   - Caption: the moon is seen in this image\n   - OCR: \n\n2. File: just_image_image29(1).jpeg.jpg\n   - Caption: the moon and the earth\n   - OCR: \n\n3. File: just_image_26171394-0-image-a-49_1584634275032.jpg.jpg\n   - Caption: the moon is seen in this image taken from the sky\n   - OCR: s/EyeEm\n\u00a9 Getty Images/Eye\n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-17T17:14:48.527955",
+        "endpoint": "/ask-sql",
+        "user_query": "How many customers are there in total",
+        "ai_response": "There are 100 customers in total.",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-18T11:27:03.079884",
+        "endpoint": "/ask-sql",
+        "user_query": "Give me the names of customers starting with A or V",
+        "ai_response": "The customers whose first names start with 'A' or 'V' are Aimee Downs, Virginia Dudley, Alexandria Buck, Anita Benson, Alejandro Blair, Alison Vargas, and Vernon Kane.\n\n**Executed SQL Query:**\n```sql\nSELECT \"First Name\", \"Last Name\"\nFROM dataset\nWHERE \"First Name\" LIKE 'A%' OR \"First Name\" LIKE 'V%';\n```",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 100,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    },
+    {
+        "timestamp": "2026-03-18T19:14:29.876554",
+        "endpoint": "/ask-image",
+        "user_query": "book",
+        "ai_response": "**AI Vision Summary:**\nCertainly! Based on your search for \"book,\" here's a summary of all the images you provided:\n\nIt looks like you've got a mix of things here! We have a page from a book, which is a quote about a \"RABBIT-HOLE\" and then it goes into a description of Alice falling down it. There's also a formal letter from \"Acme Company\" dated July 16, 2025, which seems to be a template for a business letter with placeholders for recipient details and the purpose of the communication. Finally, there's another snippet of a letter, though it's a bit more personal, mentioning \"Hobbies\" and expressing a desire to \"plan a trip together soon\" and that the writer misses \"long talks over coffee.\"\n\n**Source Files:**\n1. File: book.jpg\n   - Caption: a page from the book, with a quote on it\n   - OCR: RABBIT-HOLE. 3\n\nburning with curiosity, she ran across the field\nafter it, and was just in time to see it pop down\na large rabbit-hole under the hedge.\n\nIn another moment down went Alice after it,\nnever once considering how in the world she\nwas to get out again.\n\nThe rabbit-hole went straight on like a tun-\nnel for some way, and then dipped suddenly\ndown, so suddenly that Alice had not a moment\nto think about stopping herself before she found\nherself falling down what seemed to be a very\ndeep well.\n\nHither the well was very deep, or she fell\nvery slowly, for she had plenty of time as she\nwent down to look about her, and to wonder\nwhat was going to happen next. First, she tried\nto look down and make out what she was com-\ning to, but it was too dark to see anything:\nthen she looked at the sides of the well, and\nnoticed that they were filled with cupboards\nand bookshelves: here and there she saw maps\nand pictures hung upon pegs. She took down\n\n2. File: letter2.png\n   - Caption: a letter from the company that has been sent to the customer\n   - OCR: Acme Company\n1 Sunshine Road, San Francisco, CA | Email Address | Phone Number\n\nJuly 16, 2025\n\nRecipient's Name\n\nRecipient's Title/Position\nRecipient's Organization/Company\nRecipient's Address\n\nCity, State, ZIP Code\n\nSubject: Formal Letter\nDear [Recipient's Name],\n\nhope this letter finds you well. | am writing to [introduce, inform, discuss, request, etc.] regarding [specific topic\nor purpose of the letter]. Over the past [time period], we have [description of relevant background or history]. This\nhas prompted me to reach out to you, as [explain why the recipient is being contacted].\n\nThe current situation is [provide detailed information or description]. It is important to address [key issue or\nobjective]. | propose (solution, suggestion, or request], and | am confident that this could [potential benefit or\noutcome]. Furthermore, our previous [meetings, agreements, collaborations] have shown that we share a vested\ninterest in [common goal or interest).\n\nWith this objective in mind, | would like to propose (detailed plan, next steps, or specific requests]. If feasible, |\nwould appreciate the chance to discuss this further during [a suggested meeting, call, discussion timeframe]. It is\ncrucial that we consider [any special considerations or aspects that require attention], to ensure [state the desired\noutcome or impact].\n\nI have enclosed [listed documents or attachments, if applicable], which offer further details pertaining to our\ndiscussion. Please feel free to reach out if you have additional questions or require further clarification on any\npoints.\n\nThank you for taking the time to consider my proposal/request. | look forward to your positive response and the\npossibility of fostering a fruitful (relationship, partnership, collaboration] with [Recipient's\nOrganization/Company]. Please do not hesitate to contact me at your earliest convenience.\n\n\u2018Warm regards,\n\nCharles Xavier\n\n[Your Job Title, if applicable]\n[Your Organization/Company, if applicable)\n\n3. File: letter.jpg\n   - Caption: a letter that says, ' i ' m '\n   - OCR: & of Hobbies, DP sumember you mentioning\nne soared to get inte Hoare you had te\nTS Re Caer\nAfiniely plan a tip togther soon! Theses 0\npipes bal mar my place Yat S thirk youre\n\nlove.\n\nAngoay, S pest wanted bo chech in andl sag hallo\nSP miss our long talks over coffee-lel's plan to\nmeet up soon! dil me knows when you'se fe\n\n",
+        "critique": "None (Score was 80+, no refinement needed)",
+        "confidence_score": 95,
+        "faithfulness_status": "Faithful",
+        "human_feedback": "Positive"
+    }
+]
