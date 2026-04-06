@@ -3,7 +3,7 @@ import json
 import logging
 from datetime import datetime
 
-from day5_nexus_ai.config import LOGS_DIR
+from day5.nexus_ai.config import LOGS_DIR
 
 os.makedirs(LOGS_DIR, exist_ok=True)
 

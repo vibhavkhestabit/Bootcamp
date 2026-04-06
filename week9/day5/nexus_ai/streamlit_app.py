@@ -4,12 +4,10 @@ import os
 import sys
 from datetime import datetime
 
-# ─────────────────────────────────────────────────────────────────
-#  Absolute Pathing Setup
-# ─────────────────────────────────────────────────────────────────
 current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir) # points to week9/
-sys.path.insert(0, parent_dir)
+parent_dir = os.path.dirname(current_dir)
+root_dir = os.path.dirname(parent_dir)
+sys.path.insert(0, root_dir)
 
 st.set_page_config(
     page_title="NEXUS AI",
@@ -245,9 +243,9 @@ if "session_log" not in st.session_state: st.session_state.session_log = []
 @st.cache_resource
 def load_nexus():
     try:
-        from day5_nexus_ai import config
-        from day5_nexus_ai.config import get_model_client
-        from day5_nexus_ai.agents import build_all_agents
+        from day5.nexus_ai import config
+        from day5.nexus_ai.config import get_model_client
+        from day5.nexus_ai.agents import build_all_agents
         import day4.memory.long_term_memory as ltm
         import day4.memory.vector_store     as vs
         import day4.memory.session_memory   as session
@@ -274,12 +272,12 @@ def load_nexus():
 def run_query(user_input: str, nexus: dict) -> dict:
     async def _run():
         from autogen_agentchat.messages import TextMessage
-        from day5_nexus_ai.main   import parse_plan, build_memory_context, save_report
-        from day5_nexus_ai.logger import (
+        from day5.nexus_ai.main   import parse_plan, build_memory_context, save_report
+        from day5.nexus_ai.logger import (
             log_task, log_plan, log_agent_start, log_agent_result,
             log_reflection, log_error, log_complete,
         )
-        from day5_nexus_ai import config
+        from day5.nexus_ai import config
 
         agents  = nexus["agents"]
         session = nexus["session"]

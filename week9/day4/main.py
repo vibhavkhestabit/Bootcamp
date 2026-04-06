@@ -11,7 +11,7 @@ from autogen_agentchat.messages import TextMessage
 import day4.memory.session_memory   as session
 import day4.memory.long_term_memory as ltm
 import day4.memory.vector_store     as vs
-from day5_nexus_ai.config import get_model_client, ACTIVE_PROVIDER
+from day5.nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 
 def build_prompt(user_input: str) -> str:
     sections = []

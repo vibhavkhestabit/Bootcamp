@@ -14,7 +14,7 @@ from autogen_agentchat.agents import AssistantAgent
 from day3.tools.file_agent    import get_file_agent
 from day3.tools.db_agent      import get_db_agent
 from day3.tools.code_executor import get_code_agent
-from day5_nexus_ai.config import get_model_client, ACTIVE_PROVIDER
+from day5.nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 
 PLANNER_SYSTEM = """\
 You are a task planner for a multi-agent system. Given a user request, break it into an ordered list of steps. Each step must be handled by exactly one agent.

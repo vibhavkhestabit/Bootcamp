@@ -4,7 +4,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)              
 sys.path.insert(0, parent_dir)
 import asyncio
-from day5_nexus_ai.config import get_model_client, ACTIVE_PROVIDER
+from day5.nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 from day2.orchestrator.planner import DAGOrchestrator
 
 async def main():

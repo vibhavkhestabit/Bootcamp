@@ -6,7 +6,7 @@ sys.path.insert(0, parent_dir)
 import asyncio
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.ui import Console
-from day5_nexus_ai.config import get_model_client, ACTIVE_PROVIDER
+from day5.nexus_ai.config import get_model_client, ACTIVE_PROVIDER
 from day1.agents.research_agent import get_research_agent
 from day1.agents.summarizer_agent import get_summarizer_agent
 from day1.agents.answer_agent import get_answer_agent

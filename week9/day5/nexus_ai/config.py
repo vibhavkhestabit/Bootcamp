@@ -2,8 +2,9 @@ import os
 from dotenv import load_dotenv
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir) 
+root_dir = os.path.dirname(parent_dir)
 
-load_dotenv(os.path.join(parent_dir, ".env"))
+load_dotenv(os.path.join(root_dir, ".env"))
 
 # Model Configuration
 
@@ -18,7 +19,7 @@ GEMINI_MODEL    = "gemini-3.1-flash-lite-preview"
 # Paths
 
 LOGS_DIR = os.path.join(current_dir, "logs")
-MEMORY_DIR = os.path.join(parent_dir, "day4", "memory")
+MEMORY_DIR = os.path.join(root_dir, "day4", "memory")
 NEXUS_DB_PATH = os.path.join(MEMORY_DIR, "nexus.db")
 
 MAX_REFLECTION_CYCLES = 2

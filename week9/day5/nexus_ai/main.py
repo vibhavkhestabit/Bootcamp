@@ -5,14 +5,15 @@ import re
 import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
-sys.path.insert(0, parent_dir)
+root_dir = os.path.dirname(parent_dir) 
+sys.path.insert(0, root_dir)
 
 from autogen_agentchat.messages import TextMessage
 
-from day5_nexus_ai import config
-from day5_nexus_ai.config import get_model_client, MAX_REFLECTION_CYCLES, MAX_PLAN_STEPS
-from day5_nexus_ai.agents import build_all_agents
-from day5_nexus_ai.logger import (
+from day5.nexus_ai import config
+from day5.nexus_ai.config import get_model_client, MAX_REFLECTION_CYCLES, MAX_PLAN_STEPS
+from day5.nexus_ai.agents import build_all_agents
+from day5.nexus_ai.logger import (
     log_task, log_plan, log_agent_start, log_agent_result,
     log_reflection, log_memory, log_error, log_complete, log_session_info
 )
